@@ -15,7 +15,28 @@ open outputs/blender_preview/before_vqa/viewer.html
 open outputs/blender_preview/vqa_informed/viewer.html
 ```
 
-These currently show Blender geometry and camera paths alongside sampled video/RGB renders. Once VGGT is available, the same viewer adds its aligned colored cloud, trajectory, camera frusta and camera residuals. The mesh is a static snapshot at the first source timestamp; the camera slider does not animate that mesh. Actual depth renders evaluate the scene separately at each timestamp.
+These show Blender geometry and camera paths alongside sampled video/RGB renders. With VGGT supplied, the same viewer adds its aligned colored cloud, trajectory, camera frusta and camera residuals. The mesh is a static snapshot at the first source timestamp; the camera slider does not animate that mesh. Actual depth renders evaluate the scene separately at each timestamp.
+
+### Check display density before repeating inference
+
+The viewer now defaults to **5,000,000 displayed points**, showing all points in the current quality export. Older generated HTML files used a 50,000-point default and therefore displayed only **1%** of that cloud; regenerate them to apply the new limit and compact storage. Cloud export itself defaults to removing the lower-confidence half of each frame's finite positive-depth predictions before applying its point cap. The saved numeric depth maps retain predictions excluded from the cloud. These are separate controls: model resolution, export filtering/cap, and viewer sampling.
+
+Generate a comparison showing all five million exported points from the existing quality-run PLY and alignment, without GPU inference or refitting cameras:
+
+```bash
+for scene in before_vqa vqa_informed; do
+  PYTHONPATH=src python3 -m scene_reconstruction view-alignment \
+    --vggt outputs/vggt_quality \
+    --blender-export "outputs/blender_preview/$scene" \
+    --alignment "outputs/comparison_quality/$scene/alignment/alignment.json" \
+    --max-points 5000000 --max-images 24 \
+    --output "outputs/comparison_quality/$scene/alignment/viewer_full.html"
+done
+```
+
+Choose a new HTML filename if it already exists. Use `--max-points 1000000` for a lighter one-million-point version. New viewers report displayed and exported point counts, model grid and view count, and the export confidence percentile. The cloud is embedded as compact binary arrays rather than millions of nested JSON coordinate/color lists. The browser applies the same global alignment while rendering and keeps the original point coordinates for landmark export. All selected points are drawn, including during camera movement; there is no hidden reduction in density. Larger viewers still require more browser/GPU memory and can orbit more slowly.
+
+Hide the Blender wireframe to inspect VGGT coverage alone; increasing point size only changes drawing, not geometry. Judge coverage against surfaces actually visible in the input video. Blender may extend floors, walls, and other objects beyond the observed region; the absence of reconstructed points on those inferred extensions is not evidence of missing video coverage. A denser display cannot restore points excluded during export or geometric detail absent from the predictions. The current cloud is a collection of depth-unprojected points, with repeated observations retained; it is not a fused surface or an optimized Gaussian-splat scene.
 
 ## Prepare an export on another machine
 

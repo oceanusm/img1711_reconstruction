@@ -1,4 +1,5 @@
 """Offline viewer payload integrity, without depending on a browser or Blender."""
+import base64
 import contextlib
 import io
 import json
@@ -97,7 +98,9 @@ class ViewerPayloadTests(unittest.TestCase):
         self.assertIn("baseline only", payload["mode"])
         self.assertIn("pending", payload["mode"])
         self.assertIsNone(payload["alignment"])
-        self.assertEqual(payload["points"], [])
+        self.assertIsNone(payload["cloud"])
+        self.assertEqual(payload["totalCloudPoints"], 0)
+        self.assertIsNone(payload["vggtSummary"])
         self.assertEqual(payload["vggtCameras"], [])
         self.assertEqual(payload["manifestHash"], sha256(self.manifest))
         self.assertEqual((payload["blenderWidth"], payload["blenderHeight"]), (4, 6))
@@ -145,13 +148,48 @@ class ViewerPayloadTests(unittest.TestCase):
     def test_alignment_applies_once_and_preserves_raw_landmark_coordinates(self):
         self.add_model()
         payload = alignment_viewer.build_payload(self.args)
-        np.testing.assert_allclose(payload["points"], alignment.transform_points(self.cloud, self.transform), atol=1e-6)
-        np.testing.assert_array_equal(payload["originalPoints"], self.cloud)
-        self.assertEqual(payload["pointFrames"], [0, 2])
+        cloud = payload["cloud"]
+        raw = np.frombuffer(base64.b64decode(cloud["positionsF32"]), dtype="<f4").reshape(-1, 3)
+        matrix = np.asarray(cloud["matrix"]).reshape(4, 4).T
+        aligned = raw @ matrix[:3, :3].T + matrix[:3, 3]
+        np.testing.assert_allclose(aligned, alignment.transform_points(self.cloud, self.transform), atol=1e-12)
+        np.testing.assert_array_equal(raw, self.cloud)
+        frame_ids = np.frombuffer(base64.b64decode(cloud["frameIndicesI32"]), dtype="<i4")
+        np.testing.assert_array_equal(frame_ids, [0, 2])
+        colors = np.frombuffer(base64.b64decode(cloud["colorsU8"]), dtype=np.uint8).reshape(-1, 3)
+        np.testing.assert_array_equal(colors, [[255, 0, 100], [20, 40, 255]])
+        np.testing.assert_allclose(cloud["bounds"], [aligned.min(axis=0), aligned.max(axis=0)])
+        self.assertEqual(payload["totalCloudPoints"], len(self.cloud))
+        self.assertEqual(payload["vggtSummary"]["selectedViews"], 3)
         np.testing.assert_allclose([camera["pose"] for camera in payload["vggtCameras"]], self.target_poses, atol=1e-12)
         # VGGT must use canonical intrinsics even if an unrelated 'intrinsics' key exists.
         np.testing.assert_array_equal(payload["vggtCameras"][0]["K"], self.canonical_k[0])
         self.assertAlmostEqual(np.linalg.det(np.asarray(payload["vggtCameras"][0]["pose"])[:3, :3]), 1)
+
+    def test_display_budget_preserves_actual_cloud_count(self):
+        self.add_model()
+        self.args.max_points = 1
+        payload = alignment_viewer.build_payload(self.args)
+        self.assertEqual(payload["cloud"]["count"], 1)
+        self.assertEqual(payload["totalCloudPoints"], 2)
+        self.assertEqual(payload["vggtSummary"]["selectedViews"], 3)
+
+    def test_packed_cloud_html_preserves_original_bits_and_has_no_point_lists(self):
+        self.add_model()
+        with contextlib.redirect_stdout(io.StringIO()):
+            output = alignment_viewer.run(self.args)
+        html = output.read_text()
+        encoded = html.split('<script id="data" type="application/json">', 1)[1].split("</script>", 1)[0]
+        payload = json.loads(encoded)
+        self.assertNotIn("points", payload)
+        self.assertNotIn("originalPoints", payload)
+        self.assertEqual(payload["cloud"]["count"], len(self.cloud))
+        self.assertEqual(base64.b64decode(payload["cloud"]["positionsF32"]),
+                         self.cloud.astype("<f4").tobytes())
+        # The same raw positions feed rendering and picking; only the view matrix
+        # changes. Source landmarks must never be reconstructed from rounded positions.
+        self.assertIn("mm(VP,cloudMatrix)", html)
+        self.assertIn("cloudPositions.subarray(best*3,best*3+3)", html)
 
     def test_model_and_alignment_are_required_together(self):
         for key in ("vggt", "alignment"):
@@ -258,6 +296,29 @@ class ViewerPayloadTests(unittest.TestCase):
         self.assertNotIn('<script src=', html)
         with self.assertRaisesRegex(ValueError, "new .html"):
             alignment_viewer.run(self.args)
+
+
+class PackedCloudTests(unittest.TestCase):
+    def test_empty_and_noncontiguous_arrays_roundtrip_with_aligned_bounds(self):
+        points = np.array([[0., -0., 1.25], [-3.5, 4.25, -2.], [9., 1., 7.]], dtype=">f4")[::2]
+        colors = np.array([[0, 128, 255], [13, 27, 90], [251, 33, 1]], dtype=np.uint8)[::2]
+        frame_ids = np.array([7, 11, 99], dtype=">i4")[::2]
+        transform = {"scale": 2., "rotation": [[0., -1., 0.], [1., 0., 0.], [0., 0., 1.]],
+                     "translation": [3., -4., 5.]}
+        packed = alignment_viewer.pack_cloud({"points": points, "colors": colors,
+                                             "frame_indices": frame_ids}, transform)
+        self.assertEqual(base64.b64decode(packed["positionsF32"]), points.astype("<f4").tobytes())
+        self.assertEqual(base64.b64decode(packed["colorsU8"]), colors.tobytes())
+        self.assertEqual(base64.b64decode(packed["frameIndicesI32"]), frame_ids.astype("<i4").tobytes())
+        aligned = alignment.transform_points(points, transform)
+        np.testing.assert_allclose(packed["bounds"], [aligned.min(axis=0), aligned.max(axis=0)])
+        matrix = np.array(packed["matrix"]).reshape(4, 4).T
+        np.testing.assert_allclose(points @ matrix[:3, :3].T + matrix[:3, 3], aligned)
+        empty = alignment_viewer.pack_cloud({"points": points[:0], "colors": colors[:0],
+                                            "frame_indices": frame_ids[:0]}, transform)
+        self.assertEqual(empty["count"], 0)
+        self.assertIsNone(empty["bounds"])
+        self.assertEqual(empty["positionsF32"], "")
 
 
 class ViewerMeshTests(unittest.TestCase):

@@ -12,6 +12,8 @@ case "$STAGE" in
     echo 'VGGT defaults to the quality preset; override with VGGT_PRESET=quick.'
     echo 'Use VGGT_OUTPUT=outputs/vggt_quality for a separate run; default is outputs/vggt.'
     echo 'Select physical GPU 7 with CUDA_VISIBLE_DEVICES=7 (logical cuda:0 inside the process).'
+    echo 'DA3 overrides: DEPTH_PROCESS_RES, DEPTH_CHUNK_SIZE, DEPTH_OVERLAP, DEPTH_COMPRESSION_LEVEL, DEPTH_OUTPUT.'
+    echo 'Depth preview follows DEPTH_OUTPUT; DEPTH_PREVIEW_OUTPUT overrides its video path.'
     echo "Existing outputs follow each adapter's protection/resume rules; see docs/remote_geometry.md."
     exit 0 ;;
   all|vggt|depth|preview) ;;
@@ -32,9 +34,14 @@ if [[ "$STAGE" == all || "$STAGE" == vggt ]]; then
     --preset "${VGGT_PRESET:-quality}" --output "${VGGT_OUTPUT:-outputs/vggt}"
 fi
 if [[ "$STAGE" == all || "$STAGE" == depth ]]; then
-  .venv-depth/bin/scene-recon depth
+  .venv-depth/bin/scene-recon depth \
+    --process-res "${DEPTH_PROCESS_RES:-504}" \
+    --chunk-size "${DEPTH_CHUNK_SIZE:-16}" --overlap "${DEPTH_OVERLAP:-4}" \
+    --compression-level "${DEPTH_COMPRESSION_LEVEL:-1}" --output "${DEPTH_OUTPUT:-outputs/depth}"
 fi
 if [[ "$STAGE" == all || "$STAGE" == preview ]]; then
-  .venv-depth/bin/scene-recon preview-depth
+  .venv-depth/bin/scene-recon preview-depth \
+    --depth-index "${DEPTH_OUTPUT:-outputs/depth}/index.json" \
+    --output "${DEPTH_PREVIEW_OUTPUT:-${DEPTH_OUTPUT:-outputs/depth}_preview.mp4}"
 fi
 

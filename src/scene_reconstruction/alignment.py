@@ -520,4 +520,5 @@ def load_vggt_ply(path, max_points=100_000):
     else:
         points, colors = np.empty((0, 3), dtype=np.float32), np.empty((0, 3), dtype=np.uint8)
         confidence, frame_ids = np.empty(0, dtype=np.float32), np.empty(0, dtype=np.int32)
-    return {"points": points, "colors": colors, "confidence": confidence, "frame_indices": frame_ids}
+    return {"points": points, "colors": colors, "confidence": confidence, "frame_indices": frame_ids,
+            "total_points": count}

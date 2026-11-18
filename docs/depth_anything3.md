@@ -49,9 +49,13 @@ Relevant options:
 | `--chunk-size` | 16 | Maximum images in one multiview inference |
 | `--overlap` | 4 | Repeated images between adjacent windows |
 | `--process-res` | 504 | Longest-side inference size, a multiple of 14 |
+| `--compression-level` | 1 | Lossless NPZ compression: 0 disables compression, 1 is fast, 6 matches the previous setting |
+| `--stop-after-windows` | No limit | Profile this many windows, including cache hits; rerun without the flag to finish |
 | `--device` | `cuda` | PyTorch device |
 
 Sixteen frames at 504 is a conservative starting configuration for the intended 48 GB A6000, not a measured peak-memory guarantee. Run one GPU model at a time. If memory is exhausted, reduce the window to 8 with overlap 2, or reduce resolution to 392, and use a different output directory. A change in window size changes the evidence given to the model and can change the estimates.
+
+For finer input detail and measured wall-time profiling, see [resolution and performance](resolution_and_performance.md). For this video, 1008 produces a 574×1008 model grid. `--stop-after-windows 2` permits a short profile in a fresh output directory without claiming the whole video is complete. Removing that flag resumes the same model/input configuration from its native caches.
 
 The adapter uses the official `DepthAnything3.from_pretrained(...).to(device).eval()` and `model.inference(image=..., process_res_method="upper_bound_resize", infer_gs=False)` APIs. The upstream model manages mixed precision automatically. [Pinned API source](https://github.com/ByteDance-Seed/Depth-Anything-3/blob/3d835ec1a5802d64a8b8b15f817a1ab54809bfe4/src/depth_anything_3/api.py)
 
@@ -61,12 +65,15 @@ The adapter uses the official `DepthAnything3.from_pretrained(...).to(device).ev
 run.json                     Exact settings and input fingerprint
 index.json                   Completion status, frame mapping, coordinate/scale notes
 overlap_diagnostics.json      Same-frame disagreement between neighboring windows
+timings.json                  Latest invocation's stage times, cache hits, bytes and CUDA peaks
 chunks/000000.npz             Native model outputs for a whole window
 chunks/000000.json            Window scale, dimensions and preprocessing transforms
 frames/000000.npz             Selected prediction at canonical frame dimensions
 ```
 
 The numeric filename is the original canonical **zero-based frame index**, not a timestamp or a chunk-local index. `index.json` includes `time_seconds` and `pts_seconds`. Read its `status` before treating the run as complete. An interrupted run writes an incomplete index and retains completed windows. Re-running the exact same command/input resumes from atomic window caches; changed configuration or input file sizes/modification times require a new output directory. Original images must not be modified underneath a run.
+
+Storage compression and the profiling limit do not change model settings or invalidate native caches. The new default is lossless compression level 1; level 0 uses larger uncompressed archives and level 6 reproduces the earlier compression choice. Native caches retain their original format; derived per-frame files are regenerated on resume. Per-window wall logs separate the entire model API call from cache I/O, source-grid resampling and frame writes, which were absent from upstream's forward-pass timer. `timings.json` reports the latest invocation, not accumulated historical runtime; cached windows have no new inference time.
 
 Per-frame arrays:
 
@@ -109,6 +116,10 @@ After inference finishes, run:
 This writes `outputs/depth_preview.mp4` and `outputs/depth_preview.scale.json`. The video displays RGB next to depth, with source frame IDs, timestamps, and DA3 window IDs. One linear color range is used across the entire clip: the 2nd and 98th percentiles of a spatial sample from every frame. Colors saturate outside that range, and invalid/sky pixels are black. The sidecar records the color range, units, input hashes, and duration. `--max-height` controls the rendered preview size; it does not alter any saved prediction.
 
 The preview requires a complete DA3 index, matching manifest hash and timestamps, and exactly one depth record per canonical frame. Existing output files are protected from replacement; pass a new `--output` path to rerun. Variable frame timing is preserved at microsecond resolution. A duplicate of the final image at the endpoint, lasting one microsecond, ensures FFmpeg holds the last source frame for its recorded duration. Use the source manifest and NPZ files, rather than decoded preview frame counts or colors, for quantitative comparisons.
+
+The preview checks FFmpeg's available timing options before scanning/rendering the frames. It uses `-fps_mode vfr` on newer builds and the equivalent `-vsync 2` on older builds such as FFmpeg 4.4. The chosen flags are printed and saved in the preview's scale JSON. Frame extraction uses the same compatibility check with passthrough timing. [FFmpeg 4.4 timing options](https://github.com/FFmpeg/FFmpeg/blob/n4.4/doc/ffmpeg.texi).
+
+If an earlier version failed with `Unrecognized option 'fps_mode'` after printing `DA3 complete: 698 frames`, the numeric depth results are complete. Update the project code and rerun **only** `bash scripts/run_geometry.sh preview`; no model inference or GPU is needed. The failed encode used a temporary directory, so it did not create the final preview destination. Depth comparisons and transferring the numeric results do not require a preview MP4.
 
 ## Verification scope
 

@@ -10,6 +10,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from .common import load_manifest, sha256, write_json
+from .ffmpeg_compat import video_sync_args
 
 
 HLG_FILTER = (
@@ -55,10 +56,11 @@ def extract(args):
             raise RuntimeError("HDR extraction needs FFmpeg with zscale and tonemap (e.g. Ubuntu apt ffmpeg). Use --ffmpeg /path/to/full-build; do not silently treat HDR as SDR.")
     pixel_format = "yuvj444p"
     vf = HLG_FILTER if tone_map else f"format={pixel_format}"
+    sync_args = video_sync_args(ffmpeg, "passthrough")
     output.mkdir(parents=True, exist_ok=True)
     command = [ffmpeg, "-hide_banner", "-loglevel", "error", "-nostdin",
                "-i", str(video), "-map", "0:v:0", "-an", "-sn", "-dn",
-               "-vf", vf, "-fps_mode", "passthrough", "-q:v", "2",
+               "-vf", vf, *sync_args, "-q:v", "2",
                "-start_number", "0", str(output / "%06d.jpg")]
     subprocess.run(command, check=True)
     paths = sorted(output.glob("*.jpg"))
@@ -91,6 +93,7 @@ def extract(args):
         "pixel_coordinates": "origin top-left; x right; y down; unmirrored upright display orientation",
         "extraction": {"autorotate": True, "resampled_fps": False,
                        "tone_mapped_to_bt709": tone_map, "filter": vf,
+                       "ffmpeg_video_sync_args": sync_args,
                        "image_format": "JPEG quality=2 4:4:4; lossy RGB inputs, masks remain lossless PNG",
                        "ffmpeg_version": subprocess.check_output([ffmpeg, "-version"], text=True).splitlines()[0]},
         "frames": frames,

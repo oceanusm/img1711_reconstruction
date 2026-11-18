@@ -87,6 +87,42 @@ def _validate_camera_records(cameras, index, manifest):
             raise ValueError(f"Viewer camera_array_index is inconsistent at frame {frame_id}")
 
 
+def pack_cloud(cloud, transform):
+    """Keep PLY coordinates losslessly; apply the shared similarity in WebGL.
+
+    Binary arrays avoid millions of Python/JavaScript array objects. Compute
+    aligned bounds in bounded chunks rather than retaining a second full cloud.
+    """
+    from .alignment import transform_points, validate_transform
+    transform = validate_transform(transform)
+    points = np.asarray(cloud["points"], dtype="<f4")
+    colors = np.asarray(cloud["colors"], dtype=np.uint8)
+    frame_ids = np.asarray(cloud["frame_indices"], dtype="<i4")
+    count = len(points)
+    if points.shape != (count, 3) or colors.shape != (count, 3) or frame_ids.shape != (count,):
+        raise ValueError("Cloud arrays must have matching point counts")
+    if not np.isfinite(points).all():
+        raise ValueError("Cloud positions must be finite")
+    matrix = np.eye(4, dtype=np.float64)
+    matrix[:3, :3] = transform["scale"] * np.asarray(transform["rotation"])
+    matrix[:3, 3] = transform["translation"]
+    bounds = None
+    if count:
+        low, high = np.full(3, np.inf), np.full(3, -np.inf)
+        for start in range(0, count, 250_000):
+            aligned = transform_points(points[start:start + 250_000], transform)
+            if not np.isfinite(aligned).all():
+                raise ValueError("Aligned cloud positions must be finite")
+            low = np.minimum(low, aligned.min(axis=0))
+            high = np.maximum(high, aligned.max(axis=0))
+        bounds = [low.tolist(), high.tolist()]
+    encode = lambda values: base64.b64encode(np.ascontiguousarray(values).tobytes()).decode("ascii")
+    return {"count": count, "encoding": "base64-little-endian",
+            "positionsF32": encode(points), "colorsU8": encode(colors),
+            "frameIndicesI32": encode(frame_ids),
+            "matrix": matrix.T.reshape(-1).tolist(), "bounds": bounds}
+
+
 def build_payload(args):
     source_path = Path(args.manifest).resolve()
     manifest = load_manifest(source_path)
@@ -119,7 +155,8 @@ def build_payload(args):
         "vertices": vertices.round(6).tolist(), "triangles": triangles.tolist(),
         "objectIds": ids.tolist(), "objectNames": names, "faceColors": colors.round(3).tolist(),
         "totalTriangles": total_triangles, "blenderCameras": [], "vggtCameras": [],
-        "points": [], "originalPoints": [], "pointColors": [], "pointFrames": [],
+        "cloud": None,
+        "totalCloudPoints": 0, "vggtSummary": None,
         "sourceWidth": manifest["width"], "sourceHeight": manifest["height"],
         "blenderWidth": bi["width"], "blenderHeight": bi["height"],
         "frames": [], "alignment": None, "manifestHash": source_hash,
@@ -136,7 +173,7 @@ def build_payload(args):
     if bool(args.vggt) != bool(args.alignment):
         raise ValueError("Supply --vggt and --alignment together for an aligned comparison")
     if args.vggt:
-        from .alignment import load_vggt_ply, transform_points, transform_cameras, validate_transform
+        from .alignment import load_vggt_ply, transform_cameras, validate_transform
         vggt = Path(args.vggt).resolve()
         ai_path = Path(args.alignment).resolve()
         ai = json.loads(ai_path.read_text())
@@ -162,12 +199,19 @@ def build_payload(args):
         payload["landmarkProvenance"]["inputs"].update(expected)
         transform = validate_transform(ai["transform"])
         cloud = load_vggt_ply(vggt / "point_cloud.ply", args.max_points)
-        positions = transform_points(cloud["points"], transform)
-        payload.update(points=np.asarray(positions).round(6).tolist(), originalPoints=cloud["points"].tolist(),
-                       pointColors=cloud["colors"].tolist(), pointFrames=cloud["frame_indices"].tolist(),
+        payload.update(cloud=pack_cloud(cloud, transform),
+                       totalCloudPoints=cloud["total_points"],
                        alignment=ai, mode="VGGT aligned into Blender world with one global similarity transform")
         vc = _cameras(vggt / "cameras.npz", "intrinsics_canonical")
         _validate_camera_records(vc, vi, manifest)
+        cloud_settings = vi.get("point_cloud", {})
+        payload["vggtSummary"] = {
+            "selectedViews": len(vc["frame_indices"]),
+            "modelSizeWh": vi.get("preprocessing", {}).get("model_size_wh"),
+            "confidencePercentile": cloud_settings.get("confidence_percentile_per_frame"),
+            "pointStride": cloud_settings.get("point_stride"),
+            "exportBudget": cloud_settings.get("max_points"),
+        }
         poses = transform_cameras(vc["camera_to_world"], transform)
         for i in np.argsort(vc["frame_indices"]):
             index = vc["frame_indices"][i]
@@ -200,9 +244,15 @@ def run(args):
     if args.max_points < 1 or args.max_images < 0:
         raise ValueError("max_points must be positive and max_images nonnegative")
     payload = build_payload(args)
-    encoded = json.dumps(payload, allow_nan=False, separators=(",", ":")).replace("<", "\\u003c")
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(HTML.replace("__PAYLOAD__", encoded))
+    before, after = HTML.split("__PAYLOAD__")
+    # Stream the JSON to avoid a second complete HTML/base64 string in memory.
+    with output.open("x") as stream:
+        stream.write(before)
+        encoder = json.JSONEncoder(allow_nan=False, separators=(",", ":"))
+        for chunk in encoder.iterencode(payload):
+            stream.write(chunk.replace("<", "\\u003c"))
+        stream.write(after)
     print(f"Offline alignment viewer: {output}")
     return output
 
@@ -219,14 +269,22 @@ HTML = r'''<!doctype html>
 <label>Point size <input id="pointSize" type="range" min="1" max="6" step=".5" value="2"></label><label>Surface opacity <input id="opacity" type="range" min=".1" max="1" step=".05" value=".3"></label>
 <label>Blender object <select id="object"><option value="all">All objects</option></select></label><button id="fit">Fit visible scene</button><button id="focus">Focus object</button>
 <h2>Source timeline</h2><input id="frame" type="range" min="0" step="1" value="0"><div id="frameLabel" class="note"></div><div class="note"><span class="swatch purple"></span>Blender <span class="swatch gold"></span>VGGT</div><div class="images"><figure><img id="sourceImage" alt="Sampled original video frame"><figcaption id="sourceCaption"></figcaption></figure><figure><img id="renderImage" alt="Sampled Blender render"><figcaption id="renderCaption"></figcaption></figure></div>
-<h2>Landmark pairs</h2><p class="note">Pick sampled vertices/points for a new global fit. Orbit to inspect each choice; clicks select the nearest projected candidate. The mesh is one static snapshot.</p><select id="pickMode"><option value="none">Orbit / pan</option><option value="source">Pick VGGT source point</option><option value="target">Pick Blender target vertex</option></select><div id="pickInfo">No points picked.</div><button id="addPair">Add pair</button><button id="undoPair">Undo pair</button><button id="download">Download landmarks</button><p class="note" id="pairCount">0 pairs. Use at least 3 non-collinear points, preferably more.</p>
-<h2>Interpretation</h2><p class="note">Cloud and mesh are sampled for display. Camera fitting can hide a global pose offset; inspect static surfaces and held-out frames too. Neither model output nor a close overlay proves the scene is correct.</p><p class="note" id="stats"></p>
+<h2>Landmark pairs</h2><p class="note">Pick displayed vertices/points for a new global fit. Orbit to inspect each choice; clicks select the nearest projected candidate. The mesh is one static snapshot.</p><select id="pickMode"><option value="none">Orbit / pan</option><option value="source">Pick VGGT source point</option><option value="target">Pick Blender target vertex</option></select><div id="pickInfo">No points picked.</div><button id="addPair">Add pair</button><button id="undoPair">Undo pair</button><button id="download">Download landmarks</button><p class="note" id="pairCount">0 pairs. Use at least 3 non-collinear points, preferably more.</p>
+<h2>Interpretation</h2><p class="note">Point counts below distinguish the displayed cloud from the export. The Blender mesh is sampled for display. Camera fitting can hide a global pose offset; inspect static surfaces and held-out frames too. Neither model output nor a close overlay proves the scene is correct.</p><p class="note" id="stats"></p><p class="note" id="cloudDetails" style="white-space:pre-line"></p>
 </aside></main><script id="data" type="application/json">__PAYLOAD__</script><script>
 'use strict';
-const D=JSON.parse(document.getElementById('data').textContent),$=id=>document.getElementById(id);
+const dataElement=document.getElementById('data'),D=JSON.parse(dataElement.textContent),$=id=>document.getElementById(id);
+dataElement.textContent='';dataElement.remove();
+// Decode bounded base64 chunks; release encoded strings after creating typed arrays.
+function decodeBytes(encoded,size){const result=new Uint8Array(size);let offset=0;for(let start=0;start<encoded.length;start+=1048576){const part=atob(encoded.slice(start,start+1048576));for(let i=0;i<part.length;i++)result[offset++]=part.charCodeAt(i)}if(offset!==size)throw Error('Invalid point-cloud byte length');return result}
+function decodeTyped(encoded,count,Type){const bytes=decodeBytes(encoded,count*Type.BYTES_PER_ELEMENT);if(new Uint8Array(new Uint32Array([1]).buffer)[0]!==1){const width=Type.BYTES_PER_ELEMENT;for(let i=0;i<bytes.length;i+=width)for(let j=0;j<width/2;j++){const tmp=bytes[i+j];bytes[i+j]=bytes[i+width-1-j];bytes[i+width-1-j]=tmp}}return new Type(bytes.buffer)}
+const cloud=D.cloud,pointCount=cloud?cloud.count:0;
+let cloudPositions=new Float32Array(0),cloudColors=new Uint8Array(0),cloudFrames=new Int32Array(0),cloudMatrix=null;
+if(cloud){cloudPositions=decodeTyped(cloud.positionsF32,pointCount*3,Float32Array);delete cloud.positionsF32;cloudColors=decodeBytes(cloud.colorsU8,pointCount*3);delete cloud.colorsU8;cloudFrames=decodeTyped(cloud.frameIndicesI32,pointCount,Int32Array);delete cloud.frameIndicesI32;cloudMatrix=new Float32Array(cloud.matrix)}
 $('title').textContent=D.title+' · alignment laboratory';$('mode').textContent=D.mode;$('meshNote').textContent=D.geometryNote;
-$('frame').max=D.frames.length-1;$('cloud').disabled=!D.points.length;$('pickMode').options[1].disabled=!D.points.length;
-$('stats').textContent=`${D.triangles.length.toLocaleString()} / ${D.totalTriangles.toLocaleString()} triangles · ${D.points.length.toLocaleString()} cloud points · ${D.blenderCameras.length} Blender cameras · ${D.vggtCameras.length} VGGT cameras`;
+$('frame').max=D.frames.length-1;$('cloud').disabled=!pointCount;$('pickMode').options[1].disabled=!pointCount;
+$('stats').textContent=`${D.triangles.length.toLocaleString()} / ${D.totalTriangles.toLocaleString()} triangles · ${D.blenderCameras.length} Blender cameras · ${D.vggtCameras.length} VGGT cameras`;
+if(D.vggtSummary){const s=D.vggtSummary,total=D.totalCloudPoints,percentage=total?100*pointCount/total:0,lines=[`Display: ${pointCount.toLocaleString()} / ${total.toLocaleString()} exported points (${percentage.toFixed(1)}%).`,`Inference: ${s.selectedViews.toLocaleString()} views${s.modelSizeWh?' at '+s.modelSizeWh.join(' × ')+' pixels per view':''}.`];if(s.confidencePercentile!==null)lines.push(`Cloud export: per-frame confidence percentile cutoff ${s.confidencePercentile}; confidence is not a probability.`);if(s.pointStride!==null||s.exportBudget!==null)lines.push(`Export sampling: ${[s.pointStride!==null?'pixel stride '+s.pointStride:null,s.exportBudget!==null?'point cap '+s.exportBudget.toLocaleString():null].filter(Boolean).join(', ')}.`);lines.push('Display sampling does not change saved depth or cameras.');$('cloudDetails').textContent=lines.join('\n')}
 D.objectNames.forEach((name,i)=>{const o=document.createElement('option');o.value=i;o.textContent=name;$('object').appendChild(o)});
 const V=(a,b)=>a.map((v,i)=>v-b[i]),add=(a,b)=>a.map((v,i)=>v+b[i]),mul=(a,s)=>a.map(v=>v*s),dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm=a=>mul(a,1/(Math.hypot(...a)||1));
 function mm(a,b){const c=new Float32Array(16);for(let col=0;col<4;col++)for(let row=0;row<4;row++)for(let k=0;k<4;k++)c[col*4+row]+=a[k*4+row]*b[col*4+k];return c}
@@ -240,7 +298,8 @@ function shader(type,code){const s=gl.createShader(type);gl.shaderSource(s,code)
 const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,'attribute vec3 aPosition;attribute vec3 aColor;uniform mat4 uVP;uniform float uSize;varying vec3 vColor;void main(){gl_Position=uVP*vec4(aPosition,1.);gl_PointSize=uSize;vColor=aColor;}'));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,'precision mediump float;varying vec3 vColor;uniform float uAlpha;uniform bool uPoints;void main(){if(uPoints && distance(gl_PointCoord,vec2(.5))>.5)discard;gl_FragColor=vec4(vColor,uAlpha);}'));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))fail(gl.getProgramInfoLog(program));gl.useProgram(program);
 const loc={p:gl.getAttribLocation(program,'aPosition'),c:gl.getAttribLocation(program,'aColor'),vp:gl.getUniformLocation(program,'uVP'),size:gl.getUniformLocation(program,'uSize'),alpha:gl.getUniformLocation(program,'uAlpha'),points:gl.getUniformLocation(program,'uPoints')};
 function buffer(points,colors){const a=new Float32Array(points.length*6);points.forEach((p,i)=>{a.set(p,i*6);a.set(colors[i]||[.7,.7,.7],i*6+3)});const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,a,gl.STATIC_DRAW);return {b,count:points.length}}
-function draw(b,mode,alpha=1,size=2){if(!b||!b.count)return;gl.bindBuffer(gl.ARRAY_BUFFER,b.b);gl.enableVertexAttribArray(loc.p);gl.enableVertexAttribArray(loc.c);gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(loc.c,3,gl.FLOAT,false,24,12);gl.uniform1f(loc.alpha,alpha);gl.uniform1f(loc.size,size);gl.uniform1i(loc.points,mode===gl.POINTS);gl.drawArrays(mode,0,b.count)}
+function cloudVertexBuffer(){if(!pointCount)return null;const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,cloudPositions,gl.STATIC_DRAW);const colorBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,colorBuffer);gl.bufferData(gl.ARRAY_BUFFER,cloudColors,gl.STATIC_DRAW);cloudColors=null;return {b,colorBuffer,count:pointCount}}
+function draw(b,mode,alpha=1,size=2,matrix=VP){if(!b||!b.count)return;gl.uniformMatrix4fv(loc.vp,false,matrix);gl.bindBuffer(gl.ARRAY_BUFFER,b.b);gl.enableVertexAttribArray(loc.p);gl.enableVertexAttribArray(loc.c);if(b.colorBuffer){gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,0,0);gl.bindBuffer(gl.ARRAY_BUFFER,b.colorBuffer);gl.vertexAttribPointer(loc.c,3,gl.UNSIGNED_BYTE,true,0,0)}else{gl.vertexAttribPointer(loc.p,3,gl.FLOAT,false,24,0);gl.vertexAttribPointer(loc.c,3,gl.FLOAT,false,24,12)}gl.uniform1f(loc.alpha,alpha);gl.uniform1f(loc.size,size);gl.uniform1i(loc.points,mode===gl.POINTS);gl.drawArrays(mode,0,b.count)}
 const bc=new Map(D.blenderCameras.map(c=>[c.index,c])),vc=new Map(D.vggtCameras.map(c=>[c.index,c]));
 function origin(c){return c.pose.slice(0,3).map(row=>row[3])}
 function rebuildMesh(){if(meshLines)gl.deleteBuffer(meshLines.b);if(meshSolid)gl.deleteBuffer(meshSolid.b);const chosen=$('object').value,p=[],pc=[],l=[],lc=[],used=new Set();D.triangles.forEach((t,i)=>{if(chosen!=='all'&&D.objectIds[i]!==+chosen)return;const v=t.map(j=>D.vertices[j]),base=D.faceColors[i];t.forEach(j=>used.add(j));p.push(...v);pc.push(base,base,base);for(const [a,b] of [[0,1],[1,2],[2,0]]){l.push(v[a],v[b]);lc.push([.35,.65,.68],[.35,.65,.68])}});selectedVertices=[...used].map(i=>D.vertices[i]);meshLines=buffer(l,lc);meshSolid=buffer(p,pc)}
@@ -248,11 +307,11 @@ function cameraPaths(){const p=[],c=[],r=[],rc=[];for(const [list,col] of [[D.bl
 function frustum(cam,width,height,col){if(!cam)return null;const scale=radius*.045,K=cam.K,C=cam.pose,o=origin(cam),p=[],colors=[];const corner=(u,v)=>{const y=(v-K[1][2])/K[1][1],x=(u-K[0][2]-K[0][1]*y)/K[0][0],ray=[x,y,1];return C.slice(0,3).map(row=>row[3]+scale*dot(row.slice(0,3),ray))};const q=[[-.5,-.5],[width-.5,-.5],[width-.5,height-.5],[-.5,height-.5]].map(([u,v])=>corner(u,v));for(let i=0;i<4;i++){p.push(o,q[i],q[i],q[(i+1)%4]);colors.push(col,col,col,col)}return buffer(p,colors)}
 function fit(points){if(!points.length)return;const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];points.forEach(p=>p.forEach((v,i)=>{lo[i]=Math.min(lo[i],v);hi[i]=Math.max(hi[i],v)}));center=lo.map((v,i)=>(v+hi[i])/2);radius=Math.max(.1,Math.hypot(...V(hi,lo))*.9);render()}
 function frameInfo(){const i=+$('frame').value,frame=D.frames[i];$('frameLabel').textContent=`Frame ${String(frame.index).padStart(6,'0')} · ${frame.time.toFixed(3)} s`;function show(key,img,caption,label){const available=D.frames.filter(f=>f[key]);if(!available.length){$(img).removeAttribute('src');$(caption).textContent=label+' unavailable';return}const closest=available.reduce((a,b)=>Math.abs(a.index-frame.index)<=Math.abs(b.index-frame.index)?a:b);$(img).src=closest[key];$(caption).textContent=`${label}: frame ${closest.index}${closest.index===frame.index?'':' (nearest preview)'}`};show('image','sourceImage','sourceCaption','Video');show('render','renderImage','renderCaption','Blender');const b=bc.get(frame.index),v=vc.get(frame.index);let text=`Frame ${frame.index}  |  ${frame.time.toFixed(3)} s`;if(b&&v){const distance=Math.hypot(...V(origin(b),origin(v)));let tr=0;for(let row=0;row<3;row++)for(let k=0;k<3;k++)tr+=b.pose[row][k]*v.pose[row][k];const angle=Math.acos(Math.max(-1,Math.min(1,(tr-1)/2)))*180/Math.PI;text+=`\nCamera separation: ${distance.toFixed(3)} Blender units\nOrientation difference: ${angle.toFixed(2)}°`}else text+=v?'':'\nNo VGGT camera on this source frame';$('status').textContent=text}
-function render(){const ratio=Math.min(window.devicePixelRatio||1,2),w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);if(canvas.width!==Math.round(w*ratio)||canvas.height!==Math.round(h*ratio)){canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio)}gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(.055,.08,.12,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);const eye=add(center,[radius*Math.cos(pitch)*Math.cos(yaw),radius*Math.cos(pitch)*Math.sin(yaw),radius*Math.sin(pitch)]);VP=mm(perspective(w/h,radius/2000,radius*100),look(eye,center));gl.uniformMatrix4fv(loc.vp,false,VP);if($('solid').checked){gl.depthMask(false);draw(meshSolid,gl.TRIANGLES,+$('opacity').value);gl.depthMask(true)}if($('wire').checked)draw(meshLines,gl.LINES,.45);if($('cloud').checked)draw(cloudBuffer,gl.POINTS,1,+$('pointSize').value*ratio);if($('cameras').checked){gl.disable(gl.DEPTH_TEST);draw(pathsBuffer,gl.LINES);const idx=D.frames[+$('frame').value].index;for(const [cam,width,height,col] of [[bc.get(idx),D.blenderWidth,D.blenderHeight,[.7,.59,1]],[vc.get(idx),D.sourceWidth,D.sourceHeight,[1,.74,.4]]]){const f=frustum(cam,width,height,col);draw(f,gl.LINES);if(f)gl.deleteBuffer(f.b)}}if($('links').checked)draw(linkBuffer,gl.LINES,.7)}
+function render(){const ratio=Math.min(window.devicePixelRatio||1,2),w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);if(canvas.width!==Math.round(w*ratio)||canvas.height!==Math.round(h*ratio)){canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio)}gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(.055,.08,.12,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);const eye=add(center,[radius*Math.cos(pitch)*Math.cos(yaw),radius*Math.cos(pitch)*Math.sin(yaw),radius*Math.sin(pitch)]);VP=mm(perspective(w/h,radius/2000,radius*100),look(eye,center));gl.uniformMatrix4fv(loc.vp,false,VP);if($('solid').checked){gl.depthMask(false);draw(meshSolid,gl.TRIANGLES,+$('opacity').value);gl.depthMask(true)}if($('wire').checked)draw(meshLines,gl.LINES,.45);if($('cloud').checked)draw(cloudBuffer,gl.POINTS,1,+$('pointSize').value*ratio,cloudMatrix?mm(VP,cloudMatrix):VP);if($('cameras').checked){gl.disable(gl.DEPTH_TEST);draw(pathsBuffer,gl.LINES);const idx=D.frames[+$('frame').value].index;for(const [cam,width,height,col] of [[bc.get(idx),D.blenderWidth,D.blenderHeight,[.7,.59,1]],[vc.get(idx),D.sourceWidth,D.sourceHeight,[1,.74,.4]]]){const f=frustum(cam,width,height,col);draw(f,gl.LINES);if(f)gl.deleteBuffer(f.b)}}if($('links').checked)draw(linkBuffer,gl.LINES,.7)}
 function project(p){const v=[...p,1],q=[0,0,0,0];for(let row=0;row<4;row++)for(let k=0;k<4;k++)q[row]+=VP[k*4+row]*v[k];if(q[3]<=0)return null;return [(q[0]/q[3]*.5+.5)*canvas.clientWidth,(-q[1]/q[3]*.5+.5)*canvas.clientHeight,q[2]/q[3]]}
 let pending={source:null,target:null},pairs=[];
-function pick(x,y){const kind=$('pickMode').value;if(kind==='none')return;const points=kind==='source'?D.points:selectedVertices;let best=-1,dist=14*14,bestZ=Infinity;points.forEach((p,i)=>{const q=project(p);if(!q||q[2]<-1||q[2]>1)return;const d=(q[0]-x)**2+(q[1]-y)**2;if(d<dist||(Math.abs(d-dist)<.3&&q[2]<bestZ)){best=i;dist=d;bestZ=q[2]}});if(best<0){$('pickInfo').textContent='No sampled candidate within 14 pixels. Zoom in or change view.';return}pending[kind]=kind==='source'?D.originalPoints[best]:points[best];$('pickInfo').textContent=JSON.stringify(pending,null,2)}
+function pick(x,y){const kind=$('pickMode').value;if(kind==='none')return;const source=kind==='source',count=source?pointCount:selectedVertices.length,m=source&&cloudMatrix?mm(VP,cloudMatrix):VP,w=canvas.clientWidth,h=canvas.clientHeight;let best=-1,dist=14*14,bestZ=Infinity;for(let i=0;i<count;i++){const px=source?cloudPositions[i*3]:selectedVertices[i][0],py=source?cloudPositions[i*3+1]:selectedVertices[i][1],pz=source?cloudPositions[i*3+2]:selectedVertices[i][2],qw=m[3]*px+m[7]*py+m[11]*pz+m[15];if(qw<=0)continue;const qz=(m[2]*px+m[6]*py+m[10]*pz+m[14])/qw;if(qz< -1||qz>1)continue;const qx=((m[0]*px+m[4]*py+m[8]*pz+m[12])/qw*.5+.5)*w,qy=(-(m[1]*px+m[5]*py+m[9]*pz+m[13])/qw*.5+.5)*h,d=(qx-x)**2+(qy-y)**2;if(d<dist||(Math.abs(d-dist)<.3&&qz<bestZ)){best=i;dist=d;bestZ=qz}}if(best<0){$('pickInfo').textContent='No displayed candidate within 14 pixels. Zoom in or change view.';return}pending[kind]=source?Array.from(cloudPositions.subarray(best*3,best*3+3)):selectedVertices[best];$('pickInfo').textContent=JSON.stringify(pending,null,2)}
 let drag=null;canvas.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,pan:e.shiftKey};canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(drag.pan){const right=[-Math.sin(yaw),Math.cos(yaw),0],up=[-Math.sin(pitch)*Math.cos(yaw),-Math.sin(pitch)*Math.sin(yaw),Math.cos(pitch)];center=add(center,add(mul(right,-dx*radius/500),mul(up,dy*radius/500)))}else{yaw-=dx*.008;pitch=Math.max(-1.5,Math.min(1.5,pitch+dy*.008))}drag.x=e.clientX;drag.y=e.clientY;render()});canvas.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-drag.startX,e.clientY-drag.startY)<4){const r=canvas.getBoundingClientRect();pick(e.clientX-r.left,e.clientY-r.top)}drag=null});canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.max(.01,Math.min(1e6,radius*Math.exp(e.deltaY*.001)));render()},{passive:false});
-for(const id of ['wire','solid','cloud','cameras','links','pointSize','opacity'])$(id).addEventListener('input',render);$('frame').addEventListener('input',()=>{frameInfo();render()});$('object').addEventListener('change',()=>{rebuildMesh();render()});$('focus').onclick=()=>fit(selectedVertices);$('fit').onclick=()=>fit(D.vertices.concat(D.points,D.blenderCameras.map(origin)));$('addPair').onclick=()=>{if(!pending.source||!pending.target){$('pickInfo').textContent='Pick one VGGT point and one Blender vertex first.';return}pairs.push({name:'landmark_'+String(pairs.length+1).padStart(2,'0'),source:pending.source,target:pending.target,use_for_fit:true});pending={source:null,target:null};$('pickInfo').textContent='Pair saved. Pick the next correspondence.';$('pairCount').textContent=`${pairs.length} pairs saved. Review correspondences before fitting.`};$('undoPair').onclick=()=>{pairs.pop();$('pairCount').textContent=`${pairs.length} pairs saved.`};$('download').onclick=()=>{const blob=new Blob([JSON.stringify({...D.landmarkProvenance,pairs},null,2)],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='landmarks.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-cloudBuffer=buffer(D.points,D.pointColors.map(c=>c.map(v=>v/255)));cameraPaths();rebuildMesh();frameInfo();fit(D.vertices.concat(D.blenderCameras.map(origin)));new ResizeObserver(render).observe(canvas);
+for(const id of ['wire','solid','cloud','cameras','links','pointSize','opacity'])$(id).addEventListener('input',render);$('frame').addEventListener('input',()=>{frameInfo();render()});$('object').addEventListener('change',()=>{rebuildMesh();render()});$('focus').onclick=()=>fit(selectedVertices);$('fit').onclick=()=>fit(D.vertices.concat(cloud&&cloud.bounds?cloud.bounds:[],D.blenderCameras.map(origin)));$('addPair').onclick=()=>{if(!pending.source||!pending.target){$('pickInfo').textContent='Pick one VGGT point and one Blender vertex first.';return}pairs.push({name:'landmark_'+String(pairs.length+1).padStart(2,'0'),source:pending.source,target:pending.target,use_for_fit:true});pending={source:null,target:null};$('pickInfo').textContent='Pair saved. Pick the next correspondence.';$('pairCount').textContent=`${pairs.length} pairs saved. Review correspondences before fitting.`};$('undoPair').onclick=()=>{pairs.pop();$('pairCount').textContent=`${pairs.length} pairs saved.`};$('download').onclick=()=>{const blob=new Blob([JSON.stringify({...D.landmarkProvenance,pairs},null,2)],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='landmarks.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+cloudBuffer=cloudVertexBuffer();cameraPaths();rebuildMesh();frameInfo();fit(D.vertices.concat(D.blenderCameras.map(origin)));new ResizeObserver(render).observe(canvas);
 </script></html>'''

@@ -39,6 +39,10 @@ def parser():
             p.add_argument("--chunk-size", type=int, default=16)
             p.add_argument("--overlap", type=int, default=4)
             p.add_argument("--process-res", type=int, default=504)
+            p.add_argument("--compression-level", type=int, choices=range(10), default=1,
+                           help="Lossless NPZ storage: 0=uncompressed (larger files), 1=fast compression (default), 6=previous storage setting; does not change model predictions")
+            p.add_argument("--stop-after-windows", type=int,
+                           help="Profile at most this many windows in this invocation, including cache hits; rerun without this flag to complete the video")
         else:
             p.add_argument("--prompts", type=Path, default=Path("configs/objects.json"))
             p.add_argument("--checkpoint", type=Path)
@@ -108,7 +112,8 @@ def parser():
     p.add_argument("--alignment", type=Path)
     p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
     p.add_argument("--output", type=Path, required=True, help="Standalone .html file")
-    p.add_argument("--max-points", type=int, default=50000)
+    p.add_argument("--max-points", type=int, default=5000000,
+                   help="Maximum displayed cloud points (default: 5000000, all points in the quality export); lower for a lighter viewer")
     p.add_argument("--max-triangles", type=int, default=30000)
     p.add_argument("--max-images", type=int, default=72)
     p.set_defaults(module="alignment_viewer", function="run")

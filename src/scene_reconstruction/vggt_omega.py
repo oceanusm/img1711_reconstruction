@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 import warnings
 
 import numpy as np
@@ -191,6 +192,7 @@ def _write_ply(path: Path, point_chunks: list[np.ndarray], color_chunks: list[np
 
 def run(args) -> Path:
     """Run the official model once over a sampled, full-duration frame set."""
+    run_started = time.perf_counter()
     args = apply_preset(args)
     validate_gpu_environment()
     manifest_path = Path(args.manifest).expanduser().resolve()
@@ -258,6 +260,8 @@ def run(args) -> Path:
           f"CUDA_VISIBLE_DEVICES={visible_devices if visible_devices is not None else 'unset'}; "
           f"free {free_bytes / 2**30:.2f} / {total_bytes / 2**30:.2f} GiB", flush=True)
     torch.cuda.reset_peak_memory_stats(device)
+    setup_started = time.perf_counter()
+    timings = {"validation_and_import": setup_started - run_started}
     # Disable the upstream auto choice so the requested aggregator precision is
     # respected. Its camera and depth heads explicitly retain FP32 computation.
     model = VGGTOmega(autocast=False).eval()
@@ -266,18 +270,27 @@ def run(args) -> Path:
     del state
     try:
         model = model.to(device)
+        torch.cuda.synchronize(device)
+        timings["model_setup"] = time.perf_counter() - setup_started
+        preprocessing_started = time.perf_counter()
         images = load_and_preprocess_images(
             [str(path) for path in image_paths], mode=mode, image_resolution=image_resolution
         ).to(device)
         model_height, model_width = map(int, images.shape[-2:])
         geometry = preprocessing_geometry(width, height, model_width, model_height)
+        torch.cuda.synchronize(device)
+        timings["preprocess_and_upload"] = time.perf_counter() - preprocessing_started
         print(f"Actual model images: {model_width}×{model_height} pixels per view; "
               f"{len(selected)} joint views. Output: {output}", flush=True)
         amp = contextlib.nullcontext() if precision == "fp32" else torch.autocast(
             device_type="cuda", dtype=torch.bfloat16 if precision == "bf16" else torch.float16
         )
+        forward_started = time.perf_counter()
         with torch.inference_mode(), amp:
             predictions = model(images)
+        torch.cuda.synchronize(device)
+        timings["model_forward"] = time.perf_counter() - forward_started
+        postprocessing_started = time.perf_counter()
         with torch.inference_mode():
             extrinsics, intrinsics = encoding_to_camera(predictions["pose_enc"].float(), (model_height, model_width))
         # Transfer before casting so conversion cannot allocate extra FP32 GPU arrays.
@@ -301,6 +314,7 @@ def run(args) -> Path:
         torch.cuda.synchronize(device)
         peak_allocated_bytes = torch.cuda.max_memory_allocated(device)
         peak_reserved_bytes = torch.cuda.max_memory_reserved(device)
+        timings["postprocess_and_download"] = time.perf_counter() - postprocessing_started
     except torch.cuda.OutOfMemoryError as error:
         raise RuntimeError(
             "VGGT-Ω exceeded GPU memory. Reduce --max-frames; for the 350-view quality run, "
@@ -310,6 +324,10 @@ def run(args) -> Path:
         ) from error
     print(f"PyTorch GPU peak: allocated {peak_allocated_bytes / 2**30:.2f} GiB; "
           f"reserved {peak_reserved_bytes / 2**30:.2f} GiB. Exporting numeric results…", flush=True)
+    print(f"VGGT timing: setup {timings['model_setup']:.2f}s; "
+          f"preprocess/upload {timings['preprocess_and_upload']:.2f}s; "
+          f"forward {timings['model_forward']:.2f}s; "
+          f"postprocess/download {timings['postprocess_and_download']:.2f}s", flush=True)
     del predictions, extrinsics, intrinsics, images, model
     torch.cuda.empty_cache()
     if depth.shape != (len(selected), model_height, model_width) or confidence.shape != depth.shape:
@@ -317,6 +335,7 @@ def run(args) -> Path:
     if not np.isfinite(world_to_camera).all() or not np.isfinite(intrinsics_model).all():
         raise RuntimeError("Model produced nonfinite camera parameters")
 
+    export_started = time.perf_counter()
     output.mkdir(parents=True, exist_ok=True)
     (output / "depth").mkdir()
     (output / "rgb_model").mkdir()
@@ -367,16 +386,22 @@ def run(args) -> Path:
             "point_cloud_confidence_threshold": threshold,
         })
     point_count = _write_ply(output / "point_cloud.ply", points, colors, confidences, point_frames)
+    timings["array_and_cloud_export"] = time.perf_counter() - export_started
+    provenance_started = time.perf_counter()
+    checkpoint_hash = _sha256(checkpoint)
+    timings["checkpoint_hash"] = time.perf_counter() - provenance_started
+    timings["elapsed_before_index_write"] = time.perf_counter() - run_started
     index = {
         "schema_version": 1, "stage": "vggt_omega", "status": "complete",
         "source_manifest": str(manifest_path), "source_manifest_sha256": _sha256(manifest_path),
         "upstream": {"url": UPSTREAM_URL, "revision": revision, "tested_revision": TESTED_REVISION},
-        "checkpoint": {"path": str(checkpoint), "sha256": _sha256(checkpoint)},
+        "checkpoint": {"path": str(checkpoint), "sha256": checkpoint_hash},
         "runtime": {"torch": torch.__version__, "cuda": torch.version.cuda,
                     "device": torch.cuda.get_device_name(device), "precision": precision,
                     "logical_device": str(device), "cuda_visible_devices": visible_devices,
                     "gpu_free_bytes_before_load": free_bytes, "gpu_total_bytes": total_bytes,
                     "peak_allocated_bytes": peak_allocated_bytes, "peak_reserved_bytes": peak_reserved_bytes,
+                    "timings_seconds": timings,
                     "memory_scope": "PyTorch allocator peak from before model upload through CPU transfer; excludes other processes and non-PyTorch allocations."},
         "selection": {"stride": args.stride, "max_frames": args.max_frames,
                       "preset": args.preset,
@@ -400,5 +425,6 @@ def run(args) -> Path:
         "frames": frame_outputs,
     }
     (output / "index.json").write_text(json.dumps(index, indent=2, allow_nan=False) + "\n")
-    print(f"Saved {len(selected)} cameras and {point_count:,} points to {output}", flush=True)
+    print(f"Saved {len(selected)} cameras and {point_count:,} points to {output}; "
+          f"total wall time {time.perf_counter() - run_started:.2f}s", flush=True)
     return output / "index.json"

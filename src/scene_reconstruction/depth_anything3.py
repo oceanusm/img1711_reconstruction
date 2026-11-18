@@ -11,7 +11,9 @@ import hashlib
 import importlib.metadata
 import json
 from pathlib import Path
+from time import perf_counter
 from typing import Any
+import zipfile
 
 import numpy as np
 from PIL import Image
@@ -19,6 +21,10 @@ from PIL import Image
 UPSTREAM_COMMIT = "3d835ec1a5802d64a8b8b15f817a1ab54809bfe4"
 DEFAULT_MODEL = "depth-anything/DA3NESTED-GIANT-LARGE-1.1"
 DEFAULT_MODEL_REVISION = "b2359bdf726fb44ef62acca04d629dcf158053e7"
+_TIMED_STAGES = (
+    "model_setup", "inference", "cache_read", "prediction_conversion",
+    "native_cache_write", "diagnostics", "resample", "frame_write", "metadata_write",
+)
 
 
 def plan_chunks(count: int, chunk_size: int, overlap: int) -> list[tuple[int, int]]:
@@ -117,11 +123,59 @@ def _write_json(path: Path, value: Any) -> None:
     temporary.replace(path)
 
 
-def _write_npz(path: Path, arrays: dict[str, np.ndarray]) -> None:
+def _validate_compression_level(level: int) -> int:
+    if not isinstance(level, (int, np.integer)) or not 0 <= level <= 9:
+        raise ValueError("DA3 compression_level must be an integer from 0 through 9")
+    return int(level)
+
+
+def _write_npz(path: Path, arrays: dict[str, np.ndarray], compression_level: int = 1) -> None:
+    """Atomically write a standard lossless NPZ, trading compression time for size."""
+    level = _validate_compression_level(compression_level)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    with temporary.open("wb") as handle:
-        np.savez_compressed(handle, **arrays)
-    temporary.replace(path)
+    try:
+        with zipfile.ZipFile(
+            temporary, mode="w",
+            compression=zipfile.ZIP_STORED if level == 0 else zipfile.ZIP_DEFLATED,
+            compresslevel=None if level == 0 else level,
+            allowZip64=True,
+        ) as archive:
+            for key, array in arrays.items():
+                with archive.open(f"{key}.npy", mode="w", force_zip64=True) as entry:
+                    np.lib.format.write_array(entry, np.asanyarray(array), allow_pickle=False)
+        temporary.replace(path)
+    except BaseException:
+        temporary.unlink(missing_ok=True)
+        raise
+
+
+def _save_timings(output: Path, report: dict, started: float,
+                  outside_seconds: dict[str, float], outside_metadata_bytes: int) -> None:
+    """Snapshot this invocation; writing the snapshot itself is excluded from bytes."""
+    windows = report["windows"]
+    seconds = dict(outside_seconds)
+    for stage in _TIMED_STAGES:
+        seconds[stage] = seconds.get(stage, 0.0) + sum(item["seconds"][stage] for item in windows)
+    total_seconds = perf_counter() - started
+    seconds["other"] = max(0.0, total_seconds - sum(seconds.values()))
+    seconds["total"] = total_seconds
+    byte_counts = {kind: sum(item["bytes_written"][kind] for item in windows)
+                   for kind in ("native_cache", "frames", "metadata")}
+    byte_counts["metadata"] += outside_metadata_bytes
+    byte_counts["total"] = sum(byte_counts.values())
+    peaks = [item["cuda_peak_memory"] for item in windows if item["cuda_peak_memory"] is not None]
+    report["totals"] = {
+        "completed_windows": len(windows),
+        "cache_hits": sum(item["cache_hit"] for item in windows),
+        "inferred_windows": sum(not item["cache_hit"] for item in windows),
+        "frames_written": sum(item["frames_written"] for item in windows),
+        "native_cache_bytes_read": sum(item["native_cache_bytes_read"] for item in windows),
+        "bytes_written": byte_counts,
+        "seconds": seconds,
+        "cuda_peak_memory": ({key: max(item[key] for item in peaks) for key in peaks[0]}
+                             if peaks else None),
+    }
+    _write_json(output / "timings.json", report)
 
 
 def _homogeneous(extrinsics: np.ndarray) -> np.ndarray:
@@ -167,6 +221,15 @@ def _prediction_arrays(prediction: Any, indices: list[int], source_hw: tuple[int
 
 def run(args: Any) -> Path:
     """Run all frames and return the final output index. Identical runs resume."""
+    started = perf_counter()
+    compression_level = _validate_compression_level(getattr(args, "compression_level", 1))
+    stop_after_windows = getattr(args, "stop_after_windows", None)
+    if stop_after_windows is not None and (
+        not isinstance(stop_after_windows, (int, np.integer)) or stop_after_windows < 1
+    ):
+        raise ValueError("DA3 stop_after_windows must be a positive integer")
+    if stop_after_windows is not None:
+        stop_after_windows = int(stop_after_windows)
     manifest_path = Path(args.manifest).expanduser().resolve()
     manifest_bytes = manifest_path.read_bytes()
     manifest = json.loads(manifest_bytes)
@@ -211,6 +274,8 @@ def run(args: Any) -> Path:
         "source_hw": list(source_hw),
         "reviewed_upstream_commit": UPSTREAM_COMMIT,
     }
+    outside_seconds = {"input_validation": perf_counter() - started, "metadata_write": 0.0}
+    outside_metadata_bytes = 0
     output.mkdir(parents=True, exist_ok=True)
     config_path = output / "run.json"
     if config_path.exists():
@@ -219,7 +284,10 @@ def run(args: Any) -> Path:
     else:
         if any(output.iterdir()):
             raise ValueError("DA3 output directory is nonempty without run.json; choose a new directory")
+        stage_started = perf_counter()
         _write_json(config_path, settings)
+        outside_seconds["metadata_write"] += perf_counter() - stage_started
+        outside_metadata_bytes += config_path.stat().st_size
     (output / "chunks").mkdir(exist_ok=True)
     (output / "frames").mkdir(exist_ok=True)
     index: dict[str, Any] = {
@@ -242,18 +310,50 @@ def run(args: Any) -> Path:
     previous = None
     model = None
     torch = None
+    timing_report = {
+        "schema_version": 1,
+        "status": "incomplete",
+        "scope": "latest invocation; window records describe completed windows only",
+        "clock": "perf_counter wall seconds; inference includes the complete model.inference API call",
+        "requested_compression_level": compression_level,
+        "stop_after_windows": stop_after_windows,
+        "compression_note": "lossless NPZ; 0 stores arrays uncompressed, 1 through 9 use DEFLATE",
+        "resume_note": "native caches retain their existing compression; source-resolution frames are re-exported",
+        "bytes_written_note": "counts each completed write, including overwritten metadata; excludes timings.json",
+        "elapsed_note": "elapsed time is measured before saving each timing snapshot; earlier snapshot writes are in other",
+        "cuda_memory_note": "per-window PyTorch allocator peaks after model setup; not total device memory usage",
+        "windows": [],
+    }
+    _save_timings(output, timing_report, started, outside_seconds, outside_metadata_bytes)
     for chunk_id, (start, stop) in enumerate(windows):
+        window_started = perf_counter()
+        timing = {
+            "chunk_id": chunk_id,
+            "frame_indices": indices[start:stop],
+            "cache_hit": False,
+            "frames_written": 0,
+            "native_cache_bytes_read": 0,
+            "bytes_written": {"native_cache": 0, "frames": 0, "metadata": 0},
+            "seconds": dict.fromkeys(_TIMED_STAGES, 0.0),
+            "cuda_peak_memory": None,
+        }
+        seconds = timing["seconds"]
         print(f"DA3 window {chunk_id + 1}/{len(windows)}: source frames {indices[start]}–{indices[stop - 1]}", flush=True)
         chunk_path = output / "chunks" / f"{chunk_id:06d}.npz"
         meta_path = chunk_path.with_suffix(".json")
         if chunk_path.exists() and meta_path.exists():
+            stage_started = perf_counter()
             metadata = json.loads(meta_path.read_text())
             with np.load(chunk_path, allow_pickle=False) as data:
                 arrays = {key: data[key] for key in data.files}
             if arrays["frame_indices"].tolist() != indices[start:stop]:
                 raise ValueError(f"Cached DA3 chunk mapping is corrupt: {chunk_path}")
+            seconds["cache_read"] = perf_counter() - stage_started
+            timing["cache_hit"] = True
+            timing["native_cache_bytes_read"] = chunk_path.stat().st_size
         else:
             if model is None:
+                stage_started = perf_counter()
                 try:
                     import torch as torch_module
                     from depth_anything_3.api import DepthAnything3
@@ -264,6 +364,13 @@ def run(args: Any) -> Path:
                     raise RuntimeError("CUDA is unavailable. Run DA3 in its environment on the A6000 host.")
                 kwargs = {"revision": model_revision} if model_revision else {}
                 model = DepthAnything3.from_pretrained(model_name, **kwargs).to(args.device).eval()
+                seconds["model_setup"] = perf_counter() - stage_started
+            cuda = getattr(torch, "cuda", None) if str(args.device).startswith("cuda") else None
+            measure_cuda = cuda is not None and all(hasattr(cuda, method) for method in (
+                "reset_peak_memory_stats", "max_memory_allocated", "max_memory_reserved"))
+            if measure_cuda:
+                cuda.reset_peak_memory_stats(args.device)
+            stage_started = perf_counter()
             try:
                 prediction = model.inference(
                     image=[str(path) for path in paths[start:stop]],
@@ -276,6 +383,13 @@ def run(args: Any) -> Path:
                 if "out of memory" in str(exc).lower():
                     raise RuntimeError("DA3 exhausted GPU memory. Stop other GPU jobs and retry with a smaller --chunk-size and/or --process-res in a new output directory.") from exc
                 raise
+            seconds["inference"] = perf_counter() - stage_started
+            if measure_cuda:
+                timing["cuda_peak_memory"] = {
+                    "allocated_bytes": int(cuda.max_memory_allocated(args.device)),
+                    "reserved_bytes": int(cuda.max_memory_reserved(args.device)),
+                }
+            stage_started = perf_counter()
             arrays = _prediction_arrays(prediction, indices[start:stop], source_hw)
             is_metric = bool(getattr(prediction, "is_metric", False))
             scale_factor = getattr(prediction, "scale_factor", None)
@@ -300,20 +414,30 @@ def run(args: Any) -> Path:
                 metadata["depth_anything_3_package_version"] = importlib.metadata.version("depth-anything-3")
             except importlib.metadata.PackageNotFoundError:
                 metadata["depth_anything_3_package_version"] = "unpackaged"
-            _write_npz(chunk_path, arrays)
+            seconds["prediction_conversion"] = perf_counter() - stage_started
+            stage_started = perf_counter()
+            _write_npz(chunk_path, arrays, compression_level)
+            seconds["native_cache_write"] = perf_counter() - stage_started
+            timing["bytes_written"]["native_cache"] = chunk_path.stat().st_size
+            stage_started = perf_counter()
             _write_json(meta_path, metadata)
+            seconds["metadata_write"] += perf_counter() - stage_started
+            timing["bytes_written"]["metadata"] += meta_path.stat().st_size
             del prediction
             if torch is not None and str(args.device).startswith("cuda"):
                 torch.cuda.empty_cache()
+        stage_started = perf_counter()
         if previous is not None:
             overlap_reports.append({
                 "previous_chunk_id": chunk_id - 1,
                 "current_chunk_id": chunk_id,
                 "frames": summarize_overlap(previous, arrays),
             })
+        seconds["diagnostics"] = perf_counter() - stage_started
         for local_index, position in enumerate(range(start, stop)):
             if owners[position] != chunk_id:
                 continue
+            stage_started = perf_counter()
             depth, valid = resize_depth(arrays["depth"][local_index], source_hw)
             payload = {"depth": depth, "valid_depth": valid}
             if "sky" in arrays:
@@ -327,8 +451,13 @@ def run(args: Any) -> Path:
                                            ("camera_to_world", "camera_to_world")):
                 if native_key in arrays:
                     payload[frame_key] = arrays[native_key][local_index]
+            seconds["resample"] += perf_counter() - stage_started
             frame_path = output / "frames" / f"{indices[position]:06d}.npz"
-            _write_npz(frame_path, payload)
+            stage_started = perf_counter()
+            _write_npz(frame_path, payload, compression_level)
+            seconds["frame_write"] += perf_counter() - stage_started
+            timing["frames_written"] += 1
+            timing["bytes_written"]["frames"] += frame_path.stat().st_size
             frame_records[position] = {
                 "index": indices[position],
                 "time_seconds": frames[position]["time_seconds"],
@@ -342,15 +471,55 @@ def run(args: Any) -> Path:
             }
         index["chunks"].append(metadata)
         index["frames"] = [frame_records[position] for position in sorted(frame_records)]
+        stage_started = perf_counter()
         _write_json(output / "index.json", index)
         _write_json(output / "overlap_diagnostics.json", {
             "note": "Duplicate-frame diagnostics only; no scale or pose alignment has been applied",
             "windows": overlap_reports,
         })
+        seconds["metadata_write"] += perf_counter() - stage_started
+        timing["bytes_written"]["metadata"] += sum((output / name).stat().st_size for name in (
+            "index.json", "overlap_diagnostics.json"))
         previous = arrays
+        total_seconds = perf_counter() - window_started
+        seconds["other"] = max(0.0, total_seconds - sum(seconds.values()))
+        seconds["total"] = total_seconds
+        timing["bytes_written"]["total"] = sum(timing["bytes_written"].values())
+        timing_report["windows"].append(timing)
+        _save_timings(output, timing_report, started, outside_seconds, outside_metadata_bytes)
+        detail = " | ".join(f"{stage.replace('_', ' ')} {seconds[stage]:.2f}s" for stage in _TIMED_STAGES
+                            if seconds[stage] > 0 or stage in {"inference", "resample", "frame_write"})
+        memory = timing["cuda_peak_memory"]
+        memory_note = (f" | CUDA peak {memory['allocated_bytes'] / 2**30:.2f} GiB allocated, "
+                       f"{memory['reserved_bytes'] / 2**30:.2f} GiB reserved" if memory else "")
+        print(f"DA3 window {chunk_id + 1} wall {total_seconds:.2f}s "
+              f"({'cache hit' if timing['cache_hit'] else 'inferred'}): {detail} | "
+              f"other {seconds['other']:.2f}s | wrote {timing['frames_written']} frames, "
+              f"{timing['bytes_written']['total'] / 2**20:.1f} MiB{memory_note}", flush=True)
+        if (stop_after_windows is not None and len(timing_report["windows"]) >= stop_after_windows
+                and chunk_id + 1 < len(windows)):
+            print(f"DA3 stopped after {len(timing_report['windows'])} "
+                  f"window{'s' if len(timing_report['windows']) != 1 else ''}: incomplete profile run; "
+                  "rerun without --stop-after-windows to finish. "
+                  f"Breakdown: {output / 'timings.json'}", flush=True)
+            return output / "index.json"
     if len(frame_records) != len(frames):
         raise RuntimeError("DA3 output does not cover every canonical frame")
     index["status"] = "complete"
+    stage_started = perf_counter()
     _write_json(output / "index.json", index)
+    outside_seconds["metadata_write"] += perf_counter() - stage_started
+    outside_metadata_bytes += (output / "index.json").stat().st_size
+    timing_report["status"] = "complete"
+    _save_timings(output, timing_report, started, outside_seconds, outside_metadata_bytes)
+    totals = timing_report["totals"]
+    print(f"DA3 wall total {totals['seconds']['total']:.2f}s: "
+          f"model setup {totals['seconds']['model_setup']:.2f}s | "
+          f"inference {totals['seconds']['inference']:.2f}s | "
+          f"resample {totals['seconds']['resample']:.2f}s | "
+          f"frame write {totals['seconds']['frame_write']:.2f}s | "
+          f"cache hits {totals['cache_hits']}/{len(windows)} | "
+          f"wrote {totals['bytes_written']['total'] / 2**30:.2f} GiB; "
+          f"breakdown: {output / 'timings.json'}", flush=True)
     print(f"DA3 complete: {len(frames)} frames; {output / 'index.json'}", flush=True)
     return output / "index.json"

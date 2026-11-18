@@ -10,6 +10,8 @@ Prepare three independent sources of evidence for matching a video with a Blende
 
 The source video has been copied to `data/IMG_1711.MOV`. All **698 frames** have been extracted into `data/frames` at **1080×1920**, upright, with HDR tone mapping and original presentation timestamps. See [the contact sheet](data/frames/contact_sheet.jpg). The clip lasts about 23.27 seconds and includes a hand moving containers.
 
+**Second clip, IMG_1696:** the 33.07-second living/dining-room video and all 992 canonical frames are prepared separately under `data/img1696/`. Its dedicated [VGGT run guide](docs/img1696.md) starts with 450 views at balanced 512, prioritizing temporal coverage. Run `CUDA_VISIBLE_DEVICES=7 bash scripts/run_img1696_vggt.sh` on the remote after transferring these new files. IMG_1711 commands and outputs remain separate.
+
 **Status:** CPU tests, real-video extraction, and real Blender camera/geometry/depth exports have run locally. Both unchanged Blender baselines have all 698 camera poses and four depth/RGB preview frames under `outputs/blender_preview/`. VGGT alignment, an offline 3D viewer, and DA3-versus-Blender depth comparison are implemented. CUDA inference, model accuracy, runtime, and peak A6000 memory have **not** been tested here. No model predictions have been generated locally yet.
 
 **Current first run: geometry and depth only.** Follow [the remote A6000 commands](docs/remote_geometry.md) for clone/pull, input verification, `setup_a6000.sh geometry`, and `run_geometry.sh`. The video, canonical frames and two Blender originals are now tracked in this checkout; generated outputs and weights remain Git-ignored. SAM3 and Cryptomatte can be handled later. See [VGGT-to-Blender alignment and depth comparison](docs/geometry_comparison.md) for the complete next stage.
@@ -66,6 +68,8 @@ Defaults:
 If you hit CUDA OOM, lower VGGT `--max-frames`, DA3 `--chunk-size` (keep `--overlap` smaller), or SAM `--chunk-size`, using a new output directory. Full model runs require checkpoint access and the GPU; local CPU tests do not validate their accuracy.
 
 The quality preset samples more timestamps and retains more image detail; it does not guarantee correct geometry. Its A6000 peak memory has not been measured here. The run prints actual model dimensions and CUDA memory statistics and records them in `index.json`. Increasing the exported point count alone does not improve the learned depth or cameras. See [VGGT quality, resolution and memory](docs/vggt_omega.md#quality-resolution-and-memory).
+
+For cluttered scenes, [resolution and performance experiments](docs/resolution_and_performance.md) compare identical VGGT views at larger image sizes and profile higher-resolution DA3. DA3 now uses faster lossless NPZ compression and reports full window wall time, including CPU export; upstream's model-forward timer alone excludes that work.
 
 The geometry runner now uses the quality preset by default. To preserve an existing `outputs/vggt` run:
 

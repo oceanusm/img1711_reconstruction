@@ -12,6 +12,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 from .common import load_manifest, sha256, write_json
+from .ffmpeg_compat import video_sync_args
 
 
 def frame_durations(frames: list[dict]) -> list[float]:
@@ -102,6 +103,9 @@ def run(args) -> Path:
     durations = frame_durations(frames)
     source_hw = (int(manifest["height"]), int(manifest["width"]))
     paths = [depth_index_path.parent / prediction["file"] for prediction in predictions]
+    # Resolve compatibility before scanning depth maps or rendering hundreds of panels.
+    sync_args = video_sync_args(ffmpeg, "vfr")
+    print(f"Depth preview FFmpeg timing: {' '.join(sync_args)}", flush=True)
     # Around 4096 spatial samples per frame, with equal sampling across frames.
     stride = max(1, math.ceil(math.sqrt(source_hw[0] * source_hw[1] / 4096)))
     samples = []
@@ -165,7 +169,7 @@ def run(args) -> Path:
         command = [ffmpeg, "-hide_banner", "-loglevel", "error", "-nostdin", "-n",
                    "-f", "concat", "-safe", "0", "-i", str(concat_path),
                    "-an", "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-bf", "0",
-                   "-pix_fmt", "yuv420p", "-fps_mode", "vfr", "-enc_time_base", "1:1000000",
+                   "-pix_fmt", "yuv420p", *sync_args, "-enc_time_base", "1:1000000",
                    "-video_track_timescale", "1000000", "-movflags", "+faststart", str(video_path)]
         subprocess.run(command, check=True)
         metadata = {
@@ -185,6 +189,7 @@ def run(args) -> Path:
             "duration_seconds": sum(durations),
             "terminal_duplicate": "one repeated final image at the endpoint, lasting 1 microsecond, preserves the final hold",
             "video_size": list(canvas_size),
+            "ffmpeg_video_sync_args": sync_args,
         }
         write_json(temp / "scale.json", metadata)
         if output.exists() or sidecar.exists():
