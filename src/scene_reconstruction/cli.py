@@ -1,0 +1,90 @@
+from __future__ import annotations
+
+import argparse
+import importlib
+from pathlib import Path
+
+
+def parser():
+    root = argparse.ArgumentParser(description="Aligned video geometry, depth and masks for Blender evaluation")
+    sub = root.add_subparsers(dest="command", required=True)
+    p = sub.add_parser("extract", help="Extract every frame and preserve source timestamps")
+    p.add_argument("--video", type=Path, default=Path("data/IMG_1711.MOV"))
+    p.add_argument("--output", type=Path, default=Path("data/frames"))
+    p.add_argument("--color", choices=["auto", "tonemap", "sdr"], default="auto")
+    p.add_argument("--ffmpeg", default="ffmpeg", help="Path to FFmpeg built with zscale and tonemap for HDR")
+    p.set_defaults(module="frames", function="extract")
+    for name, module, out in [("vggt", "vggt_omega", "vggt"), ("depth", "depth_anything3", "depth"), ("sam", "sam3_masks", "sam")]:
+        p = sub.add_parser(name)
+        p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+        p.add_argument("--output", type=Path, default=Path("outputs") / out)
+        p.add_argument("--device", default="cuda")
+        p.set_defaults(module=module, function="run")
+        if name == "vggt":
+            p.add_argument("--repo", type=Path, default=Path("vendor/vggt-omega"))
+            p.add_argument("--checkpoint", type=Path, required=True)
+            p.add_argument("--stride", type=int, default=10)
+            p.add_argument("--max-frames", type=int, default=72)
+            p.add_argument("--precision", choices=["auto", "bf16", "fp16", "fp32"], default="bf16")
+            p.add_argument("--image-resolution", type=int, default=512)
+            p.add_argument("--preprocess-mode", choices=["max_size", "balanced"], default="max_size")
+            p.add_argument("--point-stride", type=int, default=4)
+            p.add_argument("--max-points", type=int, default=1000000)
+            p.add_argument("--confidence-percentile", type=float, default=50)
+        elif name == "depth":
+            p.add_argument("--model", default="depth-anything/DA3NESTED-GIANT-LARGE-1.1")
+            p.add_argument("--model-revision")
+            p.add_argument("--chunk-size", type=int, default=16)
+            p.add_argument("--overlap", type=int, default=4)
+            p.add_argument("--process-res", type=int, default=504)
+        else:
+            p.add_argument("--prompts", type=Path, default=Path("configs/objects.json"))
+            p.add_argument("--checkpoint", type=Path)
+            p.add_argument("--chunk-size", type=int, default=120)
+            p.add_argument("--save-instances", action=argparse.BooleanOptionalAction, default=True)
+            p.add_argument("--threshold", type=float, default=0.5)
+    p = sub.add_parser("compare-masks", help="Strict, full-resolution per-frame IoU/Dice evaluation")
+    p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+    p.add_argument("--predicted", type=Path, default=Path("outputs/sam/masks"))
+    p.add_argument("--reference", type=Path, required=True, help="Blender binary masks: <object>/<frame:06d>.png")
+    p.add_argument("--objects", nargs="+", required=True, help="Matching object directory names")
+    p.add_argument("--output", type=Path, default=Path("outputs/comparison"))
+    p.add_argument("--overlay-every", type=int, default=30, help="0 disables RGB/mask overlay PNGs")
+    p.add_argument("--ignore-masks", type=Path, help="Optional frame PNGs of explicitly excluded pixels, e.g. hand occlusion")
+    p.set_defaults(module="compare", function="run")
+    p = sub.add_parser("measure", help="Estimate distance between source pixels using DA3 depth and intrinsics")
+    p.add_argument("--depth-index", type=Path, default=Path("outputs/depth/index.json"))
+    p.add_argument("--frame", type=int, required=True)
+    p.add_argument("--pixels", nargs="+", required=True, help="Source pixel pairs, e.g. 400,800 700,1100")
+    p.add_argument("--output", type=Path)
+    p.set_defaults(module="measure", function="run")
+    p = sub.add_parser("preview-depth", help="Create an RGB/depth video with one fixed color scale")
+    p.add_argument("--depth-index", type=Path, default=Path("outputs/depth/index.json"))
+    p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+    p.add_argument("--output", type=Path, default=Path("outputs/depth_preview.mp4"))
+    p.add_argument("--max-height", type=int, default=720)
+    p.add_argument("--ffmpeg", default="ffmpeg")
+    p.set_defaults(module="preview", function="run")
+    p = sub.add_parser("catalog-instances", help="Summarize detected SAM tracks for physical-object mapping")
+    p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+    p.add_argument("--sam-output", type=Path, default=Path("outputs/sam"))
+    p.add_argument("--output", type=Path, default=Path("outputs/instance_catalog"))
+    p.set_defaults(module="instances", function="catalog")
+    p = sub.add_parser("assemble-instances", help="Build stable target masks from explicitly reviewed SAM track mappings")
+    p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+    p.add_argument("--sam-output", type=Path, default=Path("outputs/sam"))
+    p.add_argument("--mapping", type=Path, required=True)
+    p.add_argument("--output", type=Path, default=Path("outputs/assembled"))
+    p.set_defaults(module="instances", function="run")
+    p = sub.add_parser("doctor", help="Check local inputs, tools, and optional CUDA environment")
+    p.add_argument("--manifest", type=Path, default=Path("data/frames/manifest.json"))
+    p.add_argument("--gpu", action="store_true")
+    p.set_defaults(module="doctor", function="run")
+    return root
+
+
+def main(argv=None):
+    args = parser().parse_args(argv)
+    module = importlib.import_module(f"scene_reconstruction.{args.module}")
+    getattr(module, args.function)(args)
+

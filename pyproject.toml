@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scene-reconstruction"
+version = "0.1.0"
+description = "Timestamp-aligned video geometry and masks for Blender reconstruction evaluation"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24,<3", "Pillow>=10"]
+
+[project.scripts]
+scene-recon = "scene_reconstruction.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

@@ -1,0 +1,12 @@
+{
+  "description": "Optional finer concepts, including objects that move in the clip. Review actual detections and map selected instances to Blender objects. Copy wanted prompts into objects.json before running.",
+  "objects": [
+    {"name": "black_container", "text": "black cylindrical spice container", "frame_index": 127},
+    {"name": "red_lid_jar", "text": "clear spice jar with a red lid", "frame_index": 127},
+    {"name": "protein_container", "text": "large white protein powder container", "frame_index": 444},
+    {"name": "wipes", "text": "blue and white cylindrical disinfecting wipes container", "frame_index": 444},
+    {"name": "pot", "text": "black cooking pot with lid", "frame_index": 0},
+    {"name": "bottles", "text": "bottle", "frame_index": 380}
+  ]
+}
+

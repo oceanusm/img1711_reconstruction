@@ -1,0 +1,225 @@
+{
+  "description": "Initial 30-concept inventory from IMG_1711 contact sheet and frames 0,127,190,253,317,380,444,634,697. Each concept may yield many separate instance masks. This is a reviewable coverage proposal, not a guarantee that every item is detected.",
+  "grouping_policy": "Prefer whole physical objects. Keep lids, caps, handles, labels and attached controls with their parent. Keep separate removable items distinct. Surfaces are explicit. The kind/grouping_policy fields document intended evaluation semantics; the current adapter sends only text and does not enforce grouping.",
+  "inventory_review_candidates": [
+    "Any visible faucet or tap omitted by sink",
+    "Loose coffee capsules and their tray",
+    "Power cords and electrical outlets",
+    "Transparent wrapping and small shelf packets",
+    "Dish sponges, brushes, cloths or towels",
+    "A drinking cup missed by dishware",
+    "Small items revealed only between sampled frames"
+  ],
+  "objects": [
+    {
+      "name": "floor",
+      "text": "wood floor",
+      "frame_index": 0,
+      "kind": "surface",
+      "grouping_policy": "One continuous visible floor region; do not split floorboards."
+    },
+    {
+      "name": "walls",
+      "text": "kitchen wall",
+      "frame_index": 634,
+      "kind": "surface",
+      "grouping_policy": "Visible wall and backsplash surfaces; avoid separate grout, paint, or shadow regions."
+    },
+    {
+      "name": "countertop",
+      "text": "kitchen countertop",
+      "frame_index": 0,
+      "kind": "surface",
+      "grouping_policy": "Counter and island worktop surfaces; keep separate from their supporting bases."
+    },
+    {
+      "name": "cabinets",
+      "text": "kitchen cabinet",
+      "frame_index": 697,
+      "kind": "object",
+      "grouping_policy": "Each assembled cabinet; doors and handles remain attached parts, not separate objects."
+    },
+    {
+      "name": "island",
+      "text": "kitchen island base",
+      "frame_index": 0,
+      "kind": "surface",
+      "grouping_policy": "Island supporting body, including its side panels; the worktop belongs to countertop."
+    },
+    {
+      "name": "shelves",
+      "text": "wall shelf",
+      "frame_index": 634,
+      "kind": "object",
+      "grouping_policy": "Each shelf as one object; exclude the containers placed on it."
+    },
+    {
+      "name": "window",
+      "text": "window",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Window frame and glazing as one installed fixture; exclude the view outside."
+    },
+    {
+      "name": "stove",
+      "text": "stove and oven",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Whole range including cooktop, oven door, knobs and attached handles."
+    },
+    {
+      "name": "microwave",
+      "text": "microwave oven",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Whole microwave including its door, handle and controls."
+    },
+    {
+      "name": "toaster_oven",
+      "text": "toaster oven",
+      "frame_index": 380,
+      "kind": "object",
+      "grouping_policy": "Whole countertop oven; exclude items resting on it."
+    },
+    {
+      "name": "dishwasher",
+      "text": "dishwasher",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Machine including its open door and racks; removable dishes remain dishware."
+    },
+    {
+      "name": "sink",
+      "text": "kitchen sink",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Whole visible sink basin and rim; review any visible faucet separately if omitted."
+    },
+    {
+      "name": "blender",
+      "text": "blender",
+      "frame_index": 634,
+      "kind": "object",
+      "grouping_policy": "Visible assembled appliance; include its controls and attached pieces."
+    },
+    {
+      "name": "coffee_machine",
+      "text": "coffee machine",
+      "frame_index": 317,
+      "kind": "object",
+      "grouping_policy": "Whole coffee machine including attached reservoir; loose bottles and capsules are separate."
+    },
+    {
+      "name": "kettle",
+      "text": "electric kettle",
+      "frame_index": 380,
+      "kind": "object",
+      "grouping_policy": "Whole kettle with handle, lid and base."
+    },
+    {
+      "name": "cookware",
+      "text": "cookware",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Each pot or pan including its handle and fitted lid; separate distinct nested pans when visible."
+    },
+    {
+      "name": "dishware",
+      "text": "dishware",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Each removable plate, bowl, mug or drinking cup; do not split a cup handle or fitted lid."
+    },
+    {
+      "name": "knife_block",
+      "text": "wooden knife block",
+      "frame_index": 317,
+      "kind": "object",
+      "grouping_policy": "Each wooden holder only; removable knives belong to kitchen_utensils."
+    },
+    {
+      "name": "utensil_holders",
+      "text": "utensil holder",
+      "frame_index": 127,
+      "kind": "object",
+      "grouping_policy": "Each holder only; removable tools belong to kitchen_utensils."
+    },
+    {
+      "name": "kitchen_utensils",
+      "text": "kitchen utensil",
+      "frame_index": 127,
+      "kind": "object",
+      "grouping_policy": "Each complete knife, spatula, spoon, whisk or other removable tool; no handle/blade splitting."
+    },
+    {
+      "name": "bottles",
+      "text": "bottle",
+      "frame_index": 634,
+      "kind": "object",
+      "grouping_policy": "Each complete bottle with cap, dispenser and label; includes condiment, oil and soap bottles."
+    },
+    {
+      "name": "jars",
+      "text": "jar",
+      "frame_index": 253,
+      "kind": "object",
+      "grouping_policy": "Each complete jar with lid and label; includes spice jars and the peanut-butter jar."
+    },
+    {
+      "name": "plastic_tubs",
+      "text": "plastic tub",
+      "frame_index": 444,
+      "kind": "object",
+      "grouping_policy": "Each wide plastic storage or supplement tub with its lid; review overlap with jars."
+    },
+    {
+      "name": "food_packages",
+      "text": "food package",
+      "frame_index": 444,
+      "kind": "object",
+      "grouping_policy": "Each boxed or bagged food package; review duplicates against bottles, jars and tubs."
+    },
+    {
+      "name": "plants",
+      "text": "potted plant",
+      "frame_index": 634,
+      "kind": "object",
+      "grouping_policy": "Plant and its pot form one assembled scene object; do not split leaves."
+    },
+    {
+      "name": "oven_mitts",
+      "text": "oven mitt",
+      "frame_index": 253,
+      "kind": "object",
+      "grouping_policy": "Each complete mitt; do not split fabric or silicone texture."
+    },
+    {
+      "name": "paper_towels",
+      "text": "paper towel roll",
+      "frame_index": 634,
+      "kind": "object",
+      "grouping_policy": "Roll and its standing holder treated as one assembly; no sheet or texture splitting."
+    },
+    {
+      "name": "framed_picture",
+      "text": "framed picture",
+      "frame_index": 317,
+      "kind": "object",
+      "grouping_policy": "Picture and frame together; printed subject and text are not scene objects."
+    },
+    {
+      "name": "remote_control",
+      "text": "remote control",
+      "frame_index": 0,
+      "kind": "object",
+      "grouping_policy": "Whole remote; buttons stay part of the object."
+    },
+    {
+      "name": "hand",
+      "text": "human hand and forearm",
+      "frame_index": 190,
+      "kind": "dynamic",
+      "grouping_policy": "Visible hand and forearm, including sleeve where the model includes it; review occluding body pixels."
+    }
+  ]
+}
