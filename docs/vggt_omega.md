@@ -4,24 +4,19 @@ This adapter targets the official [facebookresearch/vggt-omega](https://github.c
 
 ## Environment and checkpoint
 
-Use a separate Python 3.11+ environment on the CUDA machine. Official minimums are Python 3.10, PyTorch 2.6, and torchvision 0.21. The upstream package requires `numpy<2`, Pillow, einops, safetensors, and opencv-python. Install matched PyTorch/torchvision CUDA wheels supported by the machine's NVIDIA driver before installing the package. The project setup script pins its selected pair.
+Use the project's isolated geometry environment: Python 3.10–3.12, PyTorch 2.6.0, torchvision 0.21.0 and CUDA 12.4 wheels on the reported Ubuntu 22.04/A6000 host. Official minimums are Python 3.10, PyTorch 2.6, and torchvision 0.21. The upstream package requires `numpy<2`, Pillow, einops, safetensors, and opencv-python. The setup script pins a matched CUDA/PyTorch profile; see [remote setup and migration](remote_geometry.md) before reusing an earlier CUDA 12.6 environment.
 
 ```bash
-git clone https://github.com/facebookresearch/vggt-omega.git vendor/vggt-omega
-git -C vendor/vggt-omega checkout 48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6
-python -m pip install -r vendor/vggt-omega/requirements.txt
-python -m pip install -e vendor/vggt-omega
-python -m pip install huggingface_hub
+CUDA_FLAVOR=cu124 PYTHON_BIN=python3 bash scripts/setup_a6000.sh vggt
 ```
 
-Request access to [facebook/VGGT-Omega](https://huggingface.co/facebook/VGGT-Omega), review its FAIR Noncommercial Research License, and authenticate on the A6000 host. No token should be placed in this repository. Download after access has been granted:
+Download the checkpoint from the public [wincentIsMe/VGGT-Omega mirror](https://huggingface.co/wincentIsMe/VGGT-Omega). Its model card describes an unmodified copy of `vggt_omega_1b_512.pt`, distributed under the FAIR Noncommercial Research License. The mirror does not require the official repository's per-account access approval. Run on the A6000 host:
 
 ```bash
-hf auth login
-hf download facebook/VGGT-Omega vggt_omega_1b_512.pt --local-dir checkpoints/vggt-omega
+.venv-vggt/bin/hf download wincentIsMe/VGGT-Omega vggt_omega_1b_512.pt --local-dir checkpoints/vggt-omega
 ```
 
-The 512 checkpoint is the upstream recommendation for real-world reconstruction. The 416 reproduction checkpoint is a different release intended for benchmark comparisons. This adapter does not support the separate text-alignment checkpoint. Checkpoint contents are loaded with `weights_only=True` and a strict state-dict check.
+Model code still comes from the pinned official GitHub source. The 512 checkpoint is the upstream recommendation for real-world reconstruction. The 416 reproduction checkpoint is a different release intended for benchmark comparisons. This adapter does not support the separate text-alignment checkpoint. The adapter reads the downloaded local file; it does not automatically fetch weights. Checkpoint contents are loaded with `weights_only=True` and a strict state-dict check, and the checkpoint SHA256 is recorded with the results.
 
 ## Running
 

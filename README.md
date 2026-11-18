@@ -10,29 +10,29 @@ Prepare three independent sources of evidence for matching a video with a Blende
 
 The source video has been copied to `data/IMG_1711.MOV`. All **698 frames** have been extracted into `data/frames` at **1080×1920**, upright, with HDR tone mapping and original presentation timestamps. See [the contact sheet](data/frames/contact_sheet.jpg). The clip lasts about 23.27 seconds and includes a hand moving containers.
 
-**Status:** CPU tests and real-video extraction have run locally. CUDA inference, model accuracy, runtime, and peak A6000 memory have **not** been tested here. No model predictions have been generated yet. The starting settings target a single 48 GB A6000; use the smoke runs below before full inference.
+**Status:** CPU tests, real-video extraction, and real Blender camera/geometry/depth exports have run locally. Both unchanged Blender baselines have all 698 camera poses and four depth/RGB preview frames under `outputs/blender_preview/`. VGGT alignment, an offline 3D viewer, and DA3-versus-Blender depth comparison are implemented. CUDA inference, model accuracy, runtime, and peak A6000 memory have **not** been tested here. No model predictions have been generated locally yet.
 
-**Current first run: geometry and depth only.** Follow [the remote A6000 commands](docs/remote_geometry.md) for GitHub clone/pull, separate data transfer, `setup_a6000.sh geometry`, and `run_geometry.sh`. `data/` is Git-ignored, so it will not arrive through GitHub. SAM3 and Cryptomatte can be handled later. The next geometry step is [VGGT-to-Blender alignment and comparison](docs/geometry_comparison.md).
+**Current first run: geometry and depth only.** Follow [the remote A6000 commands](docs/remote_geometry.md) for clone/pull, input verification, `setup_a6000.sh geometry`, and `run_geometry.sh`. The video, canonical frames and two Blender originals are now tracked in this checkout; generated outputs and weights remain Git-ignored. SAM3 and Cryptomatte can be handled later. See [VGGT-to-Blender alignment and depth comparison](docs/geometry_comparison.md) for the complete next stage.
 
 ## Install on the A6000 host
 
-Copy this entire folder, including `data`, to a Linux x86_64 machine. Install Python 3.12 with venv support, Git, FFmpeg/ffprobe with `zscale` and `tonemap`, and an NVIDIA driver supporting CUDA 12.6. The installer uses CUDA-enabled PyTorch wheels; it does not install a driver or OS packages. Allocate tens of GB for environments, weights, and outputs.
+The geometry setup targets **Ubuntu 22.04 / CUDA 12.4**, using Python 3.10–3.12 with venv support, Git, and FFmpeg/ffprobe with `zscale` and `tonemap`. The reported remote's Python 3.12.11 and NVIDIA driver 550.54.14 fit this profile. The installer uses CUDA-enabled PyTorch wheels; it does not install or change the system toolkit, driver, or OS packages. Allocate tens of GB for environments, weights, and outputs.
 
 ```bash
-bash scripts/setup_a6000.sh all
+CUDA_FLAVOR=cu124 PYTHON_BIN=python3 bash scripts/setup_a6000.sh geometry
 ```
 
-This creates `.venv-vggt`, `.venv-depth`, and `.venv-sam`, pins each upstream source revision and core numerical packages, checks dependencies/CUDA, and saves resolved package versions under `outputs/environment`. Transitive dependencies are resolved during installation rather than claimed to be a fully locked environment. Use `geometry` in place of `all` for only VGGT/DA3. Individual stages can be installed with `vggt`, `depth`, or `sam`.
+This creates `.venv-vggt` and `.venv-depth` with PyTorch 2.6.0, torchvision 0.21.0 and, for DA3, xformers 0.0.29.post3 from the CUDA 12.4 wheel index. It pins the upstream sources, checks imports and small CUDA kernels, and saves resolved versions under `outputs/environment`. Transitive dependencies are resolved at installation rather than claimed to be a fully locked environment. Individual geometry stages can be installed with `vggt` or `depth`.
 
-Request model access with your Hugging Face account for [VGGT-Ω](https://huggingface.co/facebook/VGGT-Omega) and [SAM3](https://huggingface.co/facebook/sam3), then authenticate and download:
+If you ran the earlier CUDA 12.6 installer, use the migration command in [the remote guide](docs/remote_geometry.md): `--recreate-envs` archives existing project environments and builds fresh ones. Inputs, checkpoints and results remain in place. SAM3 has a separate explicit `cu126`/Python 3.12 profile; the CUDA 12.4 geometry setup does not install it.
+
+Download the **512 in-the-wild checkpoint** from the public [wincentIsMe/VGGT-Omega mirror](https://huggingface.co/wincentIsMe/VGGT-Omega):
 
 ```bash
-.venv-vggt/bin/hf auth login
-.venv-vggt/bin/hf download facebook/VGGT-Omega vggt_omega_1b_512.pt --local-dir checkpoints/vggt-omega
-.venv-sam/bin/hf download facebook/sam3 sam3.pt --local-dir checkpoints/sam3
+.venv-vggt/bin/hf download wincentIsMe/VGGT-Omega vggt_omega_1b_512.pt --local-dir checkpoints/vggt-omega
 ```
 
-The login uses the normal shared Hugging Face cache. Do not put tokens in source files. DA3 downloads the public `depth-anything/DA3NESTED-GIANT-LARGE-1.1` model automatically at the pinned revision recorded by the adapter. Model licenses remain those of their publishers.
+The mirror's model card describes an unmodified copy of the 512 checkpoint; it does not require the official repository's per-account access approval. Model code still comes from the pinned official GitHub source. The 416 reproduction checkpoint is for published benchmark comparisons and is not the selected model. DA3 downloads the public `depth-anything/DA3NESTED-GIANT-LARGE-1.1` model automatically at the pinned revision recorded by the adapter. See [SAM3 setup](docs/sam3.md) when that stage is needed. Model licenses remain those of their publishers.
 
 ## Run
 
@@ -92,9 +92,22 @@ The first command creates an RGB/depth preview using one fixed color scale acros
 
 `outputs/vggt/point_cloud.ply` can be opened in a point-cloud viewer or imported into Blender. Its scale and world orientation need alignment before comparison. Do not interpret arbitrary VGGT units as meters. DA3's default model estimates meters, but those values need validation against a known measurement in the scene. Each DA3 window has its own world coordinates; the adapter deliberately does not concatenate their camera trajectories into a falsely global path. Repeated-frame depth disagreements are saved in `overlap_diagnostics.json`.
 
+Use the iPhone's nominal focal length only as a calibration prior. It does not correct lens distortion or stabilization crops. Compare effective pixel intrinsics/FOV, preserving the model's original predictions and both Blender baselines. See [camera calibration and fair comparison](docs/camera_calibration.md).
+
 ## Blender handoff and comparison
 
-Give the other chat [the Blender mask contract](docs/blender_handoff.md), `data/frames/manifest.json`, and the agreed object inventory. The actual scene and render-mask generation remain in that workflow.
+Both supplied scenes are preserved in `blender_scenes/`, with source hashes in [baselines.json](blender_scenes/baselines.json). Open the local [uninformed viewer](outputs/blender_preview/before_vqa/viewer.html) or [VQA-informed viewer](outputs/blender_preview/vqa_informed/viewer.html). These initially show Blender geometry/cameras; an aligned VGGT cloud is added after inference.
+
+With real results in `outputs/vggt` and `outputs/depth`, run from this repository:
+
+```bash
+bash scripts/compare_geometry.sh align
+bash scripts/compare_geometry.sh depth
+```
+
+These compare both baselines using the existing Blender previews. Outputs go under `outputs/comparison/{before_vqa,vqa_informed}/`: `alignment/viewer.html`, camera metrics, and `depth/index.html` with depth/error images and CSV metrics. [The full workflow](docs/geometry_comparison.md) includes recreating portable Blender exports, rendering all 698 depth frames, landmark alignment and held-out validation. The default depth comparison retains declared physical units; DA3 remains an estimate, not measured ground truth.
+
+For masks later, give the other chat [the Blender mask contract](docs/blender_handoff.md), `data/frames/manifest.json`, and the agreed object inventory. Cryptomatte and render-mask generation remain in that workflow.
 
 After receiving named binary visible masks:
 
@@ -115,6 +128,9 @@ Optional `--ignore-masks outputs/sam/masks/hand` excludes hand pixels from both 
 - [Depth Anything 3 windows, scales, and arrays](docs/depth_anything3.md)
 - [SAM3 prompts, tracking, and mask export](docs/sam3.md)
 - [Blender frame/mask contract](docs/blender_handoff.md)
+- [Blender camera/mesh/depth export](docs/blender_export.md)
+- [VGGT alignment and validation](docs/alignment.md)
+- [DA3-versus-Blender depth metrics](docs/depth_comparison.md)
 
 Base extraction/comparison/testing tools need only NumPy, Pillow, and FFmpeg; model imports are lazy:
 

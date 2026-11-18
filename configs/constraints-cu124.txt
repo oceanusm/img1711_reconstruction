@@ -1,0 +1,5 @@
+-c constraints.txt
+# Official CUDA 12.4 wheels; xformers 0.0.29.post3 requires torch==2.6.0.
+torch==2.6.0
+torchvision==0.21.0
+xformers==0.0.29.post3

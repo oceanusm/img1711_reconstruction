@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "baselines": [
+    {
+      "name": "before_vqa",
+      "file": "before_vqa/scene.blend",
+      "size_bytes": 4682198,
+      "sha256": "762aa30d3f92d8ef88ffa6ab766d182e6fb5ab2d9caea03d949b09ee960ccc1d",
+      "condition": "No advance VQA knowledge"
+    },
+    {
+      "name": "vqa_informed",
+      "file": "vqa_informed/scene.blend",
+      "size_bytes": 2049911,
+      "sha256": "2a938e675e42e22920975a024b8a388d5c09c381a3df3e0a217e06115bb1ba4a",
+      "condition": "Informed of VQA and given its questions"
+    }
+  ]
+}

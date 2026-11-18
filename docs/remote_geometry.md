@@ -4,7 +4,7 @@ This workflow installs and runs only geometry/depth. SAM3 and Blender mask rende
 
 ## 1. Clone the code on the remote
 
-Replace `YOUR_GITHUB_REPO_URL`, `USER@HOST`, and the remote directory below with your actual values. No Git remote has been created by this project.
+Replace `YOUR_GITHUB_REPO_URL`, `USER@HOST`, and the remote directory below with your actual values.
 
 ```bash
 git clone YOUR_GITHUB_REPO_URL ~/img1711_reconstruction
@@ -13,9 +13,9 @@ cd ~/img1711_reconstruction
 
 If already cloned, run `git pull` inside that checkout instead.
 
-## 2. Transfer the inputs from your Mac
+## 2. Verify or transfer the inputs
 
-**`data/`, weights, environments, and outputs are Git-ignored.** A Git push/pull transfers the code and configs, not the video or prepared images. Run this on the Mac after creating the remote checkout:
+The video, canonical frames, manifest and both Blender originals are now tracked in this checkout. After pulling the commit containing them, verify `data/frames/manifest.json` and `data/frames/000697.jpg` exist. **Weights, environments and generated outputs remain Git-ignored.** If the remote lacks the prepared inputs, transfer them from the Mac:
 
 ```bash
 cd /Users/liumartin/Developer/img1711_reconstruction
@@ -28,44 +28,76 @@ Alternatively, copy only `data/IMG_1711.MOV`; the runner will extract frames on 
 
 ## 3. Install remote prerequisites and model environments
 
-Target: Linux x86_64, Python **3.12** with venv support, Git, FFmpeg/ffprobe, and a working NVIDIA driver supporting the CUDA 12.6 PyTorch wheels. You do not need to compile/install the CUDA toolkit for this inference pipeline. Check the existing host first:
+Target: **Ubuntu 22.04, Linux x86_64, CUDA 12.4**, Python **3.10–3.12** with venv support, Git and FFmpeg/ffprobe. The reported remote has driver **550.54.14** and Python **3.12.11**, which match this geometry profile. You do not need to replace Python or compile/install the CUDA toolkit. Check the host first:
 
 ```bash
 nvidia-smi
-python3.12 --version
+python3 --version
 ffmpeg -version
 ```
 
-On **Ubuntu 24.04**, missing OS packages can be installed with:
+On **Ubuntu 22.04**, missing OS packages can be installed with:
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y git ffmpeg python3.12 python3.12-venv libgl1
+sudo apt-get install -y git ffmpeg python3-venv libgl1 libglib2.0-0
 ```
 
-Other distributions/releases may need a different Python installation. If you already have a Python 3.12 Conda environment, point the installer at its interpreter using `PYTHON_BIN=/absolute/path/to/python`. Do not replace a working GPU driver as part of these commands.
+Ubuntu 22.04's system Python 3.10 is supported for geometry. The already active Conda Python 3.12.11 is also supported: `PYTHON_BIN=python3` uses the interpreter on your PATH. A different interpreter can be selected with `PYTHON_BIN=/absolute/path/to/python`. SAM3's separate newer environment is outside this first geometry run.
 
-Minimal GPU container images may also need their distribution's GLib runtime for OpenCV. The installer's model-import checks will report missing system libraries before inference.
+The three CUDA version readings mean different things: `nvidia-smi` shows driver support, `nvcc --version` shows an optional installed toolkit, and `torch.version.cuda` identifies the PyTorch runtime build. The earlier installer selected CUDA 12.6 wheels inside the project venvs; it did not change the host's CUDA toolkit or driver. CUDA minor-version compatibility can allow those wheels to run on some older 12.x drivers, with limitations; their presence alone is not proof of a failed installation. This updated profile deliberately uses CUDA 12.4 wheels. [NVIDIA compatibility rules](https://docs.nvidia.com/deploy/cuda-compatibility/latest/minor-version-compatibility.html)
+
+The supplied GPU snapshot showed GPU 7 essentially empty, while other GPUs were occupied. If GPU 7 is still available for this job, select it before setup checks and inference:
+
+```bash
+export CUDA_VISIBLE_DEVICES=7
+```
+
+PyTorch then calls that physical card logical `cuda:0`. Do not additionally pass `--device cuda:7` after masking to a single GPU.
 
 From the remote repository root:
 
 ```bash
-bash scripts/setup_a6000.sh geometry
+CUDA_FLAVOR=cu124 PYTHON_BIN=python3 bash scripts/setup_a6000.sh geometry
 ```
 
-This creates `.venv-vggt` and `.venv-depth`, clones the pinned official model repositories, installs the CUDA PyTorch dependencies, tests imports and CUDA availability, and writes environment reports under `outputs/environment`. It does not install SAM3. Reserve tens of GB for dependencies, weights, and full-resolution numeric outputs.
+This creates `.venv-vggt` and `.venv-depth`, clones the pinned official sources, and uses **torch 2.6.0 / torchvision 0.21.0 / xformers 0.0.29.post3**, with CUDA 12.4 wheels. It tests imports and small CUDA matrix/attention kernels, then records environment reports under `outputs/environment`. It does not install SAM3. Reserve tens of GB for dependencies, weights, and full-resolution numeric outputs. [Official PyTorch CUDA 12.4 installation](https://pytorch.org/get-started/previous-versions/#v260)
+
+### If the previous installer already created environments
+
+After pushing these changes and pulling them on the remote, recreate the project venvs using:
+
+```bash
+cd /local1/oceanusm/img1711_reconstruction
+git pull
+export CUDA_VISIBLE_DEVICES=7
+CUDA_FLAVOR=cu124 PYTHON_BIN=python3 \
+  bash scripts/setup_a6000.sh geometry --recreate-envs
+```
+
+The flag moves existing `.venv-vggt` and `.venv-depth` into uniquely named backup directories before constructing fresh environments. It does not delete them or alter the active Conda environment, data, model weights, or results. Run this when no job is using those project venvs. Without the flag, an old/unrecorded or incompatible venv is rejected rather than silently mixing CUDA/PyTorch packages. A later ordinary rerun can reuse matching environments.
+
+Inspect the installed runtimes and selected GPU:
+
+```bash
+.venv-vggt/bin/scene-recon doctor --gpu
+.venv-depth/bin/scene-recon doctor --gpu
+```
+
+Expect torch 2.6.0 (possibly with a `+cu124` suffix), `torch_cuda: "12.4"`, and successful small kernel checks. These checks do not establish model accuracy or full inference memory requirements. To deliberately retain the older package profile on an appropriately supported host, select `CUDA_FLAVOR=cu126`; SAM/all installation additionally requires Python 3.12.
 
 ## 4. Obtain weights
 
-VGGT-Ω requires approved access to [facebook/VGGT-Omega](https://huggingface.co/facebook/VGGT-Omega). After access is granted, run on the remote:
+Download VGGT-Ω from the public [wincentIsMe/VGGT-Omega mirror](https://huggingface.co/wincentIsMe/VGGT-Omega), whose model card describes an unmodified copy of the selected **VGGT-Omega-1B-512** (`vggt_omega_1b_512.pt`) checkpoint. It does not require the official repository's per-account access approval. Model code still comes from the pinned official GitHub source. The 512 checkpoint is the **in-the-wild** model; the separate `VGGT-Omega-1B-416-Reproduction` checkpoint is for benchmarking and is not used by these commands. [Official model table](https://github.com/facebookresearch/vggt-omega#pretrained-models)
+
+Run on the remote:
 
 ```bash
-.venv-vggt/bin/hf auth login
-.venv-vggt/bin/hf download facebook/VGGT-Omega vggt_omega_1b_512.pt \
+.venv-vggt/bin/hf download wincentIsMe/VGGT-Omega vggt_omega_1b_512.pt \
   --local-dir checkpoints/vggt-omega
 ```
 
-DA3 downloads the public nested model automatically on its first run. The adapter pins the reviewed `DA3NESTED-GIANT-LARGE-1.1` checkpoint revision. You can run DA3 while waiting for VGGT access.
+DA3 downloads the public nested model automatically on its first run. The adapter pins the reviewed `DA3NESTED-GIANT-LARGE-1.1` checkpoint revision. DA3 can run independently of the VGGT checkpoint download.
 
 ## 5. Run the models
 
@@ -139,7 +171,7 @@ The runner does **not** overwrite or silently skip previous outputs. If a later 
 - Preview rejects existing MP4/scale files; give a new `--output` if you want another rendering.
 - For OOM, reduce VGGT `--max-frames`; for DA3 use `--chunk-size 8 --overlap 2`, with a new output directory. Update preview `--depth-index` to that new directory's `index.json`.
 
-The runner's `all` mode stops on the first error. If VGGT is waiting for access or needs troubleshooting, DA3 can run independently with the `depth` stage.
+The runner's `all` mode stops on the first error. If VGGT is still downloading or needs troubleshooting, DA3 can run independently with the `depth` stage.
 
 The next step after successful inference is [aligning and comparing the VGGT reconstruction with Blender](geometry_comparison.md). Cryptomatte and SAM masks are not required for the first camera/geometry comparison.
 

@@ -20,6 +20,7 @@ from PIL import Image
 
 UPSTREAM_URL = "https://github.com/facebookresearch/vggt-omega"
 TESTED_REVISION = "48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6"
+CHECKPOINT_REPOSITORY = "wincentIsMe/VGGT-Omega"
 
 
 def select_frames(frames: list[dict], stride: int, max_frames: int) -> list[dict]:
@@ -149,10 +150,13 @@ def run(args) -> Path:
     output = Path(args.output).expanduser().resolve()
     repo = Path(args.repo).expanduser().resolve()
     if args.checkpoint is None:
-        raise ValueError("--checkpoint is required: obtain vggt_omega_1b_512.pt from facebook/VGGT-Omega")
+        raise ValueError(f"--checkpoint is required: obtain vggt_omega_1b_512.pt from {CHECKPOINT_REPOSITORY}")
     checkpoint = Path(args.checkpoint).expanduser().resolve()
     if not checkpoint.is_file():
-        raise FileNotFoundError(f"VGGT-Ω checkpoint does not exist: {checkpoint}")
+        raise FileNotFoundError(
+            f"VGGT-Ω checkpoint does not exist: {checkpoint}. "
+            f"Download vggt_omega_1b_512.pt from https://huggingface.co/{CHECKPOINT_REPOSITORY}"
+        )
     if not (repo / "vggt_omega" / "models").is_dir():
         raise FileNotFoundError(f"--repo must point to the official VGGT-Ω source checkout: {repo}")
     image_resolution = int(getattr(args, "image_resolution", 512))

@@ -1,0 +1,5 @@
+-c constraints.txt
+# Explicit CUDA 12.6 profile, including SAM3's documented torch >=2.7 setup.
+torch==2.7.1
+torchvision==0.22.1
+xformers==0.0.31.post1

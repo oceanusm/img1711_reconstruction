@@ -1,5 +1,7 @@
 # Depth Anything 3
 
+For the reported Ubuntu 22.04 / driver 550.54.14 host, use `CUDA_FLAVOR=cu124 PYTHON_BIN=python3 bash scripts/setup_a6000.sh depth`. This selects PyTorch 2.6.0 / torchvision 0.21.0 / xformers 0.0.29.post3 with CUDA 12.4 wheels and supports Python 3.10–3.12. See [remote setup](remote_geometry.md) for migrating an earlier CUDA 12.6 environment without deleting its files.
+
 This adapter runs **every canonical video frame** through overlapping multiview windows. It saves both native predictions and depth resampled to the canonical frame dimensions, with a frame/timestamp mapping for later Blender comparisons.
 
 The default checkpoint is [`depth-anything/DA3NESTED-GIANT-LARGE-1.1`](https://huggingface.co/depth-anything/DA3NESTED-GIANT-LARGE-1.1). The official project recommends the `-1.1` models after a training fix; the original nested checkpoint is deprecated. The nested model combines multiview geometry with a metric-depth model. It estimates metric scale; it does not provide calibrated physical measurements. The checkpoint is distributed under CC BY-NC 4.0. [Official model table](https://github.com/ByteDance-Seed/Depth-Anything-3#-model-cards)
@@ -84,7 +86,7 @@ Native window files contain `depth`, optional `confidence` and `sky`, `frame_ind
 
 ## Coordinates, resizing and window boundaries
 
-DA3 cameras use OpenCV axes: x right, y down, z forward, with world-to-camera extrinsics. Depth is z along that camera's forward axis. A point is reconstructed as `X_camera = depth * inverse(K) @ [u, v, 1]`, then transformed with `camera_to_world`. For Blender comparison, convert camera axes and align each reconstruction's world frame explicitly. Blender ray-distance depth needs conversion to camera-z depth before a direct pixel comparison. [Official output convention](https://github.com/ByteDance-Seed/Depth-Anything-3#-basic-usage)
+DA3 cameras use OpenCV axes: x right, y down, z forward, with world-to-camera extrinsics. Depth is z along that camera's forward axis. A point is reconstructed as `X_camera = depth * inverse(K) @ [u, v, 1]`, then transformed with `camera_to_world`. For 3D Blender comparison, convert camera axes and align each reconstruction's world frame explicitly. This repository's [Blender exporter](blender_export.md) provides validated camera-z depth for [direct pixel comparison](depth_comparison.md); only an independently verified ray-distance output needs conversion. [Official output convention](https://github.com/ByteDance-Seed/Depth-Anything-3#-basic-usage)
 
 The z-depth interpretation is also confirmed by the upstream point-cloud exporter, which multiplies depth by `inverse(K) @ [u,v,1]` without normalizing that ray. [Pinned unprojection implementation](https://github.com/ByteDance-Seed/Depth-Anything-3/blob/3d835ec1a5802d64a8b8b15f817a1ab54809bfe4/src/depth_anything_3/utils/export/glb.py)
 

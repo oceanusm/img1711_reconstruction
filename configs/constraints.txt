@@ -1,8 +1,6 @@
 # Source code revisions are pinned in setup_a6000.sh; transitive packages are
 # resolved at install time and recorded under outputs/environment/*-freeze.txt.
-torch==2.7.1
-torchvision==0.22.1
-xformers==0.0.31.post1
+# CUDA-specific torch/torchvision/xformers pins live in constraints-cu*.txt.
 numpy==1.26.4
 opencv-python==4.11.0.86
 opencv-python-headless==4.11.0.86
