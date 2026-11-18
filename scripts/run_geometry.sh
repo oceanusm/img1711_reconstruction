@@ -9,6 +9,9 @@ case "$STAGE" in
     echo 'Usage: bash scripts/run_geometry.sh [all|vggt|depth|preview]'
     echo 'Defaults: all = VGGT-Omega, full-video DA3, then depth preview.'
     echo 'Requires setup_a6000.sh geometry and the VGGT checkpoint for vggt/all.'
+    echo 'VGGT defaults to the quality preset; override with VGGT_PRESET=quick.'
+    echo 'Use VGGT_OUTPUT=outputs/vggt_quality for a separate run; default is outputs/vggt.'
+    echo 'Select physical GPU 7 with CUDA_VISIBLE_DEVICES=7 (logical cuda:0 inside the process).'
     echo "Existing outputs follow each adapter's protection/resume rules; see docs/remote_geometry.md."
     exit 0 ;;
   all|vggt|depth|preview) ;;
@@ -25,7 +28,8 @@ if [[ ! -f data/frames/manifest.json ]]; then
 fi
 if [[ "$STAGE" == all || "$STAGE" == vggt ]]; then
   .venv-vggt/bin/scene-recon vggt \
-    --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt
+    --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt \
+    --preset "${VGGT_PRESET:-quality}" --output "${VGGT_OUTPUT:-outputs/vggt}"
 fi
 if [[ "$STAGE" == all || "$STAGE" == depth ]]; then
   .venv-depth/bin/scene-recon depth

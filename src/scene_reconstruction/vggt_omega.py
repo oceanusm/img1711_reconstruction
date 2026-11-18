@@ -9,6 +9,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -21,6 +22,50 @@ from PIL import Image
 UPSTREAM_URL = "https://github.com/facebookresearch/vggt-omega"
 TESTED_REVISION = "48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6"
 CHECKPOINT_REPOSITORY = "wincentIsMe/VGGT-Omega"
+PRESETS = {
+    "quality": {"stride": 2, "max_frames": 400, "preprocess_mode": "balanced",
+                "image_resolution": 512, "precision": "bf16", "point_stride": 1,
+                "max_points": 5_000_000, "confidence_percentile": 50.0},
+    "quick": {"stride": 10, "max_frames": 72, "preprocess_mode": "max_size",
+              "image_resolution": 512, "precision": "bf16", "point_stride": 4,
+              "max_points": 1_000_000, "confidence_percentile": 50.0},
+}
+
+
+def apply_preset(args):
+    """Resolve preset values without replacing any explicit CLI overrides."""
+    preset = getattr(args, "preset", "quality")
+    if preset not in PRESETS:
+        raise ValueError(f"Unknown VGGT preset: {preset}")
+    args.preset = preset
+    for key, value in PRESETS[preset].items():
+        if getattr(args, key, None) is None:
+            setattr(args, key, value)
+    return args
+
+
+def validate_gpu_environment():
+    if "CUDA_VSIIBLE_DEVICES" in os.environ:
+        raise ValueError(
+            "CUDA_VSIIBLE_DEVICES is misspelled and CUDA ignores it. "
+            "Remove it and use CUDA_VISIBLE_DEVICES=7 to select physical card 7; "
+            "inside that process the selected card is logical cuda:0."
+        )
+
+
+def check_output_directory(output):
+    if output.exists() and any(output.iterdir()):
+        complete = False
+        try:
+            complete = json.loads((output / "index.json").read_text()).get("status") == "complete"
+        except (OSError, ValueError, AttributeError):
+            pass
+        state = "a completed reconstruction" if complete else "existing or partial results"
+        raise FileExistsError(
+            f"Output contains {state}: {output}. Keep it and choose a new --output directory "
+            "for this run, or set VGGT_OUTPUT when using scripts/run_geometry.sh. "
+            "VGGT cannot resume an interrupted joint inference or mix runs in one directory."
+        )
 
 
 def select_frames(frames: list[dict], stride: int, max_frames: int) -> list[dict]:
@@ -146,6 +191,8 @@ def _write_ply(path: Path, point_chunks: list[np.ndarray], color_chunks: list[np
 
 def run(args) -> Path:
     """Run the official model once over a sampled, full-duration frame set."""
+    args = apply_preset(args)
+    validate_gpu_environment()
     manifest_path = Path(args.manifest).expanduser().resolve()
     output = Path(args.output).expanduser().resolve()
     repo = Path(args.repo).expanduser().resolve()
@@ -172,8 +219,7 @@ def run(args) -> Path:
         raise ValueError("point_stride and max_points must be positive; confidence percentile must be 0..100")
     if not str(args.device).startswith("cuda"):
         raise ValueError("This official VGGT-Ω adapter requires a CUDA GPU")
-    if output.exists() and any(output.iterdir()):
-        raise FileExistsError(f"Output must be empty to prevent mixing reconstructions: {output}")
+    check_output_directory(output)
     manifest = json.loads(manifest_path.read_text())
     selected = select_frames(manifest["frames"], int(args.stride), int(args.max_frames))
     width, height = int(manifest["width"]), int(manifest["height"])
@@ -204,43 +250,66 @@ def run(args) -> Path:
         raise RuntimeError("This CUDA GPU does not support bf16; use --precision fp16")
 
     print(f"VGGT-Ω: {len(selected)} frames spanning {selected[0]['time_seconds']:.3f}–"
-          f"{selected[-1]['time_seconds']:.3f}s; {mode} {image_resolution}; {precision}", flush=True)
+          f"{selected[-1]['time_seconds']:.3f}s; {mode} {image_resolution}; {precision}; "
+          f"preset={args.preset} (explicit flags override preset)", flush=True)
+    visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES")
+    free_bytes, total_bytes = torch.cuda.mem_get_info(device)
+    print(f"GPU: {device} ({torch.cuda.get_device_name(device)}); "
+          f"CUDA_VISIBLE_DEVICES={visible_devices if visible_devices is not None else 'unset'}; "
+          f"free {free_bytes / 2**30:.2f} / {total_bytes / 2**30:.2f} GiB", flush=True)
+    torch.cuda.reset_peak_memory_stats(device)
     # Disable the upstream auto choice so the requested aggregator precision is
     # respected. Its camera and depth heads explicitly retain FP32 computation.
     model = VGGTOmega(autocast=False).eval()
     state = torch.load(str(checkpoint), map_location="cpu", weights_only=True)
     model.load_state_dict(state, strict=True)
     del state
-    model = model.to(device)
-    images = load_and_preprocess_images(
-        [str(path) for path in image_paths], mode=mode, image_resolution=image_resolution
-    ).to(device)
-    model_height, model_width = map(int, images.shape[-2:])
-    geometry = preprocessing_geometry(width, height, model_width, model_height)
-    amp = contextlib.nullcontext() if precision == "fp32" else torch.autocast(
-        device_type="cuda", dtype=torch.bfloat16 if precision == "bf16" else torch.float16
-    )
     try:
+        model = model.to(device)
+        images = load_and_preprocess_images(
+            [str(path) for path in image_paths], mode=mode, image_resolution=image_resolution
+        ).to(device)
+        model_height, model_width = map(int, images.shape[-2:])
+        geometry = preprocessing_geometry(width, height, model_width, model_height)
+        print(f"Actual model images: {model_width}×{model_height} pixels per view; "
+              f"{len(selected)} joint views. Output: {output}", flush=True)
+        amp = contextlib.nullcontext() if precision == "fp32" else torch.autocast(
+            device_type="cuda", dtype=torch.bfloat16 if precision == "bf16" else torch.float16
+        )
         with torch.inference_mode(), amp:
             predictions = model(images)
         with torch.inference_mode():
             extrinsics, intrinsics = encoding_to_camera(predictions["pose_enc"].float(), (model_height, model_width))
+        # Transfer before casting so conversion cannot allocate extra FP32 GPU arrays.
+        to_numpy = lambda value: value.detach().cpu().float().numpy()
+        world_to_camera = np.broadcast_to(np.eye(4, dtype=np.float32), (len(selected), 4, 4)).copy()
+        world_to_camera[:, :3, :] = to_numpy(extrinsics)[0]
+        camera_to_world = np.linalg.inv(world_to_camera)
+        intrinsics_model = to_numpy(intrinsics)[0]
+        affine = np.asarray(geometry["canonical_to_model_pixel_affine"])
+        intrinsics_canonical = np.linalg.inv(affine)[None] @ intrinsics_model
+        depth = to_numpy(predictions["depth"])[0, ..., 0]
+        confidence = to_numpy(predictions["depth_conf"])[0]
+        rgb_float = to_numpy(images)
+        # In-place RGB conversion avoids several full-video float temporaries.
+        np.multiply(rgb_float, 255, out=rgb_float)
+        np.rint(rgb_float, out=rgb_float)
+        np.clip(rgb_float, 0, 255, out=rgb_float)
+        rgb = rgb_float.transpose(0, 2, 3, 1).astype(np.uint8)
+        del rgb_float
+        pose_enc = to_numpy(predictions["pose_enc"])[0]
+        torch.cuda.synchronize(device)
+        peak_allocated_bytes = torch.cuda.max_memory_allocated(device)
+        peak_reserved_bytes = torch.cuda.max_memory_reserved(device)
     except torch.cuda.OutOfMemoryError as error:
         raise RuntimeError(
-            "VGGT-Ω exceeded GPU memory. Reduce --max-frames, or use --preprocess-mode max_size. "
+            "VGGT-Ω exceeded GPU memory. Reduce --max-frames; for the 350-view quality run, "
+            "try --max-frames 300 while retaining balanced 512. Use a new output directory if needed. "
+            "No settings were silently reduced. "
             "Keep one joint reconstruction; independently normalized chunks cannot simply be concatenated."
         ) from error
-    to_numpy = lambda value: value.detach().float().cpu().numpy()
-    world_to_camera = np.broadcast_to(np.eye(4, dtype=np.float32), (len(selected), 4, 4)).copy()
-    world_to_camera[:, :3, :] = to_numpy(extrinsics)[0]
-    camera_to_world = np.linalg.inv(world_to_camera)
-    intrinsics_model = to_numpy(intrinsics)[0]
-    affine = np.asarray(geometry["canonical_to_model_pixel_affine"])
-    intrinsics_canonical = np.linalg.inv(affine)[None] @ intrinsics_model
-    depth = to_numpy(predictions["depth"])[0, ..., 0]
-    confidence = to_numpy(predictions["depth_conf"])[0]
-    rgb = (to_numpy(images).transpose(0, 2, 3, 1) * 255).round().clip(0, 255).astype(np.uint8)
-    pose_enc = to_numpy(predictions["pose_enc"])[0]
+    print(f"PyTorch GPU peak: allocated {peak_allocated_bytes / 2**30:.2f} GiB; "
+          f"reserved {peak_reserved_bytes / 2**30:.2f} GiB. Exporting numeric results…", flush=True)
     del predictions, extrinsics, intrinsics, images, model
     torch.cuda.empty_cache()
     if depth.shape != (len(selected), model_height, model_width) or confidence.shape != depth.shape:
@@ -304,8 +373,13 @@ def run(args) -> Path:
         "upstream": {"url": UPSTREAM_URL, "revision": revision, "tested_revision": TESTED_REVISION},
         "checkpoint": {"path": str(checkpoint), "sha256": _sha256(checkpoint)},
         "runtime": {"torch": torch.__version__, "cuda": torch.version.cuda,
-                    "device": torch.cuda.get_device_name(device), "precision": precision},
+                    "device": torch.cuda.get_device_name(device), "precision": precision,
+                    "logical_device": str(device), "cuda_visible_devices": visible_devices,
+                    "gpu_free_bytes_before_load": free_bytes, "gpu_total_bytes": total_bytes,
+                    "peak_allocated_bytes": peak_allocated_bytes, "peak_reserved_bytes": peak_reserved_bytes,
+                    "memory_scope": "PyTorch allocator peak from before model upload through CPU transfer; excludes other processes and non-PyTorch allocations."},
         "selection": {"stride": args.stride, "max_frames": args.max_frames,
+                      "preset": args.preset,
                       "strategy": "stride candidates plus final frame, evenly capped over full duration",
                       "input_frame_count": len(manifest["frames"]), "selected_frame_count": len(selected)},
         "preprocessing": {"mode": mode, "image_resolution": image_resolution, **geometry},

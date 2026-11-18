@@ -103,7 +103,7 @@ DA3 downloads the public nested model automatically on its first run. The adapte
 
 Use a persistent terminal session such as `tmux` if disconnecting SSH would terminate your jobs. Run the stages sequentially on the same GPU.
 
-All geometry/depth stages, including a viewable depth video:
+All geometry/depth stages, including a viewable depth video. VGGT now defaults to the quality preset:
 
 ```bash
 bash scripts/run_geometry.sh
@@ -120,12 +120,22 @@ bash scripts/run_geometry.sh preview
 bash scripts/run_geometry.sh vggt
 ```
 
+If the earlier 71-frame job uses `outputs/vggt`, preserve it and select a new output for the quality run:
+
+```bash
+CUDA_VISIBLE_DEVICES=7 VGGT_OUTPUT=outputs/vggt_quality bash scripts/run_geometry.sh vggt
+```
+
+The runner accepts `VGGT_PRESET=quality` (default) or `VGGT_PRESET=quick`, and defaults to `VGGT_OUTPUT=outputs/vggt`. Changing these settings does not alter a process that is already running. Run the new job after the current GPU job ends or is stopped; avoid competing jobs on one card.
+
+The command above selects physical card 7. Spell the variable **`CUDA_VISIBLE_DEVICES`** exactly; `CUDA_VSIIBLE_DEVICES` is ignored by CUDA and the updated adapter rejects that typo. With only card 7 visible, it appears inside the process as logical `cuda:0`; leave `--device` at its default. Omit the final `vggt` argument to continue through DA3 and the depth preview on the same selected card.
+
 The corresponding model commands, useful for changing parameters, are:
 
 ```bash
 .venv-vggt/bin/scene-recon vggt \
   --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt \
-  --stride 10 --max-frames 72 --output outputs/vggt
+  --preset quality --output outputs/vggt_quality
 
 .venv-depth/bin/scene-recon depth \
   --chunk-size 16 --overlap 4 --process-res 504 --output outputs/depth
@@ -133,13 +143,17 @@ The corresponding model commands, useful for changing parameters, are:
 .venv-depth/bin/scene-recon preview-depth
 ```
 
-Defaults select **71 frames** across the full clip for one joint VGGT reconstruction and predict depth for **all 698 frames**. The 48 GB A6000 memory settings are starting values, not measured memory guarantees. To check the VGGT setup cheaply before the main run:
+The quality preset selects **350 frames** across the clip, using stride 2 and a 400-frame cap. `balanced 512` gives **384×688** pixels per view, compared with the earlier quick preset's 71 frames at 288×512. It keeps BF16 and exports up to five million points with point stride 1. Cloud density controls export sampling, not learned geometry. DA3 still predicts depth for **all 698 frames**.
+
+These settings use more timestamps and image detail, but do not guarantee faithful geometry or establish a measured 48 GB A6000 memory bound. The adapter reports actual image dimensions and CUDA peak memory. [Quality settings and memory interpretation](vggt_omega.md#quality-resolution-and-memory). An optional small installation check uses the quick preset explicitly:
 
 ```bash
 .venv-vggt/bin/scene-recon vggt \
   --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt \
-  --max-frames 12 --output outputs/vggt_smoke
+  --preset quick --max-frames 12 --output outputs/vggt_smoke
 ```
+
+Explicit CLI options override the preset. For example, `--preset quality --max-frames 250` reduces views while retaining balanced resolution. `--stride 1 --max-frames 0` requests every frame; all 698 balanced views are not promised to fit this card. Increasing resolution beyond 512 is experimental rather than automatically more accurate.
 
 ## Outputs to inspect and retain
 
@@ -155,6 +169,14 @@ Defaults select **71 frames** across the full clip for one joint VGGT reconstruc
 | `outputs/depth_preview.mp4` | RGB beside depth, with one fixed color scale |
 | `outputs/depth_preview.scale.json` | Preview color range and provenance |
 
+The paths above use the default output. A run directed to `outputs/vggt_quality` has the same files there. After transferring that complete directory back, compare it with the Blender exports using:
+
+```bash
+VGGT_OUTPUT=outputs/vggt_quality \
+COMPARISON_OUTPUT=outputs/comparison_quality \
+bash scripts/compare_geometry.sh align
+```
+
 Do not discard the raw float arrays after making the preview. Save the manifest, environment reports, and complete stage folders for comparison. To retrieve outputs, run from the Mac repository root:
 
 ```bash
@@ -162,6 +184,14 @@ rsync -av --progress USER@HOST:~/img1711_reconstruction/outputs/ outputs/
 ```
 
 ## Retrying and memory adjustments
+
+A nonempty `outputs/vggt` is protected from overwriting. If it contains `index.json`, check its status before deciding it is interrupted:
+
+```bash
+.venv-vggt/bin/python -c 'import json; d=json.load(open("outputs/vggt/index.json")); print(d["status"], d["selection"])'
+```
+
+The adapter writes a `complete` index last, after the cloud, cameras and per-frame exports. Such a run may have finished before the interruption, with the runner already proceeding to DA3. Keep it as a baseline and use `VGGT_OUTPUT=outputs/vggt_quality` (or another fresh directory) for different VGGT settings. There is no need to clear the existing result. To continue DA3 alone on card 7, use `CUDA_VISIBLE_DEVICES=7 bash scripts/run_geometry.sh depth`.
 
 The runner does **not** overwrite or silently skip previous outputs. If a later stage failed, rerun only that stage:
 

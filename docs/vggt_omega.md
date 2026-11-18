@@ -20,28 +20,49 @@ Model code still comes from the pinned official GitHub source. The 512 checkpoin
 
 ## Running
 
-After canonical frames have been extracted, invoke the project's `vggt` command with:
+After canonical frames have been extracted, run the quality preset. Use a new output directory to retain the earlier 71-frame reconstruction:
 
 ```bash
 scene-recon vggt \
   --manifest data/frames/manifest.json \
   --repo vendor/vggt-omega \
   --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt \
-  --output outputs/vggt \
-  --stride 10 --max-frames 72 \
-  --image-resolution 512 --preprocess-mode max_size \
-  --precision bf16
+  --preset quality \
+  --output outputs/vggt_quality
 ```
 
-See `scene-recon vggt --help` for options and defaults. `--max-frames 0` removes the cap. `--stride` creates candidates across the video, always including its final frame. If there are too many candidates, the cap samples them evenly over the full duration. A cap never silently limits reconstruction to the first part of the clip. At least two frames are required. The output directory must be empty, so incomplete or differently configured runs cannot be mistaken for one reconstruction.
+`quality` is the default preset. Explicit options override the preset, for example `--preset quality --max-frames 250`. See `scene-recon vggt --help` for all options. `--max-frames 0` removes the cap; it does not change the stride. `--stride` creates candidates across the video, always including its final frame. If there are too many candidates, the cap samples them evenly over the full duration. At least two frames are required. The output directory must be empty, so incomplete or differently configured runs cannot be mistaken for one reconstruction.
 
-The 72-frame, longest-side-512 setting is a conservative starting point for a 48 GB A6000; its GPU inference has not been benchmarked here. Upstream's [memory table](https://github.com/facebookresearch/vggt-omega#runtime-and-gpu-memory) is measured on an A100 with a different image shape and preprocessing mode. Increase frame count after observing actual memory use. Reduce `--max-frames` after a CUDA OOM. The adapter deliberately does not concatenate separately normalized reconstructions. Every selected pose and depth in one output belongs to the same joint inference.
+## Quality, resolution and memory
 
-`--precision auto` selects BF16 on supported hardware and FP16 otherwise. FP32 is available at higher memory cost. The camera and depth heads retain upstream FP32 computation. Only CUDA inference is supported by this adapter.
+| Preset | Frame selection | Views in this clip | Model image, width×height | Cloud export |
+|---|---|---|---|---|
+| `quality` (default) | Stride 2, cap 400 | 350 | `balanced 512`: 384×688 | Point stride 1, at most 5,000,000 points |
+| `quick` | Stride 10, cap 72 | 71 | `max_size 512`: 288×512 | Point stride 4, at most 1,000,000 points |
+
+Both presets use BF16 and a per-frame 50th-percentile confidence threshold for cloud export. The larger cloud budget affects exported sampling only; all model-resolution depth/confidence values are saved regardless of cloud filtering.
+
+The upstream `balanced` loader targets roughly 512² pixels while preserving aspect ratio and rounding to 16-pixel patches. For this portrait clip it retains about **1.79 times as many pixels per view** as `max_size 512`; the number 512 is not its longest-side limit. [Pinned loader](https://github.com/facebookresearch/vggt-omega/blob/48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6/vggt_omega/utils/load_fn.py).
+
+The quality preset's peak A6000 memory has **not** been measured here. The official [A100 measurements](https://github.com/facebookresearch/vggt-omega#runtime-and-gpu-memory) report 28.26 GB for 300 views and 35.71 GB for 400 at 624×416, a comparable pixel count. These guide the choice but do not guarantee the same allocation on an A6000 or another software stack. The adapter prints actual model dimensions and CUDA memory readings and records runtime statistics in `index.json`. Use one otherwise available GPU and inspect the measured peak before enlarging a run. No automatic fallback silently lowers the requested settings.
+
+BF16 follows upstream's usual inference choice on supported GPUs; the camera and depth heads retain FP32 computation. `--precision auto` selects BF16 when supported and FP16 otherwise. FP32 is available at higher memory cost, without a guarantee of better geometry. [Pinned model implementation](https://github.com/facebookresearch/vggt-omega/blob/48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6/vggt_omega/models/vggt_omega.py). Only CUDA inference is supported by this adapter.
+
+For all **698** frames, explicitly add `--stride 1 --max-frames 0`; balanced inference at that size is memory-heavy and is not promised to fit a 48 GB card. Increasing `--image-resolution` beyond the checkpoint's 512 setting is an experiment, not a guaranteed quality improvement. More redundant, blurry or moving-object views can also fail to improve reconstruction. Validate geometry with the independent Blender/depth comparisons rather than treating view count as an accuracy score.
+
+After an OOM, choose a smaller explicit `--max-frames` and a new output directory. Keep one joint reconstruction: independently normalized chunks cannot simply be concatenated. Every selected pose and depth in one output belongs to the same joint inference.
+
+To compare this run with both Blender baselines:
+
+```bash
+VGGT_OUTPUT=outputs/vggt_quality \
+COMPARISON_OUTPUT=outputs/comparison_quality \
+bash scripts/compare_geometry.sh align
+```
 
 ## Output contract
 
-`index.json` is the completion marker and contains frame IDs, timestamps, input/checkpoint hashes, upstream revision, environment versions, per-frame output filenames, and preprocessing geometry. Treat a directory without this marker as incomplete.
+`index.json` is the completion marker and contains frame IDs, timestamps, input/checkpoint hashes, upstream revision, environment versions, resolved settings, actual preprocessing geometry, CUDA memory statistics and per-frame output filenames. Treat a directory without this marker as incomplete.
 
 `cameras.npz` contains:
 

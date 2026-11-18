@@ -46,11 +46,11 @@ The prepared frames are portable. If extracting a different source or regenerati
 
 Do not force a nominal FPS: each model reads the common frame manifest. The original iPhone stream is variable-rate; its portrait orientation and HDR transfer function need to be respected. On macOS, an FFmpeg build without `zscale` must be replaced or selected using `--ffmpeg /path/to/ffmpeg`.
 
-Start with a small joint VGGT run, then a denser one:
+An optional smoke run checks the installation. The quality run uses a separate output so an earlier reconstruction can be retained:
 
 ```bash
-.venv-vggt/bin/scene-recon vggt --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt --max-frames 12 --output outputs/vggt_smoke
-.venv-vggt/bin/scene-recon vggt --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt
+.venv-vggt/bin/scene-recon vggt --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt --preset quick --max-frames 12 --output outputs/vggt_smoke
+.venv-vggt/bin/scene-recon vggt --checkpoint checkpoints/vggt-omega/vggt_omega_1b_512.pt --preset quality --output outputs/vggt_quality
 .venv-depth/bin/scene-recon depth
 .venv-sam/bin/scene-recon sam --checkpoint checkpoints/sam3/sam3.pt
 ```
@@ -59,11 +59,21 @@ Or, after reviewing the SAM prompt inventory, use `bash scripts/run_all.sh`. It 
 
 Defaults:
 
-- VGGT: every tenth frame plus the last frame, maximum 72; one joint reconstruction, max image side 512, BF16. For this video that selects 71 frames. Increase sampling density once the initial result works.
+- VGGT defaults to `--preset quality`: every second frame plus the last, capped at 400; **350 views** for this clip, with `balanced 512` preprocessing producing **384×688** pixels per view and BF16 inference. The exported cloud uses point stride 1 and a five-million-point cap. `--preset quick` restores the earlier 71-view, 288×512 configuration. Explicit CLI options override either preset.
 - DA3: 16-frame windows, overlap 4, processing resolution 504. Every frame gets depth. The native maps are upsampled back to 1080×1920; upsampling does not add geometric detail.
 - SAM3: 120-frame chunks, one text concept per session, separate instance PNGs enabled. This bounds sequence memory but resets instance IDs at chunk boundaries. `--chunk-size 0` requests continuous tracking and may require substantially more memory. The number of concepts and detected objects affects cost.
 
 If you hit CUDA OOM, lower VGGT `--max-frames`, DA3 `--chunk-size` (keep `--overlap` smaller), or SAM `--chunk-size`, using a new output directory. Full model runs require checkpoint access and the GPU; local CPU tests do not validate their accuracy.
+
+The quality preset samples more timestamps and retains more image detail; it does not guarantee correct geometry. Its A6000 peak memory has not been measured here. The run prints actual model dimensions and CUDA memory statistics and records them in `index.json`. Increasing the exported point count alone does not improve the learned depth or cameras. See [VGGT quality, resolution and memory](docs/vggt_omega.md#quality-resolution-and-memory).
+
+The geometry runner now uses the quality preset by default. To preserve an existing `outputs/vggt` run:
+
+```bash
+VGGT_OUTPUT=outputs/vggt_quality bash scripts/run_geometry.sh vggt
+```
+
+`VGGT_PRESET=quick` selects the smaller preset in that runner. DA3 settings are unchanged.
 
 ## Segmentation targets
 
@@ -98,14 +108,16 @@ Use the iPhone's nominal focal length only as a calibration prior. It does not c
 
 Both supplied scenes are preserved in `blender_scenes/`, with source hashes in [baselines.json](blender_scenes/baselines.json). Open the local [uninformed viewer](outputs/blender_preview/before_vqa/viewer.html) or [VQA-informed viewer](outputs/blender_preview/vqa_informed/viewer.html). These initially show Blender geometry/cameras; an aligned VGGT cloud is added after inference.
 
-With real results in `outputs/vggt` and `outputs/depth`, run from this repository:
+With the quality result above in `outputs/vggt_quality` and DA3 in `outputs/depth`, run from this repository:
 
 ```bash
-bash scripts/compare_geometry.sh align
+VGGT_OUTPUT=outputs/vggt_quality bash scripts/compare_geometry.sh align
 bash scripts/compare_geometry.sh depth
 ```
 
 These compare both baselines using the existing Blender previews. Outputs go under `outputs/comparison/{before_vqa,vqa_informed}/`: `alignment/viewer.html`, camera metrics, and `depth/index.html` with depth/error images and CSV metrics. [The full workflow](docs/geometry_comparison.md) includes recreating portable Blender exports, rendering all 698 depth frames, landmark alignment and held-out validation. The default depth comparison retains declared physical units; DA3 remains an estimate, not measured ground truth.
+
+Omit `VGGT_OUTPUT` to compare `outputs/vggt`. If comparison reports already exist for an earlier run, select a new `COMPARISON_OUTPUT`, for example `outputs/comparison_quality`.
 
 For masks later, give the other chat [the Blender mask contract](docs/blender_handoff.md), `data/frames/manifest.json`, and the agreed object inventory. Cryptomatte and render-mask generation remain in that workflow.
 
