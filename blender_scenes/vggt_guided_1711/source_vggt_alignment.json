@@ -1,0 +1,1656 @@
+{
+  "source_video": "/Users/liumartin/Desktop/scene_reconstruction/src/img_1711.mov",
+  "reference_files": {
+    "point_cloud.ply": "/Users/liumartin/Desktop/scene_reconstruction/src/1711_vggt/point_cloud.ply",
+    "cameras.npz": "/Users/liumartin/Desktop/scene_reconstruction/src/1711_vggt/cameras.npz",
+    "index.json": "/Users/liumartin/Desktop/scene_reconstruction/src/1711_vggt/index.json"
+  },
+  "coordinate_conventions_vggt": {
+    "world": "Common predicted VGGT-Ω world; no axis realignment applied.",
+    "camera": "OpenCV: +X right, +Y down, +Z forward.",
+    "extrinsics": "world_to_camera maps world homogeneous column vectors to camera coordinates.",
+    "intrinsics": "Pixel coordinates; intrinsics_canonical applies to the original oriented image.",
+    "blender": "camera_to_world_blender_camera_basis flips local Y/Z only; world alignment remains necessary.",
+    "depth": "Optical-axis camera Z depth, not Euclidean ray distance.",
+    "scale": "Arbitrary learned scale shared by this joint inference; not meters. Align by a similarity transform.",
+    "confidence": "Uncalibrated upstream confidence score, not a probability or error bound."
+  },
+  "coordinate_conventions_blender": "Right-handed metric XYZ. +X runs along the range wall toward the spice counter. +Y points from the range front toward its backsplash. +Z is up.",
+  "coordinate_origin": "Floor point immediately below the visible left tip of the island waterfall in source frame 0, located by canonical pixel (342, 804) on the top surface.",
+  "matrix_vggt_to_blender": [
+    [
+      1.9188870486118892,
+      1.4655321788381215,
+      -2.986571886326085,
+      1.7083587959914712
+    ],
+    [
+      3.3260843812214094,
+      -0.775172128495794,
+      1.756642981636308,
+      -0.7217753901251855
+    ],
+    [
+      0.06751954086301537,
+      -3.4642239114594044,
+      -1.6565378074793098,
+      1.5892355357246373
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "matrix_convention": "4x4 row-major array applied to homogeneous column xyz1; upper 3x3 equals sR. Apply R to camera axes and similarity to camera centers.",
+  "rotation_matrix": [
+    [
+      0.4996436974215051,
+      0.38159823792368297,
+      -0.7776496386165866
+    ],
+    [
+      0.8660525898966075,
+      -0.20184088933213348,
+      0.45739825855264465
+    ],
+    [
+      0.017580874845866307,
+      -0.9020216406534567,
+      -0.43133267049053947
+    ]
+  ],
+  "translation_m": [
+    1.7083587959914712,
+    -0.7217753901251855,
+    1.5892355357246373
+  ],
+  "uniform_scale_m_per_vggt_unit": 3.8405108650717037,
+  "scale_calibrated": false,
+  "scale_basis": {
+    "reference": "assumed finished island worktop height above floor",
+    "nominal_m": 0.9144,
+    "measured_vggt_units": 0.23809332459288013,
+    "qualification": "Common 36-inch kitchen worktop height, unverified for this installation. All output lengths inherit the fractional error of this assumption plus local reconstruction error."
+  },
+  "reference_selection": {
+    "stride": 2,
+    "max_frames": 400,
+    "strategy": "stride candidates plus final frame, evenly capped over full duration",
+    "input_frame_count": 698,
+    "selected_frame_count": 350
+  },
+  "preprocessing": {
+    "mode": "balanced",
+    "image_resolution": 512,
+    "canonical_size_wh": [
+      1080,
+      1920
+    ],
+    "crop_xyxy": [
+      0,
+      0,
+      1080,
+      1920
+    ],
+    "model_size_wh": [
+      384,
+      688
+    ],
+    "canonical_to_model_pixel_affine": [
+      [
+        0.35555555555555557,
+        0.0,
+        -0.3222222222222222
+      ],
+      [
+        0.0,
+        0.35833333333333334,
+        -0.3208333333333333
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "model_to_canonical_pixel_affine": [
+      [
+        2.8125,
+        0.0,
+        0.9062499999999999
+      ],
+      [
+        0.0,
+        2.7906976744186047,
+        0.8953488372093023
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "pixel_coordinates": "Integer coordinates are pixel centers; PIL half-pixel resize convention.",
+    "interpolation": "PIL bicubic",
+    "padding": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "reference_cloud": {
+    "vertices": 5000000,
+    "point_stride": 1,
+    "max_points": 5000000,
+    "confidence_percentile_per_frame": 50.0,
+    "fused": false,
+    "note": "Depth-unprojected colored points; duplicates and dynamic objects are retained."
+  },
+  "camera_archive": {
+    "frame_indices": {
+      "shape": [
+        350
+      ],
+      "dtype": "int64"
+    },
+    "time_seconds": {
+      "shape": [
+        350
+      ],
+      "dtype": "float64"
+    },
+    "pts_seconds": {
+      "shape": [
+        350
+      ],
+      "dtype": "float64"
+    },
+    "world_to_camera": {
+      "shape": [
+        350,
+        4,
+        4
+      ],
+      "dtype": "float32"
+    },
+    "camera_to_world": {
+      "shape": [
+        350,
+        4,
+        4
+      ],
+      "dtype": "float32"
+    },
+    "camera_to_world_blender_camera_basis": {
+      "shape": [
+        350,
+        4,
+        4
+      ],
+      "dtype": "float64"
+    },
+    "intrinsics_model": {
+      "shape": [
+        350,
+        3,
+        3
+      ],
+      "dtype": "float32"
+    },
+    "intrinsics_canonical": {
+      "shape": [
+        350,
+        3,
+        3
+      ],
+      "dtype": "float64"
+    },
+    "canonical_to_model_pixel_affine": {
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "float64"
+    },
+    "pose_enc": {
+      "shape": [
+        350,
+        9
+      ],
+      "dtype": "float32"
+    }
+  },
+  "reference_camera_to_source_frame": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38,
+    40,
+    42,
+    44,
+    46,
+    48,
+    50,
+    52,
+    54,
+    56,
+    58,
+    60,
+    62,
+    64,
+    66,
+    68,
+    70,
+    72,
+    74,
+    76,
+    78,
+    80,
+    82,
+    84,
+    86,
+    88,
+    90,
+    92,
+    94,
+    96,
+    98,
+    100,
+    102,
+    104,
+    106,
+    108,
+    110,
+    112,
+    114,
+    116,
+    118,
+    120,
+    122,
+    124,
+    126,
+    128,
+    130,
+    132,
+    134,
+    136,
+    138,
+    140,
+    142,
+    144,
+    146,
+    148,
+    150,
+    152,
+    154,
+    156,
+    158,
+    160,
+    162,
+    164,
+    166,
+    168,
+    170,
+    172,
+    174,
+    176,
+    178,
+    180,
+    182,
+    184,
+    186,
+    188,
+    190,
+    192,
+    194,
+    196,
+    198,
+    200,
+    202,
+    204,
+    206,
+    208,
+    210,
+    212,
+    214,
+    216,
+    218,
+    220,
+    222,
+    224,
+    226,
+    228,
+    230,
+    232,
+    234,
+    236,
+    238,
+    240,
+    242,
+    244,
+    246,
+    248,
+    250,
+    252,
+    254,
+    256,
+    258,
+    260,
+    262,
+    264,
+    266,
+    268,
+    270,
+    272,
+    274,
+    276,
+    278,
+    280,
+    282,
+    284,
+    286,
+    288,
+    290,
+    292,
+    294,
+    296,
+    298,
+    300,
+    302,
+    304,
+    306,
+    308,
+    310,
+    312,
+    314,
+    316,
+    318,
+    320,
+    322,
+    324,
+    326,
+    328,
+    330,
+    332,
+    334,
+    336,
+    338,
+    340,
+    342,
+    344,
+    346,
+    348,
+    350,
+    352,
+    354,
+    356,
+    358,
+    360,
+    362,
+    364,
+    366,
+    368,
+    370,
+    372,
+    374,
+    376,
+    378,
+    380,
+    382,
+    384,
+    386,
+    388,
+    390,
+    392,
+    394,
+    396,
+    398,
+    400,
+    402,
+    404,
+    406,
+    408,
+    410,
+    412,
+    414,
+    416,
+    418,
+    420,
+    422,
+    424,
+    426,
+    428,
+    430,
+    432,
+    434,
+    436,
+    438,
+    440,
+    442,
+    444,
+    446,
+    448,
+    450,
+    452,
+    454,
+    456,
+    458,
+    460,
+    462,
+    464,
+    466,
+    468,
+    470,
+    472,
+    474,
+    476,
+    478,
+    480,
+    482,
+    484,
+    486,
+    488,
+    490,
+    492,
+    494,
+    496,
+    498,
+    500,
+    502,
+    504,
+    506,
+    508,
+    510,
+    512,
+    514,
+    516,
+    518,
+    520,
+    522,
+    524,
+    526,
+    528,
+    530,
+    532,
+    534,
+    536,
+    538,
+    540,
+    542,
+    544,
+    546,
+    548,
+    550,
+    552,
+    554,
+    556,
+    558,
+    560,
+    562,
+    564,
+    566,
+    568,
+    570,
+    572,
+    574,
+    576,
+    578,
+    580,
+    582,
+    584,
+    586,
+    588,
+    590,
+    592,
+    594,
+    596,
+    598,
+    600,
+    602,
+    604,
+    606,
+    608,
+    610,
+    612,
+    614,
+    616,
+    618,
+    620,
+    622,
+    624,
+    626,
+    628,
+    630,
+    632,
+    634,
+    636,
+    638,
+    640,
+    642,
+    644,
+    646,
+    648,
+    650,
+    652,
+    654,
+    656,
+    658,
+    660,
+    662,
+    664,
+    666,
+    668,
+    670,
+    672,
+    674,
+    676,
+    678,
+    680,
+    682,
+    684,
+    686,
+    688,
+    690,
+    692,
+    694,
+    696,
+    697
+  ],
+  "coverage_limitations": [
+    "The original 5,000,000 observations are not fused. Confidence filtering and changing view distance cause uneven sampling.",
+    "Dark or reflective stove glass, sink and window, thin edges, white glossy cabinet faces, and surfaces hidden behind appliances or inside cabinetry have incomplete or unreliable coverage.",
+    "Repeated shelf positions of the hand-moved bottle and hand and sleeve observations are temporally mixed. Human and motion artifacts are excluded from authored meshes."
+  ],
+  "alignment_discrepancy": {
+    "floor": {
+      "point_observations": 11557,
+      "median_abs_residual_m": 0.0016754181564093695,
+      "p90_abs_residual_m": 0.005168897598652622,
+      "comparison": "masked frame-0 pixels, VGGT source-frame IDs 0–8, distances to one common orthogonal orientation"
+    },
+    "island_worktop": {
+      "point_observations": 10890,
+      "median_abs_residual_m": 0.0016794451302498126,
+      "p90_abs_residual_m": 0.004282549803348591,
+      "comparison": "masked frame-0 pixels, VGGT source-frame IDs 0–8, distances to one common orthogonal orientation"
+    },
+    "island_waterfall": {
+      "point_observations": 18310,
+      "median_abs_residual_m": 0.0017976551086523185,
+      "p90_abs_residual_m": 0.005607910770787668,
+      "comparison": "masked frame-0 pixels, VGGT source-frame IDs 0–8, distances to one common orthogonal orientation"
+    }
+  },
+  "source_view_coverage": {
+    "method": "Perspective depth buffers from evaluated authored meshes, 414 by 736 upright source-view pixels. Coverage is the fraction of a ten-pixel mesh-hit lattice within 5 cm of any retained same-frame upper-half-confidence native observation. Sampled backs and extrapolated surface regions are not camera-visible in these statistics. Z errors compare observations to the rendered first visible surface on each observation ray and can reveal occlusion or wrong-object mismatches.",
+    "by_source_frame": {
+      "0": {
+        "high_confidence_observations_in_image": 7143,
+        "fraction_observation_rays_intersecting_authored_surface": 1.0,
+        "median_abs_observation_to_rendered_camera_z_m": 0.003290337909122476,
+        "p90_abs_observation_to_rendered_camera_z_m": 0.011043370129305431,
+        "visible_surface_samples_on_10_pixel_grid": 3034,
+        "fraction_visible_mesh_samples_with_same_frame_point_within_0.05m": 0.4024390243902439
+      },
+      "120": {
+        "high_confidence_observations_in_image": 7143,
+        "fraction_observation_rays_intersecting_authored_surface": 1.0,
+        "median_abs_observation_to_rendered_camera_z_m": 0.0048227544409480405,
+        "p90_abs_observation_to_rendered_camera_z_m": 0.010729114038171297,
+        "visible_surface_samples_on_10_pixel_grid": 3034,
+        "fraction_visible_mesh_samples_with_same_frame_point_within_0.05m": 0.6921555702043507
+      },
+      "600": {
+        "high_confidence_observations_in_image": 7143,
+        "fraction_observation_rays_intersecting_authored_surface": 1.0,
+        "median_abs_observation_to_rendered_camera_z_m": 0.009779641773509429,
+        "p90_abs_observation_to_rendered_camera_z_m": 0.04407389139056761,
+        "visible_surface_samples_on_10_pixel_grid": 3034,
+        "fraction_visible_mesh_samples_with_same_frame_point_within_0.05m": 0.557350032959789
+      },
+      "697": {
+        "high_confidence_observations_in_image": 7143,
+        "fraction_observation_rays_intersecting_authored_surface": 1.0,
+        "median_abs_observation_to_rendered_camera_z_m": 0.01183765374113932,
+        "p90_abs_observation_to_rendered_camera_z_m": 0.021564345121185678,
+        "visible_surface_samples_on_10_pixel_grid": 3034,
+        "fraction_visible_mesh_samples_with_same_frame_point_within_0.05m": 0.5102175346077785,
+        "geometry_basis": "Both animated component matrices exactly match their frame-600 evaluated poses at this final source frame."
+      }
+    }
+  },
+  "evaluated_mesh_discrepancies": {
+    "method": "Exact nearest triangle by Euclidean distance and nearest positive two-sided ray-triangle intersection; full evaluated authored surfaces. Rigid animated meshes use source-frame transforms; static geometry is shared. UVs and rays use the source-mapped VGGT camera and global similarity. Distances are scene meters, with uncertain absolute scale. Raw descriptive statistics include human points, occlusions, and reference noise.",
+    "row_order": "Original PLY order; no decimation, confidence cutoff or source-frame exclusion.",
+    "all_points": {
+      "count": 5000000,
+      "nearest_surface_m": {
+        "n": 5000000,
+        "p50_m": 0.004830360412597656,
+        "p75_m": 0.008727192878723145,
+        "p90_m": 0.012954474985599526,
+        "p95_m": 0.016308704391121864,
+        "p99_m": 0.025624039173126167,
+        "within_20mm_fraction": 0.9747922
+      },
+      "absolute_camera_depth_m": {
+        "n": 5000000,
+        "p50_m": 0.007945628836750984,
+        "p75_m": 0.01482142019085586,
+        "p90_m": 0.027114587835967548,
+        "p95_m": 0.042354490980505914,
+        "p99_m": 0.14561900615692136,
+        "within_20mm_fraction": 0.8414478
+      },
+      "camera_rays_with_intersection": 5000000
+    },
+    "frame_tags_evaluated": 350,
+    "per_frame": "inspection/all_vggt_frames.json",
+    "fit_participation_and_contours": "inspection/fullcloud_fit.json",
+    "scene_selection": "inspection/scene_selection.json",
+    "eight_view_diagnostic": "An additional sampled check is recorded separately under eight_view_diagnostic.",
+    "unique_observation_roles": {
+      "rows_evaluated_against_both_models": 5000000,
+      "native_camera_epochs": 350,
+      "probable_or_unresolved_person": 13602,
+      "nonhuman_eligible": 4986398,
+      "accepted_parameter_fit_union": 3291532,
+      "changed_model_parameter_union": 2875992,
+      "model_selection_and_parameter_fit": 3291532,
+      "model_selection_without_parameter_fit": 1694866,
+      "residual_evaluation_only": 13602,
+      "selection_or_parameter_union": 4986398
+    },
+    "stable_nearest_and_depth": {
+      "baseline": {
+        "nearest": {
+          "valid": 4986398,
+          "p50_m": 0.005358219146728516,
+          "p90_m": 0.0171663761138916,
+          "p95_m": 0.02307295799255371,
+          "p99_m": 0.03642297506332404,
+          "within_20mm_fraction": 0.9283149880936099
+        },
+        "first_hit_absolute_optical_depth": {
+          "valid": 4986398,
+          "p50_m": 0.009148741606622934,
+          "p90_m": 0.03798007927834987,
+          "p95_m": 0.06905585266649719,
+          "p99_m": 0.24648066595196755,
+          "within_20mm_fraction": 0.7694646516383169
+        }
+      },
+      "final": {
+        "nearest": {
+          "valid": 4986398,
+          "p50_m": 0.004820823669433594,
+          "p90_m": 0.012948989868164062,
+          "p95_m": 0.016313791275024414,
+          "p99_m": 0.02564096450805664,
+          "within_20mm_fraction": 0.9747487063808384
+        },
+        "first_hit_absolute_optical_depth": {
+          "valid": 4986398,
+          "p50_m": 0.007933604996651411,
+          "p90_m": 0.02710043154656886,
+          "p95_m": 0.04236212149262425,
+          "p99_m": 0.1455948077142239,
+          "within_20mm_fraction": 0.8415006182819743
+        }
+      }
+    },
+    "paired_model_selection": {
+      "baseline": {
+        "nearest_robust_m": 0.0066878481603637055,
+        "first_ray_robust_m": 0.015932445089408682,
+        "combined_robust_m": 0.009923457085529446
+      },
+      "candidate": {
+        "nearest_robust_m": 0.005205189867599678,
+        "first_ray_robust_m": 0.012687221029520593,
+        "combined_robust_m": 0.007823900774271999
+      },
+      "candidate_minus_baseline": {
+        "nearest_robust_m": -0.0014826582927640278,
+        "first_ray_robust_m": -0.003245224059888089,
+        "combined_robust_m": -0.0020995563112574476
+      }
+    }
+  },
+  "blender_import_audit": {
+    "inspection_blend_filename": "scene_with_vggt.blend",
+    "inspection_blend_file_sha256": "1243b3a4a599ac5e65323559ab6820c01d169d93e402dcf2c3524dca8a7ce8c0",
+    "source_vertex_count": 5000000,
+    "blender_vertex_count": 5000000,
+    "verified_vertices": 5000000,
+    "ply_fields_in_record_order": [
+      "x",
+      "y",
+      "z",
+      "red",
+      "green",
+      "blue",
+      "confidence",
+      "frame_index"
+    ],
+    "native_vertex_payload_sha256": "90aa3d25f6f80885bde66ca50db1ee125b4ebc0d2f54144cf1b40ce4f25dd77d",
+    "blender_reencoded_vertex_payload_sha256": "90aa3d25f6f80885bde66ca50db1ee125b4ebc0d2f54144cf1b40ce4f25dd77d",
+    "mismatched_values_by_field": {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "red": 0,
+      "green": 0,
+      "blue": 0,
+      "confidence": 0,
+      "frame_index": 0
+    },
+    "maximum_alignment_matrix_element_error": 3.624369029342489e-07,
+    "collection_and_native_mesh_disabled_for_render": true,
+    "method": "Read every mesh coordinate, point-domain sRGB byte, confidence value, and source-frame ID through Blender data APIs. Re-encode original row order and numeric field layout. The hashes cover the full vertex payload excluding the PLY header. Coordinate and confidence comparisons are bitwise.",
+    "passed": true
+  },
+  "eight_view_diagnostic": {
+    "method": "Unsigned shortest 3D distance from selected native PLY observations to evaluated authored Blender triangles at the corresponding animation frame. Uses the upper half of upstream confidence per frame, then every second sample. Frame selection was visually screened for humans. Nearest-face assignment is not semantic correspondence. Repeated views and points are correlated.",
+    "excluded_objects": "VGGT_REFERENCE, light/camera objects, and meshes or collections disabled for rendering.",
+    "global": {
+      "count": 28576,
+      "median_m": 0.004356657853350043,
+      "p90_m": 0.01328083872795105,
+      "fraction_within_0.02m": 0.9594064949608063,
+      "fraction_within_0.05m": 1.0
+    },
+    "by_source_frame": {
+      "0": {
+        "count": 3572,
+        "median_m": 0.0019450023537501693,
+        "p90_m": 0.005526752211153511,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "60": {
+        "count": 3572,
+        "median_m": 0.004917353391647339,
+        "p90_m": 0.009429383277893067,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "120": {
+        "count": 3572,
+        "median_m": 0.0031403840985149145,
+        "p90_m": 0.008925474714487793,
+        "fraction_within_0.02m": 0.9983202687569989,
+        "fraction_within_0.05m": 1.0
+      },
+      "240": {
+        "count": 3572,
+        "median_m": 0.00958125526085496,
+        "p90_m": 0.017508396878838543,
+        "fraction_within_0.02m": 0.9426091825307951,
+        "fraction_within_0.05m": 1.0
+      },
+      "300": {
+        "count": 3572,
+        "median_m": 0.006926987087354064,
+        "p90_m": 0.012817387748509646,
+        "fraction_within_0.02m": 0.986562150055991,
+        "fraction_within_0.05m": 1.0
+      },
+      "360": {
+        "count": 3572,
+        "median_m": 0.0016376868006773293,
+        "p90_m": 0.0041791856288909916,
+        "fraction_within_0.02m": 0.9997200447928332,
+        "fraction_within_0.05m": 1.0
+      },
+      "600": {
+        "count": 3572,
+        "median_m": 0.0060784355737268925,
+        "p90_m": 0.025810972973704337,
+        "fraction_within_0.02m": 0.7721164613661814,
+        "fraction_within_0.05m": 1.0
+      },
+      "660": {
+        "count": 3572,
+        "median_m": 0.005982756614685059,
+        "p90_m": 0.012894144281744957,
+        "fraction_within_0.02m": 0.9759238521836506,
+        "fraction_within_0.05m": 1.0
+      }
+    },
+    "by_nearest_authored_object_min_25_observations": {
+      "Avocado oil bottle": {
+        "count": 266,
+        "median_m": 0.004448371706530452,
+        "p90_m": 0.015938549302518368,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Black molded mains plug": {
+        "count": 55,
+        "median_m": 0.007906298153102398,
+        "p90_m": 0.01956857442855835,
+        "fraction_within_0.02m": 0.9090909090909091,
+        "fraction_within_0.05m": 1.0
+      },
+      "Black supplement canister": {
+        "count": 599,
+        "median_m": 0.006704005412757397,
+        "p90_m": 0.012831998243927957,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Black supplement canister · closure": {
+        "count": 72,
+        "median_m": 0.005373788066208363,
+        "p90_m": 0.009133447520434856,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Blender motor base": {
+        "count": 576,
+        "median_m": 0.00644531031139195,
+        "p90_m": 0.017476962879300117,
+        "fraction_within_0.02m": 0.9392361111111112,
+        "fraction_within_0.05m": 1.0
+      },
+      "Buffalo wing sauce": {
+        "count": 37,
+        "median_m": 0.005347058642655611,
+        "p90_m": 0.009220588393509388,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Capsule coffee brewer": {
+        "count": 255,
+        "median_m": 0.006973640527576208,
+        "p90_m": 0.015855444967746726,
+        "fraction_within_0.02m": 0.9372549019607843,
+        "fraction_within_0.05m": 1.0
+      },
+      "Cholula hot sauce": {
+        "count": 28,
+        "median_m": 0.00433641136623919,
+        "p90_m": 0.007869487069547177,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Coffee brewer drip tray": {
+        "count": 42,
+        "median_m": 0.01617722399532795,
+        "p90_m": 0.024495016783475876,
+        "fraction_within_0.02m": 0.5952380952380952,
+        "fraction_within_0.05m": 1.0
+      },
+      "Cooktop • iron grate 1": {
+        "count": 129,
+        "median_m": 0.0023056783247739077,
+        "p90_m": 0.008359588868916036,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Cooktop • ribbed center griddle": {
+        "count": 361,
+        "median_m": 0.011180911213159561,
+        "p90_m": 0.015794901177287102,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Countertop toaster oven": {
+        "count": 441,
+        "median_m": 0.0033369644079357386,
+        "p90_m": 0.006940364837646484,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Dark knife block": {
+        "count": 40,
+        "median_m": 0.0036357641220092773,
+        "p90_m": 0.014511168282479048,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Dishwasher right filler": {
+        "count": 87,
+        "median_m": 0.009871244430541992,
+        "p90_m": 0.018220049887895585,
+        "fraction_within_0.02m": 0.9540229885057471,
+        "fraction_within_0.05m": 1.0
+      },
+      "Framed COFFEE dog illustration": {
+        "count": 129,
+        "median_m": 0.004642486572265625,
+        "p90_m": 0.01558361053466797,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Graza olive oil": {
+        "count": 52,
+        "median_m": 0.00518427649512887,
+        "p90_m": 0.008319739904254674,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Island quartz top": {
+        "count": 3349,
+        "median_m": 0.00450211763381958,
+        "p90_m": 0.009356749057769776,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Island waterfall end": {
+        "count": 1039,
+        "median_m": 0.0025635201018303633,
+        "p90_m": 0.005756067670881749,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Isopure powder tub": {
+        "count": 117,
+        "median_m": 0.007264683488756418,
+        "p90_m": 0.025911600887775423,
+        "fraction_within_0.02m": 0.7777777777777778,
+        "fraction_within_0.05m": 1.0
+      },
+      "Kung Pao sauce": {
+        "count": 33,
+        "median_m": 0.0067993574775755405,
+        "p90_m": 0.010048126429319381,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "L-shaped sink and preparation worktop": {
+        "count": 5802,
+        "median_m": 0.0026713013648986816,
+        "p90_m": 0.02357659339904786,
+        "fraction_within_0.02m": 0.8748707342295761,
+        "fraction_within_0.05m": 1.0
+      },
+      "Lower L-shaped pantry shelf": {
+        "count": 148,
+        "median_m": 0.007695674896240234,
+        "p90_m": 0.018190920352935798,
+        "fraction_within_0.02m": 0.9256756756756757,
+        "fraction_within_0.05m": 1.0
+      },
+      "Main stone backsplash": {
+        "count": 2894,
+        "median_m": 0.009437382221221924,
+        "p90_m": 0.016342091560363772,
+        "fraction_within_0.02m": 0.9492052522460263,
+        "fraction_within_0.05m": 1.0
+      },
+      "Open KIND snack-bar carton": {
+        "count": 102,
+        "median_m": 0.001195048331283033,
+        "p90_m": 0.0060815763194113975,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Original red hot sauce": {
+        "count": 68,
+        "median_m": 0.0030640560435131192,
+        "p90_m": 0.007102584978565574,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Pale knife block": {
+        "count": 62,
+        "median_m": 0.008371472358703613,
+        "p90_m": 0.014932811260223389,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Pale oak plank flooring": {
+        "count": 2347,
+        "median_m": 0.0020223299507051706,
+        "p90_m": 0.006237590126693249,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Pantry top receptacle": {
+        "count": 47,
+        "median_m": 0.0009222030639648438,
+        "p90_m": 0.0074051038362085795,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Premier Protein tub": {
+        "count": 54,
+        "median_m": 0.0038708520587533712,
+        "p90_m": 0.023059477843344212,
+        "fraction_within_0.02m": 0.8703703703703703,
+        "fraction_within_0.05m": 1.0
+      },
+      "Preparation door left": {
+        "count": 495,
+        "median_m": 0.008144021034240723,
+        "p90_m": 0.011902392655611039,
+        "fraction_within_0.02m": 0.997979797979798,
+        "fraction_within_0.05m": 1.0
+      },
+      "Preparation door right": {
+        "count": 529,
+        "median_m": 0.009062767028808594,
+        "p90_m": 0.012983322143554686,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Quilted aqua oven mitt": {
+        "count": 308,
+        "median_m": 0.00798433180898428,
+        "p90_m": 0.01941647380590439,
+        "fraction_within_0.02m": 0.922077922077922,
+        "fraction_within_0.05m": 1.0
+      },
+      "Range • central touch display": {
+        "count": 232,
+        "median_m": 0.005015710834413767,
+        "p90_m": 0.01991222780197859,
+        "fraction_within_0.02m": 0.9008620689655172,
+        "fraction_within_0.05m": 1.0
+      },
+      "Range • control dial 1": {
+        "count": 38,
+        "median_m": 0.012007549405097961,
+        "p90_m": 0.030946108140051384,
+        "fraction_within_0.02m": 0.6842105263157895,
+        "fraction_within_0.05m": 1.0
+      },
+      "Range • sloped control fascia": {
+        "count": 539,
+        "median_m": 0.005866172723472118,
+        "p90_m": 0.018886484205722805,
+        "fraction_within_0.02m": 0.9183673469387755,
+        "fraction_within_0.05m": 1.0
+      },
+      "Range • stainless cooktop tray": {
+        "count": 542,
+        "median_m": 0.005083143711090088,
+        "p90_m": 0.009861606359481818,
+        "fraction_within_0.02m": 0.996309963099631,
+        "fraction_within_0.05m": 1.0
+      },
+      "Sink wall backsplash": {
+        "count": 160,
+        "median_m": 0.0032668113708496094,
+        "p90_m": 0.009209418296813964,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Spice cabinet upper drawer front": {
+        "count": 1005,
+        "median_m": 0.003803253173828125,
+        "p90_m": 0.011025452613830566,
+        "fraction_within_0.02m": 0.9980099502487563,
+        "fraction_within_0.05m": 1.0
+      },
+      "Spice counter duplex receptacle": {
+        "count": 62,
+        "median_m": 0.01981855183839798,
+        "p90_m": 0.023716280609369277,
+        "fraction_within_0.02m": 0.5,
+        "fraction_within_0.05m": 1.0
+      },
+      "Spice counter slab": {
+        "count": 3382,
+        "median_m": 0.004392713308334351,
+        "p90_m": 0.013463652227073911,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Square green oil bottle": {
+        "count": 229,
+        "median_m": 0.0054139611311256886,
+        "p90_m": 0.01666531413793564,
+        "fraction_within_0.02m": 0.982532751091703,
+        "fraction_within_0.05m": 1.0
+      },
+      "Stainless square utensil caddy": {
+        "count": 56,
+        "median_m": 0.005110119236633182,
+        "p90_m": 0.010783116798847914,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Toaster oven glass door": {
+        "count": 384,
+        "median_m": 0.002297520637512207,
+        "p90_m": 0.011811857018619773,
+        "fraction_within_0.02m": 0.984375,
+        "fraction_within_0.05m": 1.0
+      },
+      "Turned wood utensil crock": {
+        "count": 60,
+        "median_m": 0.002456439775414765,
+        "p90_m": 0.008110320568084719,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Upper left cabinet": {
+        "count": 41,
+        "median_m": 0.0060225725173950195,
+        "p90_m": 0.007818818092346191,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Upper left cabinet underlip": {
+        "count": 44,
+        "median_m": 0.004172563552856445,
+        "p90_m": 0.011601746734231713,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Upper left lower lift front": {
+        "count": 104,
+        "median_m": 0.006511092185974121,
+        "p90_m": 0.010793721675872803,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Upper left top front": {
+        "count": 82,
+        "median_m": 0.005726814270019531,
+        "p90_m": 0.010638737678527832,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "White cylindrical countertop tin": {
+        "count": 119,
+        "median_m": 0.0017620471771806479,
+        "p90_m": 0.006784983165562153,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "White squeeze dispenser": {
+        "count": 45,
+        "median_m": 0.003855576505884528,
+        "p90_m": 0.006630073487758637,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Window and pantry wall": {
+        "count": 495,
+        "median_m": 0.0040569305419921875,
+        "p90_m": 0.010999345779418947,
+        "fraction_within_0.02m": 0.997979797979798,
+        "fraction_within_0.05m": 1.0
+      },
+      "Wooden oval spoon rest": {
+        "count": 29,
+        "median_m": 0.003031038446351886,
+        "p90_m": 0.005722035095095634,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      },
+      "Yellow bottled seasoning": {
+        "count": 34,
+        "median_m": 0.004580382257699966,
+        "p90_m": 0.009254177566617726,
+        "fraction_within_0.02m": 1.0,
+        "fraction_within_0.05m": 1.0
+      }
+    },
+    "native_vertex_count": 5000000,
+    "native_attributes": [
+      "confidence",
+      "frame_index",
+      "PLY sRGB",
+      "position",
+      ".select_vert"
+    ],
+    "observed_transform": [
+      [
+        1.9188868999481201,
+        1.4655325412750244,
+        -2.986571788787842,
+        1.7083587646484375
+      ],
+      [
+        3.326084613800049,
+        -0.7751723527908325,
+        1.7566426992416382,
+        -0.7217754125595093
+      ],
+      [
+        0.0675194039940834,
+        -3.464223623275757,
+        -1.6565381288528442,
+        1.589235544204712
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "full_reference_scale_consistency": {
+    "row_count_scanned": 5000000,
+    "assumed_island_height_m": 0.9144,
+    "method": "Native-frame pair of median aligned observed Z for island top and floor. Every observation whose visible normal points up (nz > 0.97), whose nearest and visible owner agree, and whose optical-axis discrepancy is below 0.12 m is eligible. Include frame pairs with at least 60 observations on both supports. Percentiles weigh frame pairs equally.",
+    "qualification": "This tests consistency of the assigned length unit across repeated observations. Absolute scale remains estimated from the unmeasured island height. Repeated views are correlated.",
+    "well_supported_frame_pairs": 38,
+    "top_rows_in_pairs": 155401,
+    "floor_rows_in_pairs": 162439,
+    "observed_separation_m_p10_p50_p90": [
+      0.9153315577539616,
+      0.9195690167834982,
+      0.9310728560201824
+    ],
+    "median_minus_assumed_m": 0.005169016783498237
+  },
+  "reference_viewport_display": "The native reference mesh contains every original PLY vertex. The blue display overlay uses the mean position and sRGB of all native observations in each occupied 18 mm voxel, across all 350 frame tags. Renderer and physical-object export omit this collection.",
+  "seed_architectural_decisions": [
+    "The observed prep and sink sections share one continuous L-shaped slab at 0.906 m. The nearer return projects 16 mm above this slab in the frame-630 mask; imposing the local VGGT warp would introduce a step or tilt absent from the multi-view slab edges. The separate spice slab is at 0.903 m.",
+    "After the initial fit, the main backsplash was shifted 7 mm toward the wall and the left upper door face 3 mm toward the wall to reduce systematic signed surface discrepancies.",
+    "The range and dishwasher bays remain physically open. The estimated cabinet shell thickness, toe kicks, concealed sink extent and room continuation are structural assumptions.",
+    "The glazed window, open sink cavity, island slats, countertop cutout and cabinet details were inferred from video boundaries where VGGT coverage was sparse. The exposed stone waterfall and top are constrained by observations.",
+    "The original full reference includes moving people and duplicate food containers. Native reference points are preserved only in the separate inspection scene; no moving reference observations constrain the static planes in the close-up hand regions."
+  ],
+  "seed_architectural_surface_audit": {
+    "reference": "1,000,000-point deterministic stride sample read back from the imported full-resolution Blender reference mesh. Frame ID, xyz and color retained.",
+    "method": "The masks below were defined by visual identification in source frames. Each includes imported points within ±8 source frames, reprojected by the anchor VGGT camera. Signed error is point axis coordinate minus modeled face coordinate. Camera drift, reflectance errors and boundary occlusion can contribute. No residual clipping. These are agreement errors in estimated metric units, not external survey accuracy.",
+    "surfaces": {
+      "Pale oak plank flooring": {
+        "source_frame": 0,
+        "axis": "Z",
+        "authored_plane_m": -0.001,
+        "masked_points": 2198,
+        "mask_pixels_540x960": [
+          [
+            4,
+            460
+          ],
+          [
+            71,
+            441
+          ],
+          [
+            141,
+            532
+          ],
+          [
+            140,
+            715
+          ],
+          [
+            106,
+            816
+          ],
+          [
+            5,
+            891
+          ]
+        ],
+        "median_signed_m": 0.00112,
+        "median_absolute_m": 0.00191,
+        "p90_absolute_m": 0.00537
+      },
+      "Island quartz top": {
+        "source_frame": 0,
+        "axis": "Z",
+        "authored_plane_m": 0.9144,
+        "masked_points": 2029,
+        "mask_pixels_540x960": [
+          [
+            190,
+            410
+          ],
+          [
+            422,
+            380
+          ],
+          [
+            428,
+            431
+          ],
+          [
+            532,
+            476
+          ],
+          [
+            526,
+            548
+          ],
+          [
+            432,
+            577
+          ],
+          [
+            278,
+            477
+          ]
+        ],
+        "median_signed_m": 0.0001,
+        "median_absolute_m": 0.00156,
+        "p90_absolute_m": 0.00404
+      },
+      "Island waterfall end": {
+        "source_frame": 0,
+        "axis": "Y",
+        "authored_plane_m": -0.004,
+        "masked_points": 3358,
+        "mask_pixels_540x960": [
+          [
+            190,
+            443
+          ],
+          [
+            410,
+            614
+          ],
+          [
+            398,
+            893
+          ],
+          [
+            193,
+            702
+          ]
+        ],
+        "median_signed_m": 0.00026,
+        "median_absolute_m": 0.00174,
+        "p90_absolute_m": 0.00542
+      },
+      "Preparation worktop left of range": {
+        "source_frame": 697,
+        "axis": "Z",
+        "authored_plane_m": 0.906,
+        "masked_points": 779,
+        "mask_pixels_540x960": [
+          [
+            41,
+            602
+          ],
+          [
+            182,
+            633
+          ],
+          [
+            276,
+            672
+          ],
+          [
+            247,
+            726
+          ],
+          [
+            150,
+            698
+          ],
+          [
+            29,
+            644
+          ]
+        ],
+        "median_signed_m": 0.00546,
+        "median_absolute_m": 0.00546,
+        "p90_absolute_m": 0.00787
+      },
+      "Spice counter slab": {
+        "source_frame": 240,
+        "axis": "Z",
+        "authored_plane_m": 0.903,
+        "masked_points": 2031,
+        "mask_pixels_540x960": [
+          [
+            7,
+            659
+          ],
+          [
+            79,
+            647
+          ],
+          [
+            217,
+            645
+          ],
+          [
+            289,
+            612
+          ],
+          [
+            326,
+            625
+          ],
+          [
+            382,
+            679
+          ],
+          [
+            263,
+            692
+          ],
+          [
+            14,
+            720
+          ]
+        ],
+        "median_signed_m": 0.00577,
+        "median_absolute_m": 0.00577,
+        "p90_absolute_m": 0.00818
+      },
+      "Sink return worktop": {
+        "source_frame": 630,
+        "axis": "Z",
+        "authored_plane_m": 0.906,
+        "masked_points": 1430,
+        "mask_pixels_540x960": [
+          [
+            223,
+            713
+          ],
+          [
+            264,
+            684
+          ],
+          [
+            364,
+            655
+          ],
+          [
+            474,
+            650
+          ],
+          [
+            458,
+            681
+          ],
+          [
+            369,
+            714
+          ],
+          [
+            294,
+            747
+          ],
+          [
+            218,
+            769
+          ]
+        ],
+        "median_signed_m": 0.01618,
+        "median_absolute_m": 0.01618,
+        "p90_absolute_m": 0.01942
+      },
+      "Spice cabinet upper drawer front": {
+        "source_frame": 70,
+        "axis": "Y",
+        "authored_plane_m": 1.162,
+        "masked_points": 2528,
+        "mask_pixels_540x960": [
+          [
+            309,
+            393
+          ],
+          [
+            519,
+            470
+          ],
+          [
+            529,
+            596
+          ],
+          [
+            311,
+            505
+          ]
+        ],
+        "median_signed_m": 0.005,
+        "median_absolute_m": 0.005,
+        "p90_absolute_m": 0.00836
+      },
+      "Upper left lower lift front": {
+        "source_frame": 697,
+        "axis": "Y",
+        "authored_plane_m": 1.486,
+        "masked_points": 379,
+        "mask_pixels_540x960": [
+          [
+            8,
+            139
+          ],
+          [
+            332,
+            106
+          ],
+          [
+            325,
+            389
+          ],
+          [
+            9,
+            363
+          ]
+        ],
+        "median_signed_m": 0.00667,
+        "median_absolute_m": 0.00675,
+        "p90_absolute_m": 0.01126
+      },
+      "Upper right lower lift front": {
+        "source_frame": 130,
+        "axis": "Y",
+        "authored_plane_m": 1.491,
+        "masked_points": 21,
+        "mask_pixels_540x960": [
+          [
+            17,
+            3
+          ],
+          [
+            529,
+            3
+          ],
+          [
+            525,
+            87
+          ],
+          [
+            18,
+            75
+          ]
+        ],
+        "median_signed_m": -0.00627,
+        "median_absolute_m": 0.00627,
+        "p90_absolute_m": 0.00821
+      },
+      "Limestone range backsplash": {
+        "source_frame": 280,
+        "axis": "Y",
+        "authored_plane_m": 1.81,
+        "masked_points": 3423,
+        "mask_pixels_540x960": [
+          [
+            51,
+            155
+          ],
+          [
+            425,
+            180
+          ],
+          [
+            412,
+            326
+          ],
+          [
+            351,
+            329
+          ],
+          [
+            237,
+            312
+          ],
+          [
+            44,
+            339
+          ]
+        ],
+        "median_signed_m": 0.0052,
+        "median_absolute_m": 0.00562,
+        "p90_absolute_m": 0.01002
+      },
+      "Upper pantry side-wall paint": {
+        "source_frame": 550,
+        "axis": "X",
+        "authored_plane_m": -3.2,
+        "masked_points": 2429,
+        "mask_pixels_540x960": [
+          [
+            7,
+            8
+          ],
+          [
+            115,
+            10
+          ],
+          [
+            191,
+            94
+          ],
+          [
+            189,
+            158
+          ],
+          [
+            13,
+            170
+          ]
+        ],
+        "median_signed_m": -0.00093,
+        "median_absolute_m": 0.00239,
+        "p90_absolute_m": 0.00975
+      }
+    }
+  },
+  "architectural_decisions": [
+    "Recessed island fluted cabinet face under the quartz and fitted the floor contact from source contours and native floor returns.",
+    "Fitted architectural faces separately from their parent wall or cabinet. Preserved continuous, horizontal bearing planes and locally adjusted attachments.",
+    "Fitted the uppermost dishwasher rack front with 2,560 time-tagged native returns. Fitted a second inclined sheet from the video where native returns are missing.",
+    "Retained structural continuity, observed support and separation where crowded native returns prefer interpenetrating geometry or incompatible depths. See NOTES.md for remaining local discrepancies."
+  ],
+  "architectural_surface_audit": {
+    "estimator_parameters": "src/full_arch_fit.json",
+    "final_evaluated_geometry_and_contacts": "inspection/fullcloud_architecture.json"
+  }
+}

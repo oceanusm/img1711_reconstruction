@@ -60,7 +60,7 @@ def _overlay(rgb_path, predicted, reference, destination):
 
 def run(args):
     manifest_path = Path(args.manifest).resolve()
-    manifest = load_manifest(manifest_path)
+    manifest = load_manifest(manifest_path, allow_sparse=True)
     output = Path(args.output)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"Output must be empty: {output}")

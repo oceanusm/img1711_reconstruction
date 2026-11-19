@@ -1,0 +1,2026 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "stage": "shared_entity_prompts",
+  "source_manifest_sha256": "22532e3764f694f04a501c903b35b830e35a5d10f7d2ace544081bfc9e44cd23",
+  "selection_sha256": "36e693912c7e2b3d71f268a9230b3b069e93adc1860e30e49433c2d5e1a802bf",
+  "width": 1080,
+  "height": 1920,
+  "objects": [
+    {
+      "name": "backsplash",
+      "text": "stone kitchen backsplash",
+      "frame_index": 282
+    },
+    {
+      "name": "baking_tray",
+      "text": "baking tray",
+      "frame_index": 655
+    },
+    {
+      "name": "blender_base",
+      "text": "blender motor base",
+      "frame_index": 598
+    },
+    {
+      "name": "bottle",
+      "text": "bottle",
+      "frame_index": 458
+    },
+    {
+      "name": "bowl",
+      "text": "bowl",
+      "frame_index": 627
+    },
+    {
+      "name": "cabinet",
+      "text": "kitchen cabinet",
+      "frame_index": 676
+    },
+    {
+      "name": "canister",
+      "text": "food storage canister",
+      "frame_index": 507
+    },
+    {
+      "name": "capsule_holder",
+      "text": "coffee capsule holder",
+      "frame_index": 345
+    },
+    {
+      "name": "carafe",
+      "text": "carafe",
+      "frame_index": 380
+    },
+    {
+      "name": "ceiling",
+      "text": "ceiling",
+      "frame_index": 584
+    },
+    {
+      "name": "cleaning_glove",
+      "text": "cleaning glove",
+      "frame_index": 70
+    },
+    {
+      "name": "coffee_capsule",
+      "text": "coffee capsule",
+      "frame_index": 345
+    },
+    {
+      "name": "coffee_maker",
+      "text": "coffee machine",
+      "frame_index": 359
+    },
+    {
+      "name": "coffee_scoop",
+      "text": "coffee scoop",
+      "frame_index": 352
+    },
+    {
+      "name": "countertop",
+      "text": "kitchen countertop",
+      "frame_index": 35
+    },
+    {
+      "name": "countertop_appliance",
+      "text": "kitchen countertop appliance",
+      "frame_index": 197
+    },
+    {
+      "name": "dish_cloth",
+      "text": "dish cloth",
+      "frame_index": 634
+    },
+    {
+      "name": "dishwasher",
+      "text": "dishwasher",
+      "frame_index": 655
+    },
+    {
+      "name": "electrical_outlet",
+      "text": "electrical outlet",
+      "frame_index": 528
+    },
+    {
+      "name": "faucet",
+      "text": "faucet",
+      "frame_index": 7
+    },
+    {
+      "name": "floor",
+      "text": "wood floor",
+      "frame_index": 77
+    },
+    {
+      "name": "food_carton",
+      "text": "food carton",
+      "frame_index": 225
+    },
+    {
+      "name": "food_container",
+      "text": "food container",
+      "frame_index": 211
+    },
+    {
+      "name": "food_multipack",
+      "text": "packaged food multipack",
+      "frame_index": 239
+    },
+    {
+      "name": "food_packet",
+      "text": "food packet",
+      "frame_index": 465
+    },
+    {
+      "name": "food_pouch",
+      "text": "food pouch",
+      "frame_index": 451
+    },
+    {
+      "name": "framed_picture",
+      "text": "framed picture",
+      "frame_index": 345
+    },
+    {
+      "name": "frying_pan",
+      "text": "frying pan",
+      "frame_index": 634
+    },
+    {
+      "name": "griddle",
+      "text": "griddle",
+      "frame_index": 303
+    },
+    {
+      "name": "hanging_accessory",
+      "text": "hanging kitchen accessory",
+      "frame_index": 282
+    },
+    {
+      "name": "island_base",
+      "text": "kitchen island base",
+      "frame_index": 0
+    },
+    {
+      "name": "jar",
+      "text": "jar",
+      "frame_index": 422
+    },
+    {
+      "name": "kettle",
+      "text": "electric kettle",
+      "frame_index": 380
+    },
+    {
+      "name": "knife",
+      "text": "kitchen knife",
+      "frame_index": 331
+    },
+    {
+      "name": "knife_block",
+      "text": "wooden knife block",
+      "frame_index": 331
+    },
+    {
+      "name": "ladle",
+      "text": "ladle",
+      "frame_index": 190
+    },
+    {
+      "name": "microwave",
+      "text": "microwave oven",
+      "frame_index": 697
+    },
+    {
+      "name": "oven_mitt",
+      "text": "oven mitt",
+      "frame_index": 232
+    },
+    {
+      "name": "paper_towel_holder",
+      "text": "paper towel holder",
+      "frame_index": 627
+    },
+    {
+      "name": "paper_towel_roll",
+      "text": "paper towel roll",
+      "frame_index": 627
+    },
+    {
+      "name": "pastry_brush",
+      "text": "pastry brush",
+      "frame_index": 176
+    },
+    {
+      "name": "plant_stand",
+      "text": "plant stand",
+      "frame_index": 14
+    },
+    {
+      "name": "plastic_wrapper",
+      "text": "plastic wrapper",
+      "frame_index": 472
+    },
+    {
+      "name": "plate",
+      "text": "plate",
+      "frame_index": 620
+    },
+    {
+      "name": "potted_plant",
+      "text": "potted plant",
+      "frame_index": 620
+    },
+    {
+      "name": "power_cord",
+      "text": "power cord",
+      "frame_index": 338
+    },
+    {
+      "name": "remote_control",
+      "text": "remote control",
+      "frame_index": 7
+    },
+    {
+      "name": "seasoning_bottle",
+      "text": "seasoning bottle",
+      "frame_index": 429
+    },
+    {
+      "name": "seasoning_jar",
+      "text": "spice jar",
+      "frame_index": 183
+    },
+    {
+      "name": "seasoning_tin",
+      "text": "seasoning tin",
+      "frame_index": 183
+    },
+    {
+      "name": "shelf",
+      "text": "wall shelf",
+      "frame_index": 444
+    },
+    {
+      "name": "sink",
+      "text": "kitchen sink",
+      "frame_index": 634
+    },
+    {
+      "name": "skimmer",
+      "text": "kitchen skimmer",
+      "frame_index": 183
+    },
+    {
+      "name": "small_unknown_item",
+      "text": "small countertop object",
+      "frame_index": 211
+    },
+    {
+      "name": "soap_bottle",
+      "text": "dish soap bottle",
+      "frame_index": 0
+    },
+    {
+      "name": "soap_dispenser",
+      "text": "soap dispenser",
+      "frame_index": 21
+    },
+    {
+      "name": "soft_bag",
+      "text": "white bag",
+      "frame_index": 0
+    },
+    {
+      "name": "spatula",
+      "text": "spatula",
+      "frame_index": 176
+    },
+    {
+      "name": "sponge",
+      "text": "sponge",
+      "frame_index": 634
+    },
+    {
+      "name": "spoon",
+      "text": "cooking spoon",
+      "frame_index": 190
+    },
+    {
+      "name": "stockpot",
+      "text": "stockpot",
+      "frame_index": 268
+    },
+    {
+      "name": "stove",
+      "text": "stove and oven",
+      "frame_index": 289
+    },
+    {
+      "name": "toaster_oven",
+      "text": "toaster oven",
+      "frame_index": 387
+    },
+    {
+      "name": "tongs",
+      "text": "kitchen tongs",
+      "frame_index": 620
+    },
+    {
+      "name": "tumbler",
+      "text": "travel tumbler",
+      "frame_index": 21
+    },
+    {
+      "name": "utensil_holder",
+      "text": "utensil holder",
+      "frame_index": 183
+    },
+    {
+      "name": "wall",
+      "text": "kitchen wall",
+      "frame_index": 535
+    },
+    {
+      "name": "whisk",
+      "text": "whisk",
+      "frame_index": 176
+    },
+    {
+      "name": "window",
+      "text": "window",
+      "frame_index": 0
+    },
+    {
+      "name": "wooden_dish",
+      "text": "wooden dish",
+      "frame_index": 345
+    },
+    {
+      "name": "wrapped_food",
+      "text": "wrapped food",
+      "frame_index": 500
+    }
+  ],
+  "anchor_provenance": {
+    "backsplash": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 282,
+      "combined_visible_pixels": 1216761,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 570873
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 645888
+        }
+      ]
+    },
+    "baking_tray": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 655,
+      "combined_visible_pixels": 20159,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 5108
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 15051
+        }
+      ]
+    },
+    "blender_base": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 598,
+      "combined_visible_pixels": 161144,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 87442
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 73702
+        }
+      ]
+    },
+    "bottle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 458,
+      "combined_visible_pixels": 650494,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 315015
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 335479
+        }
+      ]
+    },
+    "bowl": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 627,
+      "combined_visible_pixels": 20258,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 3760
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 16498
+        }
+      ]
+    },
+    "cabinet": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 676,
+      "combined_visible_pixels": 1947807,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 984701
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 963106
+        }
+      ]
+    },
+    "canister": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 507,
+      "combined_visible_pixels": 972755,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 528429
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 444326
+        }
+      ]
+    },
+    "capsule_holder": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 345,
+      "combined_visible_pixels": 72377,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 30860
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 41517
+        }
+      ]
+    },
+    "carafe": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 380,
+      "combined_visible_pixels": 39801,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 39801
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": false,
+          "visible_pixels": 0
+        }
+      ]
+    },
+    "ceiling": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 584,
+      "combined_visible_pixels": 122426,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": false,
+          "visible_pixels": 0
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 122426
+        }
+      ]
+    },
+    "cleaning_glove": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 70,
+      "combined_visible_pixels": 8239,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 4050
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4189
+        }
+      ]
+    },
+    "coffee_capsule": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 345,
+      "combined_visible_pixels": 20449,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 8241
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 12208
+        }
+      ]
+    },
+    "coffee_maker": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 359,
+      "combined_visible_pixels": 316117,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 171396
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 144721
+        }
+      ]
+    },
+    "coffee_scoop": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 352,
+      "combined_visible_pixels": 4438,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": false,
+          "visible_pixels": 0
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4438
+        }
+      ]
+    },
+    "countertop": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 35,
+      "combined_visible_pixels": 1655734,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 834848
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 820886
+        }
+      ]
+    },
+    "countertop_appliance": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 197,
+      "combined_visible_pixels": 24256,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 10607
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 13649
+        }
+      ]
+    },
+    "dish_cloth": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 634,
+      "combined_visible_pixels": 9307,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 1585
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 7722
+        }
+      ]
+    },
+    "dishwasher": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 655,
+      "combined_visible_pixels": 404647,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 211092
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 193555
+        }
+      ]
+    },
+    "electrical_outlet": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 528,
+      "combined_visible_pixels": 80225,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 37438
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 42787
+        }
+      ]
+    },
+    "faucet": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 7,
+      "combined_visible_pixels": 235,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 235
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": false,
+          "visible_pixels": 0
+        }
+      ]
+    },
+    "floor": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 77,
+      "combined_visible_pixels": 1196504,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 556342
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 640162
+        }
+      ]
+    },
+    "food_carton": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 225,
+      "combined_visible_pixels": 287114,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 131569
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 155545
+        }
+      ]
+    },
+    "food_container": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 211,
+      "combined_visible_pixels": 109712,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 40763
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 68949
+        }
+      ]
+    },
+    "food_multipack": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 239,
+      "combined_visible_pixels": 158013,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 79617
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 78396
+        }
+      ]
+    },
+    "food_packet": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 465,
+      "combined_visible_pixels": 25938,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 9015
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 16923
+        }
+      ]
+    },
+    "food_pouch": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 451,
+      "combined_visible_pixels": 139607,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 78226
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 61381
+        }
+      ]
+    },
+    "framed_picture": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 345,
+      "combined_visible_pixels": 234525,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 118184
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 116341
+        }
+      ]
+    },
+    "frying_pan": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 634,
+      "combined_visible_pixels": 32523,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 17093
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 15430
+        }
+      ]
+    },
+    "griddle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 303,
+      "combined_visible_pixels": 196354,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 83294
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 113060
+        }
+      ]
+    },
+    "hanging_accessory": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 282,
+      "combined_visible_pixels": 1180,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 1180
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": false,
+          "visible_pixels": 0
+        }
+      ]
+    },
+    "island_base": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 0,
+      "combined_visible_pixels": 202336,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 113351
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 88985
+        }
+      ]
+    },
+    "jar": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 422,
+      "combined_visible_pixels": 239798,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 129197
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 110601
+        }
+      ]
+    },
+    "kettle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 380,
+      "combined_visible_pixels": 55607,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": false,
+          "visible_pixels": 0
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 55607
+        }
+      ]
+    },
+    "knife": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 331,
+      "combined_visible_pixels": 121490,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 47372
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 74118
+        }
+      ]
+    },
+    "knife_block": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 331,
+      "combined_visible_pixels": 151578,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 83226
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 68352
+        }
+      ]
+    },
+    "ladle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 190,
+      "combined_visible_pixels": 45366,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 19654
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 25712
+        }
+      ]
+    },
+    "microwave": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 697,
+      "combined_visible_pixels": 420360,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 208084
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 212276
+        }
+      ]
+    },
+    "oven_mitt": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 232,
+      "combined_visible_pixels": 135530,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 56009
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 79521
+        }
+      ]
+    },
+    "paper_towel_holder": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 627,
+      "combined_visible_pixels": 3274,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 1467
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 1807
+        }
+      ]
+    },
+    "paper_towel_roll": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 627,
+      "combined_visible_pixels": 66128,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 33071
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 33057
+        }
+      ]
+    },
+    "pastry_brush": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 176,
+      "combined_visible_pixels": 13098,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 4168
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 8930
+        }
+      ]
+    },
+    "plant_stand": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 14,
+      "combined_visible_pixels": 576,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 191
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 385
+        }
+      ]
+    },
+    "plastic_wrapper": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 472,
+      "combined_visible_pixels": 18195,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 13568
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4627
+        }
+      ]
+    },
+    "plate": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 620,
+      "combined_visible_pixels": 90169,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 43178
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 46991
+        }
+      ]
+    },
+    "potted_plant": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 620,
+      "combined_visible_pixels": 87475,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 51853
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 35622
+        }
+      ]
+    },
+    "power_cord": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 338,
+      "combined_visible_pixels": 13033,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 4232
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 8801
+        }
+      ]
+    },
+    "remote_control": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 7,
+      "combined_visible_pixels": 9885,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 5020
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4865
+        }
+      ]
+    },
+    "seasoning_bottle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 429,
+      "combined_visible_pixels": 55636,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 27637
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 27999
+        }
+      ]
+    },
+    "seasoning_jar": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 183,
+      "combined_visible_pixels": 304251,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 155263
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 148988
+        }
+      ]
+    },
+    "seasoning_tin": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 183,
+      "combined_visible_pixels": 125662,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 55165
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 70497
+        }
+      ]
+    },
+    "shelf": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 444,
+      "combined_visible_pixels": 616069,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 266465
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 349604
+        }
+      ]
+    },
+    "sink": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 634,
+      "combined_visible_pixels": 9994,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 5948
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4046
+        }
+      ]
+    },
+    "skimmer": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 183,
+      "combined_visible_pixels": 20499,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": false,
+          "visible_pixels": 0
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 20499
+        }
+      ]
+    },
+    "small_unknown_item": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 211,
+      "combined_visible_pixels": 15475,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 8037
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 7438
+        }
+      ]
+    },
+    "soap_bottle": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 0,
+      "combined_visible_pixels": 1324,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 585
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 739
+        }
+      ]
+    },
+    "soap_dispenser": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 21,
+      "combined_visible_pixels": 201,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": false,
+          "visible_pixels": 0
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 201
+        }
+      ]
+    },
+    "soft_bag": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 0,
+      "combined_visible_pixels": 12172,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 7421
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 4751
+        }
+      ]
+    },
+    "spatula": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 176,
+      "combined_visible_pixels": 111336,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 66298
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 45038
+        }
+      ]
+    },
+    "sponge": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 634,
+      "combined_visible_pixels": 7004,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 7004
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": false,
+          "visible_pixels": 0
+        }
+      ]
+    },
+    "spoon": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 190,
+      "combined_visible_pixels": 52082,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 20362
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 31720
+        }
+      ]
+    },
+    "stockpot": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 268,
+      "combined_visible_pixels": 117430,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 58261
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 59169
+        }
+      ]
+    },
+    "stove": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 289,
+      "combined_visible_pixels": 1789576,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 885122
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 904454
+        }
+      ]
+    },
+    "toaster_oven": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 387,
+      "combined_visible_pixels": 1051556,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 545464
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 506092
+        }
+      ]
+    },
+    "tongs": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 620,
+      "combined_visible_pixels": 11745,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 4496
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 7249
+        }
+      ]
+    },
+    "tumbler": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 21,
+      "combined_visible_pixels": 30781,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 18258
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 12523
+        }
+      ]
+    },
+    "utensil_holder": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 183,
+      "combined_visible_pixels": 428881,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 213824
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 215057
+        }
+      ]
+    },
+    "wall": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 535,
+      "combined_visible_pixels": 1938299,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 821182
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 1117117
+        }
+      ]
+    },
+    "whisk": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 176,
+      "combined_visible_pixels": 36427,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 22833
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 13594
+        }
+      ]
+    },
+    "window": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 0,
+      "combined_visible_pixels": 48255,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 23262
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 24993
+        }
+      ]
+    },
+    "wooden_dish": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 345,
+      "combined_visible_pixels": 28465,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 12788
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 15677
+        }
+      ]
+    },
+    "wrapped_food": {
+      "source": "maximum_combined_blender_concept_visibility",
+      "frame_index": 500,
+      "combined_visible_pixels": 23393,
+      "no_rendered_visibility": false,
+      "tie_policy": "earliest selected source frame",
+      "per_scene_visible_pixels": [
+        {
+          "scene_key": "before_vqa",
+          "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+          "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47",
+          "concept_present": true,
+          "visible_pixels": 4630
+        },
+        {
+          "scene_key": "vggt_guided_1711",
+          "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+          "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665",
+          "concept_present": true,
+          "visible_pixels": 18763
+        }
+      ]
+    }
+  },
+  "inputs": [
+    {
+      "scene_key": "before_vqa",
+      "entities": "../entities_1711_before_vqa.json",
+      "entities_sha256": "3f9e8edf67a41a00e37f775af4eabd59d3f88db783a7d7ec672735419a7a1d3e",
+      "source_blend_sha256": "762aa30d3f92d8ef88ffa6ab766d182e6fb5ab2d9caea03d949b09ee960ccc1d",
+      "render_index": "../../outputs/entity_comparison_1711/before_vqa/render/index.json",
+      "render_index_sha256": "6a54321a63a55696e5a19f1c6934d5ee3c05046fa2df577892d8fef15af8de47"
+    },
+    {
+      "scene_key": "vggt_guided_1711",
+      "entities": "../entities_1711_vggt_guided.json",
+      "entities_sha256": "a371036105d3ced1a0c06dcd73532bc198709737c9e53643aa9af8f4c3da2f40",
+      "source_blend_sha256": "7584e629d457d6fd1b06c7238b6cbc94dcf4cc453fb585b2b4cf9411adff1ad9",
+      "render_index": "../../outputs/entity_comparison_1711/vggt_guided/render/index.json",
+      "render_index_sha256": "b2e0077b29e71015ed3540d8ce9535ce6edaed87ebd3a647171570cfab587665"
+    }
+  ],
+  "policy": "Common concepts use identical text and one anchor selected by the sum of visible pixels across all paired scene renders.",
+  "geometry_prompt_policy": "Only text and a source-frame timestamp are sent to SAM; no Blender boxes, masks or overlap scores.",
+  "limitations": [
+    "Visibility selects prompt timing and is not a ground-truth segmentation score.",
+    "A missing concept contributes zero visibility; no-visible concepts use the first selected frame.",
+    "Identical text/anchors remove this prompt difference between batches but do not guarantee identical stochastic SAM predictions."
+  ]
+}

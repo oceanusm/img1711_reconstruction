@@ -1,0 +1,715 @@
+{
+  "schema_version": 1,
+  "source_manifest_sha256": "22532e3764f694f04a501c903b35b830e35a5d10f7d2ace544081bfc9e44cd23",
+  "source_frame_count": 698,
+  "width": 1080,
+  "height": 1920,
+  "frames": [
+    {
+      "index": 0,
+      "file": "000000.jpg",
+      "pts_seconds": 0.0,
+      "time_seconds": 0.0,
+      "duration_seconds": 0.033333
+    },
+    {
+      "index": 7,
+      "file": "000007.jpg",
+      "pts_seconds": 0.233333,
+      "time_seconds": 0.233333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 14,
+      "file": "000014.jpg",
+      "pts_seconds": 0.466667,
+      "time_seconds": 0.466667,
+      "duration_seconds": 0.033333
+    },
+    {
+      "index": 21,
+      "file": "000021.jpg",
+      "pts_seconds": 0.7,
+      "time_seconds": 0.7,
+      "duration_seconds": 0.03333300000000006
+    },
+    {
+      "index": 28,
+      "file": "000028.jpg",
+      "pts_seconds": 0.933333,
+      "time_seconds": 0.933333,
+      "duration_seconds": 0.033334000000000086
+    },
+    {
+      "index": 35,
+      "file": "000035.jpg",
+      "pts_seconds": 1.166667,
+      "time_seconds": 1.166667,
+      "duration_seconds": 0.03333300000000006
+    },
+    {
+      "index": 42,
+      "file": "000042.jpg",
+      "pts_seconds": 1.4,
+      "time_seconds": 1.4,
+      "duration_seconds": 0.03333300000000006
+    },
+    {
+      "index": 49,
+      "file": "000049.jpg",
+      "pts_seconds": 1.633333,
+      "time_seconds": 1.633333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 56,
+      "file": "000056.jpg",
+      "pts_seconds": 1.866667,
+      "time_seconds": 1.866667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 63,
+      "file": "000063.jpg",
+      "pts_seconds": 2.1,
+      "time_seconds": 2.1,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 70,
+      "file": "000070.jpg",
+      "pts_seconds": 2.333333,
+      "time_seconds": 2.333333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 77,
+      "file": "000077.jpg",
+      "pts_seconds": 2.566667,
+      "time_seconds": 2.566667,
+      "duration_seconds": 0.03333300000000028
+    },
+    {
+      "index": 84,
+      "file": "000084.jpg",
+      "pts_seconds": 2.8,
+      "time_seconds": 2.8,
+      "duration_seconds": 0.03333300000000028
+    },
+    {
+      "index": 92,
+      "file": "000092.jpg",
+      "pts_seconds": 3.066667,
+      "time_seconds": 3.066667,
+      "duration_seconds": 0.03333300000000028
+    },
+    {
+      "index": 99,
+      "file": "000099.jpg",
+      "pts_seconds": 3.3,
+      "time_seconds": 3.3,
+      "duration_seconds": 0.03333300000000028
+    },
+    {
+      "index": 106,
+      "file": "000106.jpg",
+      "pts_seconds": 3.533333,
+      "time_seconds": 3.533333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 113,
+      "file": "000113.jpg",
+      "pts_seconds": 3.766667,
+      "time_seconds": 3.766667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 120,
+      "file": "000120.jpg",
+      "pts_seconds": 4.0,
+      "time_seconds": 4.0,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 127,
+      "file": "000127.jpg",
+      "pts_seconds": 4.233333,
+      "time_seconds": 4.233333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 134,
+      "file": "000134.jpg",
+      "pts_seconds": 4.466667,
+      "time_seconds": 4.466667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 141,
+      "file": "000141.jpg",
+      "pts_seconds": 4.7,
+      "time_seconds": 4.7,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 148,
+      "file": "000148.jpg",
+      "pts_seconds": 4.933333,
+      "time_seconds": 4.933333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 155,
+      "file": "000155.jpg",
+      "pts_seconds": 5.166667,
+      "time_seconds": 5.166667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 162,
+      "file": "000162.jpg",
+      "pts_seconds": 5.4,
+      "time_seconds": 5.4,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 169,
+      "file": "000169.jpg",
+      "pts_seconds": 5.633333,
+      "time_seconds": 5.633333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 176,
+      "file": "000176.jpg",
+      "pts_seconds": 5.866667,
+      "time_seconds": 5.866667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 183,
+      "file": "000183.jpg",
+      "pts_seconds": 6.1,
+      "time_seconds": 6.1,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 190,
+      "file": "000190.jpg",
+      "pts_seconds": 6.333333,
+      "time_seconds": 6.333333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 197,
+      "file": "000197.jpg",
+      "pts_seconds": 6.566667,
+      "time_seconds": 6.566667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 204,
+      "file": "000204.jpg",
+      "pts_seconds": 6.8,
+      "time_seconds": 6.8,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 211,
+      "file": "000211.jpg",
+      "pts_seconds": 7.033333,
+      "time_seconds": 7.033333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 218,
+      "file": "000218.jpg",
+      "pts_seconds": 7.266667,
+      "time_seconds": 7.266667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 225,
+      "file": "000225.jpg",
+      "pts_seconds": 7.5,
+      "time_seconds": 7.5,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 232,
+      "file": "000232.jpg",
+      "pts_seconds": 7.733333,
+      "time_seconds": 7.733333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 239,
+      "file": "000239.jpg",
+      "pts_seconds": 7.966667,
+      "time_seconds": 7.966667,
+      "duration_seconds": 0.033332999999999835
+    },
+    {
+      "index": 246,
+      "file": "000246.jpg",
+      "pts_seconds": 8.2,
+      "time_seconds": 8.2,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 253,
+      "file": "000253.jpg",
+      "pts_seconds": 8.433333,
+      "time_seconds": 8.433333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 261,
+      "file": "000261.jpg",
+      "pts_seconds": 8.7,
+      "time_seconds": 8.7,
+      "duration_seconds": 0.03500000000000014
+    },
+    {
+      "index": 268,
+      "file": "000268.jpg",
+      "pts_seconds": 8.935,
+      "time_seconds": 8.935,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 275,
+      "file": "000275.jpg",
+      "pts_seconds": 9.168333,
+      "time_seconds": 9.168333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 282,
+      "file": "000282.jpg",
+      "pts_seconds": 9.401667,
+      "time_seconds": 9.401667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 289,
+      "file": "000289.jpg",
+      "pts_seconds": 9.635,
+      "time_seconds": 9.635,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 296,
+      "file": "000296.jpg",
+      "pts_seconds": 9.868333,
+      "time_seconds": 9.868333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 303,
+      "file": "000303.jpg",
+      "pts_seconds": 10.101667,
+      "time_seconds": 10.101667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 310,
+      "file": "000310.jpg",
+      "pts_seconds": 10.335,
+      "time_seconds": 10.335,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 317,
+      "file": "000317.jpg",
+      "pts_seconds": 10.568333,
+      "time_seconds": 10.568333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 324,
+      "file": "000324.jpg",
+      "pts_seconds": 10.801667,
+      "time_seconds": 10.801667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 331,
+      "file": "000331.jpg",
+      "pts_seconds": 11.035,
+      "time_seconds": 11.035,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 338,
+      "file": "000338.jpg",
+      "pts_seconds": 11.268333,
+      "time_seconds": 11.268333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 345,
+      "file": "000345.jpg",
+      "pts_seconds": 11.501667,
+      "time_seconds": 11.501667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 352,
+      "file": "000352.jpg",
+      "pts_seconds": 11.735,
+      "time_seconds": 11.735,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 359,
+      "file": "000359.jpg",
+      "pts_seconds": 11.968333,
+      "time_seconds": 11.968333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 366,
+      "file": "000366.jpg",
+      "pts_seconds": 12.201667,
+      "time_seconds": 12.201667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 373,
+      "file": "000373.jpg",
+      "pts_seconds": 12.435,
+      "time_seconds": 12.435,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 380,
+      "file": "000380.jpg",
+      "pts_seconds": 12.668333,
+      "time_seconds": 12.668333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 387,
+      "file": "000387.jpg",
+      "pts_seconds": 12.901667,
+      "time_seconds": 12.901667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 394,
+      "file": "000394.jpg",
+      "pts_seconds": 13.135,
+      "time_seconds": 13.135,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 401,
+      "file": "000401.jpg",
+      "pts_seconds": 13.368333,
+      "time_seconds": 13.368333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 408,
+      "file": "000408.jpg",
+      "pts_seconds": 13.601667,
+      "time_seconds": 13.601667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 415,
+      "file": "000415.jpg",
+      "pts_seconds": 13.835,
+      "time_seconds": 13.835,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 422,
+      "file": "000422.jpg",
+      "pts_seconds": 14.068333,
+      "time_seconds": 14.068333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 429,
+      "file": "000429.jpg",
+      "pts_seconds": 14.301667,
+      "time_seconds": 14.301667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 436,
+      "file": "000436.jpg",
+      "pts_seconds": 14.535,
+      "time_seconds": 14.535,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 444,
+      "file": "000444.jpg",
+      "pts_seconds": 14.801667,
+      "time_seconds": 14.801667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 451,
+      "file": "000451.jpg",
+      "pts_seconds": 15.035,
+      "time_seconds": 15.035,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 458,
+      "file": "000458.jpg",
+      "pts_seconds": 15.268333,
+      "time_seconds": 15.268333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 465,
+      "file": "000465.jpg",
+      "pts_seconds": 15.501667,
+      "time_seconds": 15.501667,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 472,
+      "file": "000472.jpg",
+      "pts_seconds": 15.735,
+      "time_seconds": 15.735,
+      "duration_seconds": 0.03333300000000072
+    },
+    {
+      "index": 479,
+      "file": "000479.jpg",
+      "pts_seconds": 15.968333,
+      "time_seconds": 15.968333,
+      "duration_seconds": 0.03333400000000175
+    },
+    {
+      "index": 486,
+      "file": "000486.jpg",
+      "pts_seconds": 16.201667,
+      "time_seconds": 16.201667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 493,
+      "file": "000493.jpg",
+      "pts_seconds": 16.435,
+      "time_seconds": 16.435,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 500,
+      "file": "000500.jpg",
+      "pts_seconds": 16.668333,
+      "time_seconds": 16.668333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 507,
+      "file": "000507.jpg",
+      "pts_seconds": 16.901667,
+      "time_seconds": 16.901667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 514,
+      "file": "000514.jpg",
+      "pts_seconds": 17.135,
+      "time_seconds": 17.135,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 521,
+      "file": "000521.jpg",
+      "pts_seconds": 17.368333,
+      "time_seconds": 17.368333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 528,
+      "file": "000528.jpg",
+      "pts_seconds": 17.601667,
+      "time_seconds": 17.601667,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 535,
+      "file": "000535.jpg",
+      "pts_seconds": 17.835,
+      "time_seconds": 17.835,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 542,
+      "file": "000542.jpg",
+      "pts_seconds": 18.068333,
+      "time_seconds": 18.068333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 549,
+      "file": "000549.jpg",
+      "pts_seconds": 18.301667,
+      "time_seconds": 18.301667,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 556,
+      "file": "000556.jpg",
+      "pts_seconds": 18.535,
+      "time_seconds": 18.535,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 563,
+      "file": "000563.jpg",
+      "pts_seconds": 18.768333,
+      "time_seconds": 18.768333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 570,
+      "file": "000570.jpg",
+      "pts_seconds": 19.001667,
+      "time_seconds": 19.001667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 577,
+      "file": "000577.jpg",
+      "pts_seconds": 19.235,
+      "time_seconds": 19.235,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 584,
+      "file": "000584.jpg",
+      "pts_seconds": 19.468333,
+      "time_seconds": 19.468333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 591,
+      "file": "000591.jpg",
+      "pts_seconds": 19.701667,
+      "time_seconds": 19.701667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 598,
+      "file": "000598.jpg",
+      "pts_seconds": 19.935,
+      "time_seconds": 19.935,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 605,
+      "file": "000605.jpg",
+      "pts_seconds": 20.168333,
+      "time_seconds": 20.168333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 613,
+      "file": "000613.jpg",
+      "pts_seconds": 20.435,
+      "time_seconds": 20.435,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 620,
+      "file": "000620.jpg",
+      "pts_seconds": 20.668333,
+      "time_seconds": 20.668333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 627,
+      "file": "000627.jpg",
+      "pts_seconds": 20.901667,
+      "time_seconds": 20.901667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 634,
+      "file": "000634.jpg",
+      "pts_seconds": 21.135,
+      "time_seconds": 21.135,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 641,
+      "file": "000641.jpg",
+      "pts_seconds": 21.368333,
+      "time_seconds": 21.368333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 648,
+      "file": "000648.jpg",
+      "pts_seconds": 21.601667,
+      "time_seconds": 21.601667,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 655,
+      "file": "000655.jpg",
+      "pts_seconds": 21.835,
+      "time_seconds": 21.835,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 662,
+      "file": "000662.jpg",
+      "pts_seconds": 22.068333,
+      "time_seconds": 22.068333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 669,
+      "file": "000669.jpg",
+      "pts_seconds": 22.301667,
+      "time_seconds": 22.301667,
+      "duration_seconds": 0.0333330000000025
+    },
+    {
+      "index": 676,
+      "file": "000676.jpg",
+      "pts_seconds": 22.535,
+      "time_seconds": 22.535,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 683,
+      "file": "000683.jpg",
+      "pts_seconds": 22.768333,
+      "time_seconds": 22.768333,
+      "duration_seconds": 0.033333999999999975
+    },
+    {
+      "index": 690,
+      "file": "000690.jpg",
+      "pts_seconds": 23.001667,
+      "time_seconds": 23.001667,
+      "duration_seconds": 0.03333299999999895
+    },
+    {
+      "index": 697,
+      "file": "000697.jpg",
+      "pts_seconds": 23.235,
+      "time_seconds": 23.235,
+      "duration_seconds": 0.03166700000000233
+    }
+  ],
+  "selection": {
+    "method": "uniform_timestamps_nearest_unique_source_frames",
+    "requested_count": 100,
+    "preserves_original_frame_ids": true,
+    "first_and_last_included": true
+  }
+}

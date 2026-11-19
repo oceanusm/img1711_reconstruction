@@ -14,6 +14,14 @@
       "size_bytes": 2049911,
       "sha256": "2a938e675e42e22920975a024b8a388d5c09c381a3df3e0a217e06115bb1ba4a",
       "condition": "Informed of VQA and given its questions"
+    },
+    {
+      "name": "vggt_guided_1711",
+      "file": "vggt_guided_1711/scene.blend",
+      "size_bytes": 2277094,
+      "sha256": "7584e629d457d6fd1b06c7238b6cbc94dcf4cc453fb585b2b4cf9411adff1ad9",
+      "condition": "The model was instructed to fit the Blender reconstruction roughly to the VGGT point cloud.",
+      "viewer_description": "The model was instructed to fit the Blender reconstruction roughly to the VGGT point cloud."
     }
   ]
 }

@@ -1,0 +1,3730 @@
+{
+  "schema_version": 1,
+  "stage": "blender_entity_manifest",
+  "scene_key": "before_vqa",
+  "source_blend": "blender_scenes/before_vqa/scene.blend",
+  "source_blend_sha256": "762aa30d3f92d8ef88ffa6ab766d182e6fb5ab2d9caea03d949b09ee960ccc1d",
+  "source_objects": "outputs/blender_preview/before_vqa/objects.json",
+  "source_objects_sha256": "df0095a1cf6183f0cc085ac46cdd9a397ffff5a41487cfe39c50382aad132f01",
+  "entity_id_background": 0,
+  "entity_id_scope": "Stable within this scene manifest; equal IDs across scene manifests do not imply matching physical entities.",
+  "grouping_policy": "Whole physical items include their attached parts, lids and labels; removable dishes, knives and containers are separate entities. Explicit architectural surfaces are separate. Connected countertop pieces and island waterfall faces form their named surface assembly.",
+  "entities": [
+    {
+      "name": "range_wall",
+      "label": "Range wall",
+      "kind": "surface",
+      "object_names": [
+        "Range wall"
+      ],
+      "source_object_ids": [
+        0
+      ],
+      "concept": "wall",
+      "sam_text": "kitchen wall",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 1
+    },
+    {
+      "name": "window_wall",
+      "label": "Window/pantry wall and header",
+      "kind": "surface",
+      "object_names": [
+        "Window wall with recessed opening",
+        "Pantry recess top"
+      ],
+      "source_object_ids": [
+        1,
+        115
+      ],
+      "concept": "wall",
+      "sam_text": "kitchen wall",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 2
+    },
+    {
+      "name": "range_backsplash",
+      "label": "Range backsplash",
+      "kind": "surface",
+      "object_names": [
+        "Range wall stone backsplash"
+      ],
+      "source_object_ids": [
+        2
+      ],
+      "concept": "backsplash",
+      "sam_text": "stone kitchen backsplash",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 3
+    },
+    {
+      "name": "return_backsplash",
+      "label": "Return/window backsplash",
+      "kind": "surface",
+      "object_names": [
+        "Return wall backsplash under shelves",
+        "Return wall stone below window"
+      ],
+      "source_object_ids": [
+        3,
+        4
+      ],
+      "concept": "backsplash",
+      "sam_text": "stone kitchen backsplash",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 4
+    },
+    {
+      "name": "window",
+      "label": "Window assembly and sill",
+      "kind": "object",
+      "object_names": [
+        "Stone window sill",
+        "Window dark sash",
+        "Window glazing",
+        "Window sill dark hardware",
+        "Window hardware curved lever"
+      ],
+      "source_object_ids": [
+        5,
+        6,
+        7,
+        381,
+        382
+      ],
+      "concept": "window",
+      "sam_text": "window",
+      "grouping_status": "name_supported",
+      "notes": "Installed frame, glazing, sill and attached hardware form one window; the view outside is not part of the entity.",
+      "id": 5
+    },
+    {
+      "name": "floor",
+      "label": "Wood floor",
+      "kind": "surface",
+      "object_names": [
+        "Oak flooring 01-01",
+        "Oak flooring 01-02",
+        "Oak flooring 01-03",
+        "Oak flooring 01-04",
+        "Oak flooring 02-01",
+        "Oak flooring 02-02",
+        "Oak flooring 02-03",
+        "Oak flooring 02-04",
+        "Oak flooring 03-01",
+        "Oak flooring 03-02",
+        "Oak flooring 03-03",
+        "Oak flooring 04-01",
+        "Oak flooring 04-02",
+        "Oak flooring 04-03",
+        "Oak flooring 04-04",
+        "Oak flooring 05-01",
+        "Oak flooring 05-02",
+        "Oak flooring 05-03",
+        "Oak flooring 06-01",
+        "Oak flooring 06-02",
+        "Oak flooring 06-03",
+        "Oak flooring 06-04",
+        "Oak flooring 07-01",
+        "Oak flooring 07-02",
+        "Oak flooring 07-03",
+        "Oak flooring 08-01",
+        "Oak flooring 08-02",
+        "Oak flooring 08-03",
+        "Oak flooring 08-04",
+        "Oak flooring 09-01",
+        "Oak flooring 09-02",
+        "Oak flooring 09-03",
+        "Oak flooring 10-01",
+        "Oak flooring 10-02",
+        "Oak flooring 10-03",
+        "Oak flooring 10-04",
+        "Oak flooring 11-01",
+        "Oak flooring 11-02",
+        "Oak flooring 11-03",
+        "Oak flooring 11-04",
+        "Oak flooring 12-01",
+        "Oak flooring 12-02",
+        "Oak flooring 12-03",
+        "Oak flooring 12-04",
+        "Oak flooring 13-01",
+        "Oak flooring 13-02",
+        "Oak flooring 13-03",
+        "Oak flooring 13-04",
+        "Oak flooring 14-01",
+        "Oak flooring 14-02",
+        "Oak flooring 14-03",
+        "Oak flooring 14-04",
+        "Oak flooring 15-01",
+        "Oak flooring 15-02",
+        "Oak flooring 15-03",
+        "Oak flooring 15-04",
+        "Oak flooring 16-01",
+        "Oak flooring 16-02",
+        "Oak flooring 16-03",
+        "Oak flooring 16-04",
+        "Oak flooring 16-05",
+        "Oak flooring 17-01",
+        "Oak flooring 17-02",
+        "Oak flooring 17-03",
+        "Oak flooring 17-04",
+        "Oak flooring 18-01",
+        "Oak flooring 18-02",
+        "Oak flooring 18-03",
+        "Oak flooring 18-04"
+      ],
+      "source_object_ids": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "concept": "floor",
+      "sam_text": "wood floor",
+      "grouping_status": "name_supported",
+      "notes": "All authored floorboards form one continuous floor surface.",
+      "id": 6
+    },
+    {
+      "name": "preparation_base_cabinet",
+      "label": "Preparation base cabinet",
+      "kind": "object",
+      "object_names": [
+        "Left range base toe kick",
+        "Left range base carcass",
+        "Left base slab door 1",
+        "Left base slab door 2",
+        "Left recessed countertop pull channel"
+      ],
+      "source_object_ids": [
+        77,
+        78,
+        87,
+        88,
+        93
+      ],
+      "concept": "cabinet",
+      "sam_text": "kitchen cabinet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 7
+    },
+    {
+      "name": "spice_drawer_cabinet",
+      "label": "Spice drawer cabinet",
+      "kind": "object",
+      "object_names": [
+        "Right drawer base toe kick",
+        "Right drawer base carcass",
+        "Right base drawer front 1-1",
+        "Right base drawer front 1-2",
+        "Right base drawer front 2-1",
+        "Right base drawer front 2-2",
+        "Right recessed countertop pull channel",
+        "Right drawer intermediate pull channel"
+      ],
+      "source_object_ids": [
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        94,
+        95
+      ],
+      "concept": "cabinet",
+      "sam_text": "kitchen cabinet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 8
+    },
+    {
+      "name": "sink_base_cabinet",
+      "label": "Sink base cabinet",
+      "kind": "object",
+      "object_names": [
+        "Sink cabinet toe kick",
+        "Sink cabinet carcass",
+        "Sink cabinet lower door 1",
+        "Sink cabinet shallow front 1",
+        "Sink cabinet lower door 2",
+        "Sink cabinet shallow front 2"
+      ],
+      "source_object_ids": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "concept": "cabinet",
+      "sam_text": "kitchen cabinet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 9
+    },
+    {
+      "name": "main_worktop",
+      "label": "Sink and preparation worktop",
+      "kind": "surface",
+      "object_names": [
+        "Left of range stone counter",
+        "Window return stone slab with sink opening"
+      ],
+      "source_object_ids": [
+        96,
+        98
+      ],
+      "concept": "countertop",
+      "sam_text": "kitchen countertop",
+      "grouping_status": "name_supported",
+      "notes": "Connected preparation and window-return slabs form the main worktop surface; island and opposite range-side slab stay separate.",
+      "id": 10
+    },
+    {
+      "name": "spice_worktop",
+      "label": "Spice worktop",
+      "kind": "surface",
+      "object_names": [
+        "Right of range stone counter"
+      ],
+      "source_object_ids": [
+        97
+      ],
+      "concept": "countertop",
+      "sam_text": "kitchen countertop",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 11
+    },
+    {
+      "name": "sink",
+      "label": "Sink basin and drain",
+      "kind": "object",
+      "object_names": [
+        "Undermount stainless sink basin and lip",
+        "Sink drain strainer"
+      ],
+      "source_object_ids": [
+        99,
+        100
+      ],
+      "concept": "sink",
+      "sam_text": "kitchen sink",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 12
+    },
+    {
+      "name": "sink_tap_control",
+      "label": "Sink tap control",
+      "kind": "object",
+      "object_names": [
+        "Sink tap control barrel"
+      ],
+      "source_object_ids": [
+        101
+      ],
+      "concept": "faucet",
+      "sam_text": "faucet",
+      "grouping_status": "needs_review",
+      "notes": "Only the authored tap-control barrel is present; review whether this is a partial faucet or a dispenser before instance scoring.",
+      "id": 13
+    },
+    {
+      "name": "upper_left_cabinet",
+      "label": "Upper left cabinet",
+      "kind": "object",
+      "object_names": [
+        "Left upper box",
+        "Left upper slab door 1-1",
+        "Left upper slab door 1-2",
+        "Left upper warm strip diffuser"
+      ],
+      "source_object_ids": [
+        102,
+        103,
+        104,
+        105
+      ],
+      "concept": "cabinet",
+      "sam_text": "kitchen cabinet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 14
+    },
+    {
+      "name": "upper_right_cabinet",
+      "label": "Upper right cabinet",
+      "kind": "object",
+      "object_names": [
+        "Right upper box",
+        "Right upper slab door 1-1",
+        "Right upper slab door 1-2",
+        "Right upper slab door 2-1",
+        "Right upper slab door 2-2",
+        "Right upper warm strip diffuser"
+      ],
+      "source_object_ids": [
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ],
+      "concept": "cabinet",
+      "sam_text": "kitchen cabinet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 15
+    },
+    {
+      "name": "lower_pantry_shelf",
+      "label": "Lower pantry shelf",
+      "kind": "object",
+      "object_names": [
+        "Lower spice L-shaped floating shelf",
+        "Shelf warm strip diffuser"
+      ],
+      "source_object_ids": [
+        112,
+        113
+      ],
+      "concept": "shelf",
+      "sam_text": "wall shelf",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 16
+    },
+    {
+      "name": "upper_pantry_shelf",
+      "label": "Upper pantry shelf",
+      "kind": "object",
+      "object_names": [
+        "Upper pantry L-shaped floating shelf"
+      ],
+      "source_object_ids": [
+        114
+      ],
+      "concept": "shelf",
+      "sam_text": "wall shelf",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 17
+    },
+    {
+      "name": "island_worktop",
+      "label": "Island stone top and waterfall end",
+      "kind": "surface",
+      "object_names": [
+        "Island quartz top",
+        "Island quartz waterfall end"
+      ],
+      "source_object_ids": [
+        116,
+        117
+      ],
+      "concept": "countertop",
+      "sam_text": "kitchen countertop",
+      "grouping_status": "name_supported",
+      "notes": "Stone top and attached waterfall end form one surface assembly; wooden base is separate. SAM may split horizontal and vertical faces; review its grouping.",
+      "id": 18
+    },
+    {
+      "name": "island_base",
+      "label": "Island wooden base",
+      "kind": "object",
+      "object_names": [
+        "Island panel substrate",
+        "Island fluted oak facing"
+      ],
+      "source_object_ids": [
+        118,
+        119
+      ],
+      "concept": "island_base",
+      "sam_text": "kitchen island base",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 19
+    },
+    {
+      "name": "range",
+      "label": "Range and oven",
+      "kind": "object",
+      "object_names": [
+        "Slide-in gas range chassis",
+        "Range bottom black plinth",
+        "Oven lower storage drawer",
+        "Storage drawer pull",
+        "Oven door stainless perimeter",
+        "Oven dark viewing glass",
+        "Oven door bowed handle",
+        "Oven sloping control fascia",
+        "Oven touch screen",
+        "Range fascia horizontal vent slots",
+        "Gas control 01 bezel",
+        "Gas control 01 knob",
+        "Gas control 01 grip",
+        "Gas control 02 bezel",
+        "Gas control 02 knob",
+        "Gas control 02 grip",
+        "Gas control 03 bezel",
+        "Gas control 03 knob",
+        "Gas control 03 grip",
+        "Gas control 04 bezel",
+        "Gas control 04 knob",
+        "Gas control 04 grip",
+        "Gas control 05 bezel",
+        "Gas control 05 knob",
+        "Gas control 05 grip",
+        "Gas control 06 bezel",
+        "Gas control 06 knob",
+        "Gas control 06 grip",
+        "Stainless hob deck",
+        "Gas well left",
+        "Cast iron grate left",
+        "Left gas burner 1 head",
+        "Left gas burner 1 cap",
+        "Left burner 1 port band",
+        "Left gas burner 2 head",
+        "Left gas burner 2 cap",
+        "Left burner 2 port band",
+        "Gas well right",
+        "Cast iron grate right",
+        "Right gas burner 1 head",
+        "Right gas burner 1 cap",
+        "Right burner 1 port band",
+        "Right gas burner 2 head",
+        "Right gas burner 2 cap",
+        "Right burner 2 port band",
+        "Central griddle supports",
+        "Range rear exhaust slots"
+      ],
+      "source_object_ids": [
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166
+      ],
+      "concept": "stove",
+      "sam_text": "stove and oven",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 20
+    },
+    {
+      "name": "microwave",
+      "label": "Over-range microwave",
+      "kind": "object",
+      "object_names": [
+        "Over-range microwave body",
+        "Microwave swing door and trim",
+        "Microwave viewing window",
+        "Microwave touch panel",
+        "Microwave clock window",
+        "Microwave bowed door handle",
+        "Microwave keypad legends",
+        "Microwave underside extractor housing",
+        "Microwave underside filter grille"
+      ],
+      "source_object_ids": [
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175
+      ],
+      "concept": "microwave",
+      "sam_text": "microwave oven",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 21
+    },
+    {
+      "name": "red_hanging_accessory",
+      "label": "Red hanging accessory",
+      "kind": "object",
+      "object_names": [
+        "Red hanging accessory on microwave side"
+      ],
+      "source_object_ids": [
+        176
+      ],
+      "concept": "hanging_accessory",
+      "sam_text": "hanging kitchen accessory",
+      "grouping_status": "needs_review",
+      "notes": "Authored name does not identify the physical accessory; preserve it as a distinct entity and review the concept.",
+      "id": 22
+    },
+    {
+      "name": "dishwasher",
+      "label": "Dishwasher with door and racks",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher stainless tub",
+        "Dishwasher opening seal",
+        "Dishwasher lowered door",
+        "Dishwasher detergent cup and lid",
+        "Dishwasher latch recess",
+        "Dishwasher control 01",
+        "Dishwasher control 02",
+        "Dishwasher control 03",
+        "Dishwasher control 04",
+        "Dishwasher control 05",
+        "Dishwasher control 06",
+        "Dishwasher control 07",
+        "Dishwasher red indicator",
+        "Dishwasher lower wire rack",
+        "Dishwasher lower rack grip",
+        "Dishwasher upper wire rack",
+        "Dishwasher upper rack grip",
+        "Dishwasher cutlery wire rack",
+        "Lower rack near roller 1",
+        "Lower rack near roller 1 support",
+        "Lower rack near roller 2",
+        "Lower rack near roller 2 support",
+        "Dishwasher upper slide near",
+        "Lower rack far roller 1",
+        "Lower rack far roller 1 support",
+        "Lower rack far roller 2",
+        "Lower rack far roller 2 support",
+        "Dishwasher upper slide far"
+      ],
+      "source_object_ids": [
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204
+      ],
+      "concept": "dishwasher",
+      "sam_text": "dishwasher",
+      "grouping_status": "name_supported",
+      "notes": "Appliance body, open door, attached baskets/racks, rollers and controls are one assembly; removable dishes are separate.",
+      "id": 23
+    },
+    {
+      "name": "dishwasher_plate_01",
+      "label": "Dishwasher plate 1",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher lower rack plate 1"
+      ],
+      "source_object_ids": [
+        205
+      ],
+      "concept": "plate",
+      "sam_text": "plate",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 24
+    },
+    {
+      "name": "dishwasher_plate_02",
+      "label": "Dishwasher plate 2",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher lower rack plate 2"
+      ],
+      "source_object_ids": [
+        206
+      ],
+      "concept": "plate",
+      "sam_text": "plate",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 25
+    },
+    {
+      "name": "dishwasher_plate_03",
+      "label": "Dishwasher plate 3",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher lower rack plate 3"
+      ],
+      "source_object_ids": [
+        207
+      ],
+      "concept": "plate",
+      "sam_text": "plate",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 26
+    },
+    {
+      "name": "dishwasher_baking_tray",
+      "label": "Dishwasher dark baking tray",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher lower rack dark baking tray"
+      ],
+      "source_object_ids": [
+        208
+      ],
+      "concept": "baking_tray",
+      "sam_text": "baking tray",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 27
+    },
+    {
+      "name": "dishwasher_bowl_01",
+      "label": "Dishwasher bowl 1",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher upper rack inverted bowl 1"
+      ],
+      "source_object_ids": [
+        209
+      ],
+      "concept": "bowl",
+      "sam_text": "bowl",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 28
+    },
+    {
+      "name": "dishwasher_bowl_02",
+      "label": "Dishwasher bowl 2",
+      "kind": "object",
+      "object_names": [
+        "Dishwasher upper rack inverted bowl 2"
+      ],
+      "source_object_ids": [
+        210
+      ],
+      "concept": "bowl",
+      "sam_text": "bowl",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 29
+    },
+    {
+      "name": "floor_glove",
+      "label": "Yellow cleaning glove",
+      "kind": "object",
+      "object_names": [
+        "Empty yellow dishwashing glove"
+      ],
+      "source_object_ids": [
+        211
+      ],
+      "concept": "cleaning_glove",
+      "sam_text": "cleaning glove",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 30
+    },
+    {
+      "name": "floor_packet",
+      "label": "Printed item beneath dishwasher door",
+      "kind": "object",
+      "object_names": [
+        "Folded patterned item beneath dishwasher door"
+      ],
+      "source_object_ids": [
+        212
+      ],
+      "concept": "food_packet",
+      "sam_text": "food packet",
+      "grouping_status": "needs_review",
+      "notes": "The folded patterned item may be packaging or cloth; proposed food-packet prompt requires visual review.",
+      "id": 31
+    },
+    {
+      "name": "toaster_oven",
+      "label": "Countertop toaster oven",
+      "kind": "object",
+      "object_names": [
+        "Toaster oven \u2022 insulated chassis",
+        "Toaster oven \u2022 rotary dial 1",
+        "Toaster oven \u2022 rotary dial 2",
+        "Toaster oven \u2022 rotary dial 3",
+        "Toaster oven \u2022 glazed drop-down door",
+        "Toaster oven \u2022 wire shelf",
+        "Toaster oven \u2022 lower tray"
+      ],
+      "source_object_ids": [
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219
+      ],
+      "concept": "toaster_oven",
+      "sam_text": "toaster oven",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 32
+    },
+    {
+      "name": "toaster_top_jar",
+      "label": "White jar on toaster oven",
+      "kind": "object",
+      "object_names": [
+        "Toaster-top white jar",
+        "Toaster-top white jar \u2022 lid"
+      ],
+      "source_object_ids": [
+        220,
+        221
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 33
+    },
+    {
+      "name": "yellow_seasoning_bottle",
+      "label": "Yellow seasoning bottle",
+      "kind": "object",
+      "object_names": [
+        "Toaster-top yellow seasoning bottle",
+        "Toaster seasoning bottle \u2022 cap"
+      ],
+      "source_object_ids": [
+        222,
+        223
+      ],
+      "concept": "seasoning_bottle",
+      "sam_text": "seasoning bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 34
+    },
+    {
+      "name": "blender_base",
+      "label": "Blender motor base and cord",
+      "kind": "object",
+      "object_names": [
+        "Blender \u2022 motor base",
+        "Blender \u2022 line cord"
+      ],
+      "source_object_ids": [
+        224,
+        225
+      ],
+      "concept": "blender_base",
+      "sam_text": "blender motor base",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 35
+    },
+    {
+      "name": "stainless_frying_pan",
+      "label": "Stainless frying pan",
+      "kind": "object",
+      "object_names": [
+        "Stainless frying pan"
+      ],
+      "source_object_ids": [
+        226
+      ],
+      "concept": "frying_pan",
+      "sam_text": "frying pan",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 36
+    },
+    {
+      "name": "nested_black_skillet",
+      "label": "Nested black skillet",
+      "kind": "object",
+      "object_names": [
+        "Nested black skillet"
+      ],
+      "source_object_ids": [
+        227
+      ],
+      "concept": "frying_pan",
+      "sam_text": "frying pan",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 37
+    },
+    {
+      "name": "plate_in_pan",
+      "label": "White plate in pan",
+      "kind": "object",
+      "object_names": [
+        "White plate in pan"
+      ],
+      "source_object_ids": [
+        228
+      ],
+      "concept": "plate",
+      "sam_text": "plate",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 38
+    },
+    {
+      "name": "tongs",
+      "label": "Kitchen tongs",
+      "kind": "object",
+      "object_names": [
+        "Stainless kitchen tongs"
+      ],
+      "source_object_ids": [
+        229
+      ],
+      "concept": "tongs",
+      "sam_text": "kitchen tongs",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 39
+    },
+    {
+      "name": "coffee_maker",
+      "label": "Capsule coffee machine",
+      "kind": "object",
+      "object_names": [
+        "Pod coffee maker \u2022 body",
+        "Pod coffee maker \u2022 drip tray",
+        "Coffee machine \u2022 water reservoir",
+        "Coffee reservoir \u2022 lid"
+      ],
+      "source_object_ids": [
+        230,
+        231,
+        232,
+        233
+      ],
+      "concept": "coffee_maker",
+      "sam_text": "coffee machine",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 40
+    },
+    {
+      "name": "black_carafe",
+      "label": "Black countertop carafe",
+      "kind": "object",
+      "object_names": [
+        "Black countertop carafe",
+        "Black carafe \u2022 cover"
+      ],
+      "source_object_ids": [
+        234,
+        235
+      ],
+      "concept": "carafe",
+      "sam_text": "carafe",
+      "grouping_status": "needs_review",
+      "notes": "Scene calls this a carafe; guided scene calls a nearby black item an electric kettle. Do not assume these represent the same physical item without reviewing the video.",
+      "id": 41
+    },
+    {
+      "name": "clear_bottle_behind_brewer",
+      "label": "Clear bottle behind coffee brewer",
+      "kind": "object",
+      "object_names": [
+        "Narrow clear bottle behind brewer"
+      ],
+      "source_object_ids": [
+        236
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 42
+    },
+    {
+      "name": "green_oil_bottle",
+      "label": "Square green oil bottle",
+      "kind": "object",
+      "object_names": [
+        "Squarish dark green oil bottle",
+        "Green oil bottle \u2022 cap"
+      ],
+      "source_object_ids": [
+        237,
+        238
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 43
+    },
+    {
+      "name": "pale_knife_block",
+      "label": "Pale wood knife block",
+      "kind": "object",
+      "object_names": [
+        "Knife block \u2022 blond wood"
+      ],
+      "source_object_ids": [
+        239
+      ],
+      "concept": "knife_block",
+      "sam_text": "wooden knife block",
+      "grouping_status": "name_supported",
+      "notes": "Wooden holder only; every removable knife is a separate entity.",
+      "id": 44
+    },
+    {
+      "name": "pale_block_knife_01",
+      "label": "Pale-block knife 1",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Upper knife 01"
+      ],
+      "source_object_ids": [
+        240
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 45
+    },
+    {
+      "name": "pale_block_knife_02",
+      "label": "Pale-block knife 2",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Upper knife 02"
+      ],
+      "source_object_ids": [
+        241
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 46
+    },
+    {
+      "name": "pale_block_knife_03",
+      "label": "Pale-block knife 3",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Upper knife 03"
+      ],
+      "source_object_ids": [
+        242
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 47
+    },
+    {
+      "name": "pale_block_knife_04",
+      "label": "Pale-block knife 4",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Upper knife 04"
+      ],
+      "source_object_ids": [
+        243
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 48
+    },
+    {
+      "name": "pale_block_knife_05",
+      "label": "Pale-block knife 5",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Upper knife 05"
+      ],
+      "source_object_ids": [
+        244
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 49
+    },
+    {
+      "name": "pale_block_knife_06",
+      "label": "Pale-block knife 6",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 06"
+      ],
+      "source_object_ids": [
+        245
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 50
+    },
+    {
+      "name": "pale_block_knife_07",
+      "label": "Pale-block knife 7",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 07"
+      ],
+      "source_object_ids": [
+        246
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 51
+    },
+    {
+      "name": "pale_block_knife_08",
+      "label": "Pale-block knife 8",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 08"
+      ],
+      "source_object_ids": [
+        247
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 52
+    },
+    {
+      "name": "pale_block_knife_09",
+      "label": "Pale-block knife 9",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 09"
+      ],
+      "source_object_ids": [
+        248
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 53
+    },
+    {
+      "name": "pale_block_knife_10",
+      "label": "Pale-block knife 10",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 10"
+      ],
+      "source_object_ids": [
+        249
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 54
+    },
+    {
+      "name": "pale_block_knife_11",
+      "label": "Pale-block knife 11",
+      "kind": "object",
+      "object_names": [
+        "Knife block 1 \u2022 Steak knife 11"
+      ],
+      "source_object_ids": [
+        250
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 55
+    },
+    {
+      "name": "dark_knife_block",
+      "label": "Dark wood knife block",
+      "kind": "object",
+      "object_names": [
+        "Knife block \u2022 dark wood"
+      ],
+      "source_object_ids": [
+        251
+      ],
+      "concept": "knife_block",
+      "sam_text": "wooden knife block",
+      "grouping_status": "name_supported",
+      "notes": "Wooden holder only; every removable knife is a separate entity.",
+      "id": 56
+    },
+    {
+      "name": "dark_block_knife_01",
+      "label": "Dark-block knife 1",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 01"
+      ],
+      "source_object_ids": [
+        252
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 57
+    },
+    {
+      "name": "dark_block_knife_02",
+      "label": "Dark-block knife 2",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 02"
+      ],
+      "source_object_ids": [
+        253
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 58
+    },
+    {
+      "name": "dark_block_knife_03",
+      "label": "Dark-block knife 3",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 03"
+      ],
+      "source_object_ids": [
+        254
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 59
+    },
+    {
+      "name": "dark_block_knife_04",
+      "label": "Dark-block knife 4",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 04"
+      ],
+      "source_object_ids": [
+        255
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 60
+    },
+    {
+      "name": "dark_block_knife_05",
+      "label": "Dark-block knife 5",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 05"
+      ],
+      "source_object_ids": [
+        256
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 61
+    },
+    {
+      "name": "dark_block_knife_06",
+      "label": "Dark-block knife 6",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Upper knife 06"
+      ],
+      "source_object_ids": [
+        257
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 62
+    },
+    {
+      "name": "dark_block_knife_07",
+      "label": "Dark-block knife 7",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Steak knife 07"
+      ],
+      "source_object_ids": [
+        258
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 63
+    },
+    {
+      "name": "dark_block_knife_08",
+      "label": "Dark-block knife 8",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Steak knife 08"
+      ],
+      "source_object_ids": [
+        259
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 64
+    },
+    {
+      "name": "dark_block_knife_09",
+      "label": "Dark-block knife 9",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Steak knife 09"
+      ],
+      "source_object_ids": [
+        260
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 65
+    },
+    {
+      "name": "dark_block_knife_10",
+      "label": "Dark-block knife 10",
+      "kind": "object",
+      "object_names": [
+        "Knife block 2 \u2022 Steak knife 10"
+      ],
+      "source_object_ids": [
+        261
+      ],
+      "concept": "knife",
+      "sam_text": "kitchen knife",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 66
+    },
+    {
+      "name": "coffee_picture",
+      "label": "Framed coffee illustration",
+      "kind": "object",
+      "object_names": [
+        "Framed coffee print"
+      ],
+      "source_object_ids": [
+        262
+      ],
+      "concept": "framed_picture",
+      "sam_text": "framed picture",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 67
+    },
+    {
+      "name": "coffee_capsule_holder",
+      "label": "Wood coffee capsule organizer",
+      "kind": "object",
+      "object_names": [
+        "Bamboo coffee capsule caddy"
+      ],
+      "source_object_ids": [
+        263
+      ],
+      "concept": "capsule_holder",
+      "sam_text": "coffee capsule holder",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 68
+    },
+    {
+      "name": "coffee_capsule_01",
+      "label": "Coffee capsule 1",
+      "kind": "object",
+      "object_names": [
+        "Coffee caddy \u2022 capsule 01"
+      ],
+      "source_object_ids": [
+        264
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 69
+    },
+    {
+      "name": "coffee_capsule_02",
+      "label": "Coffee capsule 2",
+      "kind": "object",
+      "object_names": [
+        "Coffee caddy \u2022 capsule 02"
+      ],
+      "source_object_ids": [
+        265
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 70
+    },
+    {
+      "name": "coffee_capsule_03",
+      "label": "Coffee capsule 3",
+      "kind": "object",
+      "object_names": [
+        "Coffee caddy \u2022 capsule 03"
+      ],
+      "source_object_ids": [
+        266
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 71
+    },
+    {
+      "name": "coffee_capsule_04",
+      "label": "Coffee capsule 4",
+      "kind": "object",
+      "object_names": [
+        "Coffee caddy \u2022 capsule 04"
+      ],
+      "source_object_ids": [
+        267
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 72
+    },
+    {
+      "name": "coffee_capsule_05",
+      "label": "Coffee capsule 5",
+      "kind": "object",
+      "object_names": [
+        "Coffee caddy \u2022 capsule 05"
+      ],
+      "source_object_ids": [
+        268
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 73
+    },
+    {
+      "name": "wooden_oval_dish",
+      "label": "Oval wooden dish",
+      "kind": "object",
+      "object_names": [
+        "Oval wood capsule dish"
+      ],
+      "source_object_ids": [
+        269
+      ],
+      "concept": "wooden_dish",
+      "sam_text": "wooden dish",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 74
+    },
+    {
+      "name": "spent_coffee_capsule",
+      "label": "Spent capsule in wooden dish",
+      "kind": "object",
+      "object_names": [
+        "Spent capsule in wood dish"
+      ],
+      "source_object_ids": [
+        270
+      ],
+      "concept": "coffee_capsule",
+      "sam_text": "coffee capsule",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 75
+    },
+    {
+      "name": "coffee_outlet_01",
+      "label": "Coffee station outlet 1",
+      "kind": "object",
+      "object_names": [
+        "Coffee station \u2022 wall plate 1"
+      ],
+      "source_object_ids": [
+        271
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 76
+    },
+    {
+      "name": "coffee_outlet_02",
+      "label": "Coffee station outlet 2",
+      "kind": "object",
+      "object_names": [
+        "Coffee station \u2022 wall plate 2"
+      ],
+      "source_object_ids": [
+        272
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 77
+    },
+    {
+      "name": "coffee_outlet_03",
+      "label": "Coffee station outlet 3",
+      "kind": "object",
+      "object_names": [
+        "Coffee station \u2022 wall plate 3"
+      ],
+      "source_object_ids": [
+        273
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 78
+    },
+    {
+      "name": "coffee_outlet_04",
+      "label": "Coffee station outlet 4",
+      "kind": "object",
+      "object_names": [
+        "Coffee station \u2022 wall plate 4"
+      ],
+      "source_object_ids": [
+        274
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 79
+    },
+    {
+      "name": "oven_front_cord",
+      "label": "Front oven-station cord",
+      "kind": "object",
+      "object_names": [
+        "Oven station \u2022 front black line cord"
+      ],
+      "source_object_ids": [
+        275
+      ],
+      "concept": "power_cord",
+      "sam_text": "power cord",
+      "grouping_status": "needs_review",
+      "notes": "Cord ownership is ambiguous from the authored name. Kept explicitly separate pending review rather than attached to a guessed appliance.",
+      "id": 80
+    },
+    {
+      "name": "oven_upper_cord",
+      "label": "Upper oven-station cord",
+      "kind": "object",
+      "object_names": [
+        "Oven station \u2022 upper line cord"
+      ],
+      "source_object_ids": [
+        276
+      ],
+      "concept": "power_cord",
+      "sam_text": "power cord",
+      "grouping_status": "needs_review",
+      "notes": "Cord ownership is ambiguous from the authored name. Kept explicitly separate pending review rather than attached to a guessed appliance.",
+      "id": 81
+    },
+    {
+      "name": "coffee_diagonal_cord",
+      "label": "Coffee station diagonal cord",
+      "kind": "object",
+      "object_names": [
+        "Coffee station \u2022 diagonal power lead"
+      ],
+      "source_object_ids": [
+        277
+      ],
+      "concept": "power_cord",
+      "sam_text": "power cord",
+      "grouping_status": "needs_review",
+      "notes": "Cord ownership is ambiguous from the authored name. Kept explicitly separate pending review rather than attached to a guessed appliance.",
+      "id": 82
+    },
+    {
+      "name": "paper_towel_holder",
+      "label": "Paper towel stand",
+      "kind": "object",
+      "object_names": [
+        "Paper-towel spindle and foot"
+      ],
+      "source_object_ids": [
+        278
+      ],
+      "concept": "paper_towel_holder",
+      "sam_text": "paper towel holder",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 83
+    },
+    {
+      "name": "paper_towel_roll",
+      "label": "Paper towel roll",
+      "kind": "object",
+      "object_names": [
+        "Kitchen paper roll"
+      ],
+      "source_object_ids": [
+        279
+      ],
+      "concept": "paper_towel_roll",
+      "sam_text": "paper towel roll",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 84
+    },
+    {
+      "name": "blue_soap_bottle",
+      "label": "Blue soap bottle with dispenser",
+      "kind": "object",
+      "object_names": [
+        "Blue liquid soap bottle",
+        "Dish soap \u2022 dispenser"
+      ],
+      "source_object_ids": [
+        280,
+        281
+      ],
+      "concept": "soap_bottle",
+      "sam_text": "dish soap bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 85
+    },
+    {
+      "name": "blue_sink_cloth",
+      "label": "Blue sink cloth",
+      "kind": "object",
+      "object_names": [
+        "Blue sink cloth"
+      ],
+      "source_object_ids": [
+        282
+      ],
+      "concept": "dish_cloth",
+      "sam_text": "dish cloth",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 86
+    },
+    {
+      "name": "green_sink_sponge",
+      "label": "Green sink sponge",
+      "kind": "object",
+      "object_names": [
+        "Green sink sponge"
+      ],
+      "source_object_ids": [
+        283
+      ],
+      "concept": "sponge",
+      "sam_text": "sponge",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 87
+    },
+    {
+      "name": "island_tumbler",
+      "label": "Island travel tumbler",
+      "kind": "object",
+      "object_names": [
+        "Island travel tumbler",
+        "Island tumbler \u2022 lid",
+        "Island tumbler \u2022 hinged tab"
+      ],
+      "source_object_ids": [
+        284,
+        285,
+        286
+      ],
+      "concept": "tumbler",
+      "sam_text": "travel tumbler",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 88
+    },
+    {
+      "name": "island_remote",
+      "label": "Island remote control",
+      "kind": "object",
+      "object_names": [
+        "Island remote control"
+      ],
+      "source_object_ids": [
+        287
+      ],
+      "concept": "remote_control",
+      "sam_text": "remote control",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 89
+    },
+    {
+      "name": "island_white_bag",
+      "label": "Island white bag",
+      "kind": "object",
+      "object_names": [
+        "Island white bag"
+      ],
+      "source_object_ids": [
+        288
+      ],
+      "concept": "soft_bag",
+      "sam_text": "white bag",
+      "grouping_status": "needs_review",
+      "notes": "White soft item is named a bag; compare against source video before relying on this semantic label.",
+      "id": 90
+    },
+    {
+      "name": "stockpot",
+      "label": "Black stockpot with lid",
+      "kind": "object",
+      "object_names": [
+        "Stockpot | black enamel body",
+        "Stockpot | glazed lid and knob"
+      ],
+      "source_object_ids": [
+        289,
+        290
+      ],
+      "concept": "stockpot",
+      "sam_text": "stockpot",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 91
+    },
+    {
+      "name": "center_griddle",
+      "label": "Ribbed center griddle",
+      "kind": "object",
+      "object_names": [
+        "Ribbed cast iron griddle"
+      ],
+      "source_object_ids": [
+        291
+      ],
+      "concept": "griddle",
+      "sam_text": "griddle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 92
+    },
+    {
+      "name": "wood_utensil_holder",
+      "label": "Wood utensil crock",
+      "kind": "object",
+      "object_names": [
+        "Wooden utensil crock"
+      ],
+      "source_object_ids": [
+        292
+      ],
+      "concept": "utensil_holder",
+      "sam_text": "utensil holder",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 93
+    },
+    {
+      "name": "beechwood_turner",
+      "label": "Beechwood turner",
+      "kind": "object",
+      "object_names": [
+        "Beechwood flat turner"
+      ],
+      "source_object_ids": [
+        293
+      ],
+      "concept": "spatula",
+      "sam_text": "spatula",
+      "grouping_status": "name_supported",
+      "notes": "Removable utensil stays separate from its holder; generic shape/name correspondence needs review for small overlapping tools.",
+      "id": 94
+    },
+    {
+      "name": "wood_spatula",
+      "label": "Tall wood spatula",
+      "kind": "object",
+      "object_names": [
+        "Tall wooden spatula"
+      ],
+      "source_object_ids": [
+        294
+      ],
+      "concept": "spatula",
+      "sam_text": "spatula",
+      "grouping_status": "name_supported",
+      "notes": "Removable utensil stays separate from its holder; generic shape/name correspondence needs review for small overlapping tools.",
+      "id": 95
+    },
+    {
+      "name": "black_serving_spoon",
+      "label": "Black serving spoon",
+      "kind": "object",
+      "object_names": [
+        "Black serving spoon"
+      ],
+      "source_object_ids": [
+        295
+      ],
+      "concept": "spoon",
+      "sam_text": "cooking spoon",
+      "grouping_status": "name_supported",
+      "notes": "Removable utensil stays separate from its holder; generic shape/name correspondence needs review for small overlapping tools.",
+      "id": 96
+    },
+    {
+      "name": "metal_turner",
+      "label": "Slotted metal turner",
+      "kind": "object",
+      "object_names": [
+        "Slotted metal turner"
+      ],
+      "source_object_ids": [
+        296
+      ],
+      "concept": "spatula",
+      "sam_text": "spatula",
+      "grouping_status": "name_supported",
+      "notes": "Removable utensil stays separate from its holder; generic shape/name correspondence needs review for small overlapping tools.",
+      "id": 97
+    },
+    {
+      "name": "slender_black_utensil",
+      "label": "Slender black utensil",
+      "kind": "object",
+      "object_names": [
+        "Slender black utensil"
+      ],
+      "source_object_ids": [
+        297
+      ],
+      "concept": "spatula",
+      "sam_text": "spatula",
+      "grouping_status": "needs_review",
+      "notes": "Removable utensil stays separate from its holder; generic shape/name correspondence needs review for small overlapping tools.",
+      "id": 98
+    },
+    {
+      "name": "metal_utensil_holder",
+      "label": "Stainless utensil crock",
+      "kind": "object",
+      "object_names": [
+        "Stainless utensil crock"
+      ],
+      "source_object_ids": [
+        298
+      ],
+      "concept": "utensil_holder",
+      "sam_text": "utensil holder",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 99
+    },
+    {
+      "name": "whisk",
+      "label": "Balloon whisk",
+      "kind": "object",
+      "object_names": [
+        "Balloon wire whisk"
+      ],
+      "source_object_ids": [
+        299
+      ],
+      "concept": "whisk",
+      "sam_text": "whisk",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 100
+    },
+    {
+      "name": "black_ladle",
+      "label": "Black ladle",
+      "kind": "object",
+      "object_names": [
+        "Black serving ladle"
+      ],
+      "source_object_ids": [
+        300
+      ],
+      "concept": "ladle",
+      "sam_text": "ladle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 101
+    },
+    {
+      "name": "black_spatula",
+      "label": "Black spatula",
+      "kind": "object",
+      "object_names": [
+        "Black nylon spatula"
+      ],
+      "source_object_ids": [
+        301
+      ],
+      "concept": "spatula",
+      "sam_text": "spatula",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 102
+    },
+    {
+      "name": "pastry_brush",
+      "label": "Pastry brush",
+      "kind": "object",
+      "object_names": [
+        "Small pastry brush"
+      ],
+      "source_object_ids": [
+        302
+      ],
+      "concept": "pastry_brush",
+      "sam_text": "pastry brush",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 103
+    },
+    {
+      "name": "yellow_label_spice",
+      "label": "Tex Mex seasoning",
+      "kind": "object",
+      "object_names": [
+        "Tex Mex seasoning",
+        "Tex Mex seasoning | cap"
+      ],
+      "source_object_ids": [
+        303,
+        304
+      ],
+      "concept": "seasoning_jar",
+      "sam_text": "spice jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 104
+    },
+    {
+      "name": "red_cap_spice",
+      "label": "Red-cap mixed spice",
+      "kind": "object",
+      "object_names": [
+        "Red-capped flake blend",
+        "Red-capped flake blend | cap"
+      ],
+      "source_object_ids": [
+        305,
+        306
+      ],
+      "concept": "seasoning_jar",
+      "sam_text": "spice jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 105
+    },
+    {
+      "name": "front_seasoning_tin",
+      "label": "Front rectangular seasoning tin",
+      "kind": "object",
+      "object_names": [
+        "Rectangular seasoning tin",
+        "Rectangular seasoning tin | flip lid"
+      ],
+      "source_object_ids": [
+        307,
+        308
+      ],
+      "concept": "seasoning_tin",
+      "sam_text": "seasoning tin",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 106
+    },
+    {
+      "name": "rear_seasoning_tin",
+      "label": "Rear seasoning tin",
+      "kind": "object",
+      "object_names": [
+        "Taco seasoning tin",
+        "Taco seasoning tin | flip lid"
+      ],
+      "source_object_ids": [
+        309,
+        310
+      ],
+      "concept": "seasoning_tin",
+      "sam_text": "seasoning tin",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 107
+    },
+    {
+      "name": "black_supplement_canister",
+      "label": "Black supplement canister",
+      "kind": "object",
+      "object_names": [
+        "Black supplement canister",
+        "Black supplement canister | screw lid"
+      ],
+      "source_object_ids": [
+        311,
+        312
+      ],
+      "concept": "canister",
+      "sam_text": "food storage canister",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 108
+    },
+    {
+      "name": "copper_cap_jar",
+      "label": "Copper-cap condiment jar",
+      "kind": "object",
+      "object_names": [
+        "Copper-capped condiment jar",
+        "Copper-capped condiment jar | screw lid"
+      ],
+      "source_object_ids": [
+        313,
+        314
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 109
+    },
+    {
+      "name": "small_black_cap_jar",
+      "label": "Small black-cap condiment jar",
+      "kind": "object",
+      "object_names": [
+        "Small black-capped condiment jar",
+        "Small black-capped condiment jar | screw lid"
+      ],
+      "source_object_ids": [
+        315,
+        316
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 110
+    },
+    {
+      "name": "rear_green_cap_jar",
+      "label": "Rear green-cap condiment jar",
+      "kind": "object",
+      "object_names": [
+        "Rear green-capped condiment jar",
+        "Rear green-capped condiment jar | screw lid"
+      ],
+      "source_object_ids": [
+        317,
+        318
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 111
+    },
+    {
+      "name": "white_food_tub",
+      "label": "White food tub",
+      "kind": "object",
+      "object_names": [
+        "White round counter container",
+        "White round counter container | screw lid"
+      ],
+      "source_object_ids": [
+        319,
+        320
+      ],
+      "concept": "food_container",
+      "sam_text": "food container",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 112
+    },
+    {
+      "name": "pale_food_pack",
+      "label": "Pale bite-size food pack",
+      "kind": "object",
+      "object_names": [
+        "Pale bite-size food pack"
+      ],
+      "source_object_ids": [
+        321
+      ],
+      "concept": "food_packet",
+      "sam_text": "food packet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 113
+    },
+    {
+      "name": "ivory_round_item",
+      "label": "Small white domed item",
+      "kind": "object",
+      "object_names": [
+        "Small white domed counter item"
+      ],
+      "source_object_ids": [
+        322
+      ],
+      "concept": "small_unknown_item",
+      "sam_text": "small countertop object",
+      "grouping_status": "needs_review",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 114
+    },
+    {
+      "name": "avocado_oil",
+      "label": "Avocado oil bottle",
+      "kind": "object",
+      "object_names": [
+        "Avocado oil | square glass bottle",
+        "Avocado oil | pilfer-proof closure"
+      ],
+      "source_object_ids": [
+        323,
+        324
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 115
+    },
+    {
+      "name": "food_multipack_01",
+      "label": "Stacked food multipack 1",
+      "kind": "object",
+      "object_names": [
+        "Snack multipack 01 | open sleeve",
+        "Snack multipack 01 | portion 1.1",
+        "Snack multipack 01 | portion 1.2",
+        "Snack multipack 01 | portion 2.1",
+        "Snack multipack 01 | portion 2.2"
+      ],
+      "source_object_ids": [
+        325,
+        326,
+        327,
+        328,
+        329
+      ],
+      "concept": "food_multipack",
+      "sam_text": "packaged food multipack",
+      "grouping_status": "name_supported",
+      "notes": "An intact sleeved multipack is one packaged item; represented cups/portions are not independent targets until separated.",
+      "id": 116
+    },
+    {
+      "name": "food_multipack_02",
+      "label": "Stacked food multipack 2",
+      "kind": "object",
+      "object_names": [
+        "Snack multipack 02 | open sleeve",
+        "Snack multipack 02 | portion 1.1",
+        "Snack multipack 02 | portion 1.2",
+        "Snack multipack 02 | portion 2.1",
+        "Snack multipack 02 | portion 2.2"
+      ],
+      "source_object_ids": [
+        330,
+        331,
+        332,
+        333,
+        334
+      ],
+      "concept": "food_multipack",
+      "sam_text": "packaged food multipack",
+      "grouping_status": "name_supported",
+      "notes": "An intact sleeved multipack is one packaged item; represented cups/portions are not independent targets until separated.",
+      "id": 117
+    },
+    {
+      "name": "food_multipack_03",
+      "label": "Stacked food multipack 3",
+      "kind": "object",
+      "object_names": [
+        "Snack multipack 03 | open sleeve",
+        "Snack multipack 03 | portion 1.1",
+        "Snack multipack 03 | portion 1.2",
+        "Snack multipack 03 | portion 2.1",
+        "Snack multipack 03 | portion 2.2"
+      ],
+      "source_object_ids": [
+        335,
+        336,
+        337,
+        338,
+        339
+      ],
+      "concept": "food_multipack",
+      "sam_text": "packaged food multipack",
+      "grouping_status": "name_supported",
+      "notes": "An intact sleeved multipack is one packaged item; represented cups/portions are not independent targets until separated.",
+      "id": 118
+    },
+    {
+      "name": "food_multipack_04",
+      "label": "Stacked food multipack 4",
+      "kind": "object",
+      "object_names": [
+        "Snack multipack 04 | open sleeve",
+        "Snack multipack 04 | portion 1.1",
+        "Snack multipack 04 | portion 1.2",
+        "Snack multipack 04 | portion 2.1",
+        "Snack multipack 04 | portion 2.2"
+      ],
+      "source_object_ids": [
+        340,
+        341,
+        342,
+        343,
+        344
+      ],
+      "concept": "food_multipack",
+      "sam_text": "packaged food multipack",
+      "grouping_status": "name_supported",
+      "notes": "An intact sleeved multipack is one packaged item; represented cups/portions are not independent targets until separated.",
+      "id": 119
+    },
+    {
+      "name": "food_multipack_05",
+      "label": "Stacked food multipack 5",
+      "kind": "object",
+      "object_names": [
+        "Snack multipack 05 | open sleeve",
+        "Snack multipack 05 | portion 1.1",
+        "Snack multipack 05 | portion 1.2",
+        "Snack multipack 05 | portion 2.1",
+        "Snack multipack 05 | portion 2.2"
+      ],
+      "source_object_ids": [
+        345,
+        346,
+        347,
+        348,
+        349
+      ],
+      "concept": "food_multipack",
+      "sam_text": "packaged food multipack",
+      "grouping_status": "name_supported",
+      "notes": "An intact sleeved multipack is one packaged item; represented cups/portions are not independent targets until separated.",
+      "id": 120
+    },
+    {
+      "name": "kind_carton",
+      "label": "Open KIND snack carton",
+      "kind": "object",
+      "object_names": [
+        "Open KIND variety carton"
+      ],
+      "source_object_ids": [
+        350
+      ],
+      "concept": "food_carton",
+      "sam_text": "food carton",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 121
+    },
+    {
+      "name": "red_carton",
+      "label": "Tall red food carton",
+      "kind": "object",
+      "object_names": [
+        "Tall red carton"
+      ],
+      "source_object_ids": [
+        351
+      ],
+      "concept": "food_carton",
+      "sam_text": "food carton",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 122
+    },
+    {
+      "name": "aqua_oven_mitt",
+      "label": "Aqua oven mitt",
+      "kind": "object",
+      "object_names": [
+        "Pale aqua quilted oven mitt"
+      ],
+      "source_object_ids": [
+        352
+      ],
+      "concept": "oven_mitt",
+      "sam_text": "oven mitt",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 123
+    },
+    {
+      "name": "right_counter_appliance",
+      "label": "Partly visible black countertop appliance",
+      "kind": "object",
+      "object_names": [
+        "Far-right black countertop appliance",
+        "Right counter black power cord",
+        "Right counter black wall plug"
+      ],
+      "source_object_ids": [
+        353,
+        354,
+        355
+      ],
+      "concept": "countertop_appliance",
+      "sam_text": "kitchen countertop appliance",
+      "grouping_status": "needs_review",
+      "notes": "Appliance and named right-counter cord/plug grouped; appliance identity is unspecified and needs source-video review.",
+      "id": 124
+    },
+    {
+      "name": "spice_outlet",
+      "label": "Spice counter outlet",
+      "kind": "object",
+      "object_names": [
+        "Spice counter outlet plate",
+        "Spice outlet slot 1.161 -0.0035",
+        "Spice outlet slot 1.161 0.0035",
+        "Spice outlet slot 1.204 -0.0035",
+        "Spice outlet slot 1.204 0.0035"
+      ],
+      "source_object_ids": [
+        356,
+        357,
+        358,
+        359,
+        360
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 125
+    },
+    {
+      "name": "rosemary_jar",
+      "label": "Moving rosemary jar",
+      "kind": "object",
+      "object_names": [
+        "Dried rosemary | moving jar",
+        "Dried rosemary | moving jar | cap"
+      ],
+      "source_object_ids": [
+        361,
+        362
+      ],
+      "concept": "seasoning_jar",
+      "sam_text": "spice jar",
+      "grouping_status": "name_supported",
+      "notes": "Whole transferred jar and lid; animated/dynamic target requires timestamp-aware masks.",
+      "id": 126
+    },
+    {
+      "name": "protein_canister",
+      "label": "Premier Protein canister",
+      "kind": "object",
+      "object_names": [
+        "Premier Protein canister",
+        "Premier Protein canister \u00b7 closure",
+        "Premier Protein canister \u00b7 print"
+      ],
+      "source_object_ids": [
+        363,
+        364,
+        365
+      ],
+      "concept": "canister",
+      "sam_text": "food storage canister",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 127
+    },
+    {
+      "name": "isopure_canister",
+      "label": "Isopure powder canister",
+      "kind": "object",
+      "object_names": [
+        "Isopure powder canister",
+        "Isopure powder canister \u00b7 closure",
+        "Isopure powder canister \u00b7 print"
+      ],
+      "source_object_ids": [
+        366,
+        367,
+        368
+      ],
+      "concept": "canister",
+      "sam_text": "food storage canister",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 128
+    },
+    {
+      "name": "orange_wrapped_roll",
+      "label": "Orange wrapped roll",
+      "kind": "object",
+      "object_names": [
+        "Orange wrapped cylinder"
+      ],
+      "source_object_ids": [
+        369
+      ],
+      "concept": "wrapped_food",
+      "sam_text": "wrapped food",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 129
+    },
+    {
+      "name": "loose_wrapper",
+      "label": "Loose transparent wrapper",
+      "kind": "object",
+      "object_names": [
+        "Loose transparent wrapper"
+      ],
+      "source_object_ids": [
+        370
+      ],
+      "concept": "plastic_wrapper",
+      "sam_text": "plastic wrapper",
+      "grouping_status": "needs_review",
+      "notes": "Transparent loose wrapper; hard-ID renderer and SAM may disagree on transparent coverage.",
+      "id": 130
+    },
+    {
+      "name": "dark_folded_pouch",
+      "label": "Dark narrow pantry pouch",
+      "kind": "object",
+      "object_names": [
+        "Dark brown narrow pouch"
+      ],
+      "source_object_ids": [
+        371
+      ],
+      "concept": "food_pouch",
+      "sam_text": "food pouch",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 131
+    },
+    {
+      "name": "kind_pouch",
+      "label": "Dark snack pouch",
+      "kind": "object",
+      "object_names": [
+        "Dark snack pouch with color blocks"
+      ],
+      "source_object_ids": [
+        372
+      ],
+      "concept": "food_pouch",
+      "sam_text": "food pouch",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 132
+    },
+    {
+      "name": "blue_pantry_carton",
+      "label": "Light blue pantry carton",
+      "kind": "object",
+      "object_names": [
+        "Pale blue pantry carton"
+      ],
+      "source_object_ids": [
+        373
+      ],
+      "concept": "food_carton",
+      "sam_text": "food carton",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 133
+    },
+    {
+      "name": "trailing_plant",
+      "label": "Trailing plant with pot",
+      "kind": "object",
+      "object_names": [
+        "Trailing striped-leaf planter",
+        "Trailing striped-leaf planter \u00b7 soil",
+        "Trailing striped-leaf planter \u00b7 foliage"
+      ],
+      "source_object_ids": [
+        374,
+        375,
+        376
+      ],
+      "concept": "potted_plant",
+      "sam_text": "potted plant",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 134
+    },
+    {
+      "name": "window_plant_stand",
+      "label": "Wood window plant stand",
+      "kind": "object",
+      "object_names": [
+        "Window plant wooden stand"
+      ],
+      "source_object_ids": [
+        377
+      ],
+      "concept": "plant_stand",
+      "sam_text": "plant stand",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 135
+    },
+    {
+      "name": "window_succulent",
+      "label": "Windowsill succulent with pot",
+      "kind": "object",
+      "object_names": [
+        "Window succulent pot",
+        "Window succulent pot \u00b7 soil",
+        "Window succulent pot \u00b7 foliage"
+      ],
+      "source_object_ids": [
+        378,
+        379,
+        380
+      ],
+      "concept": "potted_plant",
+      "sam_text": "potted plant",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 136
+    },
+    {
+      "name": "upper_pantry_outlet",
+      "label": "Upper pantry outlet",
+      "kind": "object",
+      "object_names": [
+        "Outlet above pantry shelf",
+        "Pantry receptacle vertical slot",
+        "Pantry receptacle vertical slot.001",
+        "Pantry receptacle grounding hole",
+        "Pantry receptacle vertical slot.002",
+        "Pantry receptacle vertical slot.003",
+        "Pantry receptacle grounding hole.001"
+      ],
+      "source_object_ids": [
+        383,
+        384,
+        385,
+        386,
+        387,
+        388,
+        389
+      ],
+      "concept": "electrical_outlet",
+      "sam_text": "electrical outlet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 137
+    },
+    {
+      "name": "pantry_storage_jar",
+      "label": "Peppercorn storage jar",
+      "kind": "object",
+      "object_names": [
+        "Peppercorn storage jar",
+        "Peppercorn storage jar \u00b7 closure",
+        "Peppercorn storage jar \u00b7 screw-grip knurl",
+        "Peppercorn storage jar \u00b7 contents",
+        "Peppercorn jar narrow identification tag"
+      ],
+      "source_object_ids": [
+        390,
+        391,
+        392,
+        393,
+        394
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 138
+    },
+    {
+      "name": "dark_pantry_pouch",
+      "label": "Dark resealable pantry pouch",
+      "kind": "object",
+      "object_names": [
+        "Dark resealable pantry pouch"
+      ],
+      "source_object_ids": [
+        395
+      ],
+      "concept": "food_pouch",
+      "sam_text": "food pouch",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 139
+    },
+    {
+      "name": "white_squeeze_bottle",
+      "label": "White squeeze container",
+      "kind": "object",
+      "object_names": [
+        "White pantry squeeze container",
+        "White pantry squeeze container \u00b7 closure",
+        "White pantry squeeze container \u00b7 print"
+      ],
+      "source_object_ids": [
+        396,
+        397,
+        398
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 140
+    },
+    {
+      "name": "graza_oil",
+      "label": "Graza oil bottle",
+      "kind": "object",
+      "object_names": [
+        "Graza squeeze oil bottle",
+        "Graza squeeze oil bottle \u00b7 closure",
+        "Graza squeeze oil bottle \u00b7 print"
+      ],
+      "source_object_ids": [
+        399,
+        400,
+        401
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 141
+    },
+    {
+      "name": "rear_dark_sauce",
+      "label": "Rear dark sauce bottle",
+      "kind": "object",
+      "object_names": [
+        "Rear black-capped hot sauce",
+        "Rear black-capped hot sauce \u00b7 closure",
+        "Rear black-capped hot sauce \u00b7 contents"
+      ],
+      "source_object_ids": [
+        402,
+        403,
+        404
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 142
+    },
+    {
+      "name": "cholula_sauce",
+      "label": "Cholula sauce bottle",
+      "kind": "object",
+      "object_names": [
+        "Cholula hot sauce bottle",
+        "Cholula hot sauce bottle \u00b7 closure",
+        "Cholula hot sauce bottle \u00b7 print",
+        "Cholula hot sauce bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        405,
+        406,
+        407,
+        408
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 143
+    },
+    {
+      "name": "clear_rear_bottle",
+      "label": "Clear tall-neck bottle",
+      "kind": "object",
+      "object_names": [
+        "Clear tall necked condiment bottle",
+        "Clear tall necked condiment bottle \u00b7 closure"
+      ],
+      "source_object_ids": [
+        409,
+        410
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 144
+    },
+    {
+      "name": "buffalo_sauce",
+      "label": "Buffalo sauce bottle",
+      "kind": "object",
+      "object_names": [
+        "RedHot Wings Buffalo bottle",
+        "RedHot Wings Buffalo bottle \u00b7 closure",
+        "RedHot Wings Buffalo bottle \u00b7 print",
+        "RedHot Wings Buffalo bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        411,
+        412,
+        413,
+        414
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 145
+    },
+    {
+      "name": "red_lid_jar",
+      "label": "Red-lid spread jar",
+      "kind": "object",
+      "object_names": [
+        "Red-lidded spread jar",
+        "Red-lidded spread jar \u00b7 closure",
+        "Red-lidded spread jar \u00b7 screw-grip knurl",
+        "Red-lidded spread jar \u00b7 print",
+        "Red-lidded spread jar \u00b7 contents"
+      ],
+      "source_object_ids": [
+        415,
+        416,
+        417,
+        418,
+        419
+      ],
+      "concept": "jar",
+      "sam_text": "jar",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 146
+    },
+    {
+      "name": "rear_white_cap_bottle",
+      "label": "Rear white-cap bottle",
+      "kind": "object",
+      "object_names": [
+        "Rear white-capped bottle",
+        "Rear white-capped bottle \u00b7 closure"
+      ],
+      "source_object_ids": [
+        420,
+        421
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 147
+    },
+    {
+      "name": "original_hot_sauce",
+      "label": "Original hot sauce bottle",
+      "kind": "object",
+      "object_names": [
+        "Frank's RedHot Original bottle",
+        "Frank's RedHot Original bottle \u00b7 closure",
+        "Frank's RedHot Original bottle \u00b7 print",
+        "Frank's RedHot Original bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        422,
+        423,
+        424,
+        425
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 148
+    },
+    {
+      "name": "red_nozzle_bottle",
+      "label": "Red-nozzle squeeze bottle",
+      "kind": "object",
+      "object_names": [
+        "Red nozzle squeeze bottle",
+        "Red nozzle squeeze bottle \u00b7 closure",
+        "Red nozzle squeeze bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        426,
+        427,
+        428
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 149
+    },
+    {
+      "name": "amber_bottle",
+      "label": "Small amber bottle",
+      "kind": "object",
+      "object_names": [
+        "Small amber condiment bottle",
+        "Small amber condiment bottle \u00b7 closure",
+        "Small amber condiment bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        429,
+        430,
+        431
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 150
+    },
+    {
+      "name": "sideways_green_container",
+      "label": "Sideways green-cap container",
+      "kind": "object",
+      "object_names": [
+        "Horizontal green-capped container",
+        "Horizontal green-capped container \u00b7 closure"
+      ],
+      "source_object_ids": [
+        432,
+        433
+      ],
+      "concept": "food_container",
+      "sam_text": "food container",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 151
+    },
+    {
+      "name": "corner_sachet",
+      "label": "Corner pantry sachet",
+      "kind": "object",
+      "object_names": [
+        "Folded pantry sachet in corner"
+      ],
+      "source_object_ids": [
+        434
+      ],
+      "concept": "food_packet",
+      "sam_text": "food packet",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 152
+    },
+    {
+      "name": "kung_pao_sauce",
+      "label": "Kung Pao sauce bottle",
+      "kind": "object",
+      "object_names": [
+        "P.F. Chang's Kung Pao sauce",
+        "P.F. Chang's Kung Pao sauce \u00b7 closure",
+        "P.F. Chang's Kung Pao sauce \u00b7 print",
+        "P.F. Chang's Kung Pao sauce \u00b7 contents"
+      ],
+      "source_object_ids": [
+        435,
+        436,
+        437,
+        438
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 153
+    },
+    {
+      "name": "back_red_tip_bottle",
+      "label": "Rear red-tip bottle",
+      "kind": "object",
+      "object_names": [
+        "Small red-tipped bottle behind sauce",
+        "Small red-tipped bottle behind sauce \u00b7 closure"
+      ],
+      "source_object_ids": [
+        439,
+        440
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 154
+    },
+    {
+      "name": "green_cooking_bottle",
+      "label": "Green peach-label bottle",
+      "kind": "object",
+      "object_names": [
+        "Green peach-label bottle",
+        "Green peach-label bottle \u00b7 closure",
+        "Green peach-label bottle \u00b7 print"
+      ],
+      "source_object_ids": [
+        441,
+        442,
+        443
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 155
+    },
+    {
+      "name": "sushi_vinegar",
+      "label": "Sushi vinegar bottle",
+      "kind": "object",
+      "object_names": [
+        "Gold-capped sushi vinegar bottle",
+        "Gold-capped sushi vinegar bottle \u00b7 closure",
+        "Gold-capped sushi vinegar bottle \u00b7 print",
+        "Gold-capped sushi vinegar bottle \u00b7 contents"
+      ],
+      "source_object_ids": [
+        444,
+        445,
+        446,
+        447
+      ],
+      "concept": "bottle",
+      "sam_text": "bottle",
+      "grouping_status": "name_supported",
+      "notes": "Grouped by explicit authored object names; attached body, controls, handles, lids, labels and contents remain with their parent where represented.",
+      "id": 156
+    }
+  ],
+  "concepts": [
+    {
+      "name": "backsplash",
+      "text": "stone kitchen backsplash",
+      "entity_ids": [
+        3,
+        4
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "baking_tray",
+      "text": "baking tray",
+      "entity_ids": [
+        27
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "blender_base",
+      "text": "blender motor base",
+      "entity_ids": [
+        35
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "bottle",
+      "text": "bottle",
+      "entity_ids": [
+        42,
+        43,
+        115,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        147,
+        148,
+        149,
+        150,
+        153,
+        154,
+        155,
+        156
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "bowl",
+      "text": "bowl",
+      "entity_ids": [
+        28,
+        29
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "cabinet",
+      "text": "kitchen cabinet",
+      "entity_ids": [
+        7,
+        8,
+        9,
+        14,
+        15
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "canister",
+      "text": "food storage canister",
+      "entity_ids": [
+        108,
+        127,
+        128
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "capsule_holder",
+      "text": "coffee capsule holder",
+      "entity_ids": [
+        68
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "carafe",
+      "text": "carafe",
+      "entity_ids": [
+        41
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "cleaning_glove",
+      "text": "cleaning glove",
+      "entity_ids": [
+        30
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "coffee_capsule",
+      "text": "coffee capsule",
+      "entity_ids": [
+        69,
+        70,
+        71,
+        72,
+        73,
+        75
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "coffee_maker",
+      "text": "coffee machine",
+      "entity_ids": [
+        40
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "countertop",
+      "text": "kitchen countertop",
+      "entity_ids": [
+        10,
+        11,
+        18
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "countertop_appliance",
+      "text": "kitchen countertop appliance",
+      "entity_ids": [
+        124
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "dish_cloth",
+      "text": "dish cloth",
+      "entity_ids": [
+        86
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "dishwasher",
+      "text": "dishwasher",
+      "entity_ids": [
+        23
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "electrical_outlet",
+      "text": "electrical outlet",
+      "entity_ids": [
+        76,
+        77,
+        78,
+        79,
+        125,
+        137
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "faucet",
+      "text": "faucet",
+      "entity_ids": [
+        13
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "floor",
+      "text": "wood floor",
+      "entity_ids": [
+        6
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "food_carton",
+      "text": "food carton",
+      "entity_ids": [
+        121,
+        122,
+        133
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "food_container",
+      "text": "food container",
+      "entity_ids": [
+        112,
+        151
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "food_multipack",
+      "text": "packaged food multipack",
+      "entity_ids": [
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "food_packet",
+      "text": "food packet",
+      "entity_ids": [
+        31,
+        113,
+        152
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "food_pouch",
+      "text": "food pouch",
+      "entity_ids": [
+        131,
+        132,
+        139
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "framed_picture",
+      "text": "framed picture",
+      "entity_ids": [
+        67
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "frying_pan",
+      "text": "frying pan",
+      "entity_ids": [
+        36,
+        37
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "griddle",
+      "text": "griddle",
+      "entity_ids": [
+        92
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "hanging_accessory",
+      "text": "hanging kitchen accessory",
+      "entity_ids": [
+        22
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "island_base",
+      "text": "kitchen island base",
+      "entity_ids": [
+        19
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "jar",
+      "text": "jar",
+      "entity_ids": [
+        33,
+        109,
+        110,
+        111,
+        138,
+        146
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "knife",
+      "text": "kitchen knife",
+      "entity_ids": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "knife_block",
+      "text": "wooden knife block",
+      "entity_ids": [
+        44,
+        56
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "ladle",
+      "text": "ladle",
+      "entity_ids": [
+        101
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "microwave",
+      "text": "microwave oven",
+      "entity_ids": [
+        21
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "oven_mitt",
+      "text": "oven mitt",
+      "entity_ids": [
+        123
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "paper_towel_holder",
+      "text": "paper towel holder",
+      "entity_ids": [
+        83
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "paper_towel_roll",
+      "text": "paper towel roll",
+      "entity_ids": [
+        84
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "pastry_brush",
+      "text": "pastry brush",
+      "entity_ids": [
+        103
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "plant_stand",
+      "text": "plant stand",
+      "entity_ids": [
+        135
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "plastic_wrapper",
+      "text": "plastic wrapper",
+      "entity_ids": [
+        130
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "plate",
+      "text": "plate",
+      "entity_ids": [
+        24,
+        25,
+        26,
+        38
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "potted_plant",
+      "text": "potted plant",
+      "entity_ids": [
+        134,
+        136
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "power_cord",
+      "text": "power cord",
+      "entity_ids": [
+        80,
+        81,
+        82
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "remote_control",
+      "text": "remote control",
+      "entity_ids": [
+        89
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "seasoning_bottle",
+      "text": "seasoning bottle",
+      "entity_ids": [
+        34
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "seasoning_jar",
+      "text": "spice jar",
+      "entity_ids": [
+        104,
+        105,
+        126
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "seasoning_tin",
+      "text": "seasoning tin",
+      "entity_ids": [
+        106,
+        107
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "shelf",
+      "text": "wall shelf",
+      "entity_ids": [
+        16,
+        17
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "sink",
+      "text": "kitchen sink",
+      "entity_ids": [
+        12
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "small_unknown_item",
+      "text": "small countertop object",
+      "entity_ids": [
+        114
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "soap_bottle",
+      "text": "dish soap bottle",
+      "entity_ids": [
+        85
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "soft_bag",
+      "text": "white bag",
+      "entity_ids": [
+        90
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "spatula",
+      "text": "spatula",
+      "entity_ids": [
+        94,
+        95,
+        97,
+        98,
+        102
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "sponge",
+      "text": "sponge",
+      "entity_ids": [
+        87
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "spoon",
+      "text": "cooking spoon",
+      "entity_ids": [
+        96
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "stockpot",
+      "text": "stockpot",
+      "entity_ids": [
+        91
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "stove",
+      "text": "stove and oven",
+      "entity_ids": [
+        20
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "toaster_oven",
+      "text": "toaster oven",
+      "entity_ids": [
+        32
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "tongs",
+      "text": "kitchen tongs",
+      "entity_ids": [
+        39
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "tumbler",
+      "text": "travel tumbler",
+      "entity_ids": [
+        88
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "utensil_holder",
+      "text": "utensil holder",
+      "entity_ids": [
+        93,
+        99
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "wall",
+      "text": "kitchen wall",
+      "entity_ids": [
+        1,
+        2
+      ],
+      "comparison_policy": "instance_association_required"
+    },
+    {
+      "name": "whisk",
+      "text": "whisk",
+      "entity_ids": [
+        100
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "window",
+      "text": "window",
+      "entity_ids": [
+        5
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "wooden_dish",
+      "text": "wooden dish",
+      "entity_ids": [
+        74
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    },
+    {
+      "name": "wrapped_food",
+      "text": "wrapped food",
+      "entity_ids": [
+        129
+      ],
+      "comparison_policy": "single_entity_requires_semantic_review"
+    }
+  ],
+  "excluded_object_names": [],
+  "coverage": {
+    "mesh_object_count": 448,
+    "assigned_object_count": 448,
+    "entity_count": 156,
+    "concept_count": 66,
+    "needs_review_entity_count": 12
+  },
+  "limitations": [
+    "Entity names and grouping were derived from authored mesh names and are a reviewable semantic proposal, not ground-truth object recognition.",
+    "SAM text concepts produce candidate instances; identical concepts do not establish which instance matches a particular Blender entity.",
+    "Never reuse a multi-instance concept union as the individual mask of each repeated Blender item. Concept-level unions must use the corresponding Blender entity union.",
+    "Separate scene manifests constrain scene-conditional evaluation; compare shared concepts/entities separately from each scene's own inventory.",
+    "Objects with needs_review remain included in render IDs but should not become unreviewed instance-level accuracy claims.",
+    "The point-cloud reference and camera helpers are not rendered entities; these clean authored-scene exports contain no such mesh helpers."
+  ]
+}

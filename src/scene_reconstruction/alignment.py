@@ -92,7 +92,7 @@ def validate_transform(value):
 
 def transform_points(points, transform):
     points = _points(points, "Points")
-    return (float(transform["scale"]) * points @ np.asarray(transform["rotation"]).T
+    return (float(transform["scale"]) * np.einsum("ij,nj->ni", np.asarray(transform["rotation"]), points)
             + np.asarray(transform["translation"]))
 
 
@@ -366,7 +366,16 @@ def run(args):
     roles, inlier_by_frame = {}, {}
     landmark_results = None
     fit_input = None
-    if transform_path:
+    surface_fit = getattr(args, "surface_fit", None)
+    if surface_fit is not None:
+        if landmarks_path or transform_path or fit_frames is not None:
+            raise ValueError("Surface fitting cannot be combined with other alignment inputs")
+        transform = validate_transform(surface_fit["transform"])
+        fit = {"method": "automatic_surfaces", "diagnostics": surface_fit["diagnostics"],
+               "validation_status": surface_fit["status"], "anchors": surface_fit["anchors"],
+               "target_profile": surface_fit.get("target_profile", "explicit_planes"),
+               "camera_correspondences_used": False}
+    elif transform_path:
         transform_path = Path(transform_path).expanduser().resolve()
         loaded = json.loads(transform_path.read_text())
         transform = validate_transform(loaded.get("transform", loaded))
@@ -437,12 +446,15 @@ def run(args):
                          "orientation_degrees": _stats(angle_error[keep])}
     warnings = [
         "One similarity removes global origin, rotation and scale differences; its scale is not independent metric evidence.",
-        "Camera-center residuals on fit frames measure agreement conditional on that fit, not independent reconstruction accuracy.",
         "No dense surface or object-center distances are inferred; the point cloud contains visible surfaces and possible outliers.",
     ]
+    if fit["method"] == "camera_centers":
+        warnings.append("Camera-center residuals on fit frames measure agreement conditional on that fit, not independent reconstruction accuracy.")
+    if surface_fit is not None:
+        warnings.extend(surface_fit["warnings"])
     if fit["method"] == "camera_centers" and not metrics["holdout"]["translation_blender_units"]["count"]:
         warnings.append("No camera frames were held out. Use --fit-frames or independent landmarks for a stronger validation.")
-    if fit.get("diagnostics") and fit["diagnostics"]["source_inlier_spread"]["weak_second_axis"]:
+    if (fit.get("diagnostics") or {}).get("source_inlier_spread", {}).get("weak_second_axis"):
         warnings.append("The fitted trajectory/landmarks have little second-axis extent; orientation and scale may be sensitive to noise.")
     result = {
         "schema_version": 1, "stage": "vggt_blender_alignment", "status": "complete",

@@ -123,6 +123,10 @@ These compare both baselines using the existing Blender previews. Outputs go und
 
 Omit `VGGT_OUTPUT` to compare `outputs/vggt`. If comparison reports already exist for an earlier run, select a new `COMPARISON_OUTPUT`, for example `outputs/comparison_quality`.
 
+For a camera-independent alignment of these kitchen scenes, use the [automatic structural-surface workflow](docs/surface_alignment.md). It detects floor/countertop/backsplash planes, fits one global similarity, checks repeat-seed stability, then evaluates all camera poses. The completed [before-VQA report](outputs/comparison_surfaces/before_vqa/automatic/index.html) and [VQA-informed report](outputs/comparison_surfaces/vqa_informed/automatic/index.html) link to full five-million-point viewers. The process uses the existing cloud and Blender meshes; missing VGGT depth files do not block it. Surface identities remain automatic hypotheses, with explicit ambiguity and residual checks.
+
+The same workflow now supports [IMG_1696 living/dining surfaces](docs/img1696.md#automatic-surface-alignment), with a [full-cloud viewer](outputs/comparison_img1696/surfaces_automatic/viewer.html) and [diagnostic report](outputs/comparison_img1696/surfaces_automatic/index.html). Its automatic floor/table/wall fit is repeatable but flagged for review because the art-wall residual exceeds the configured threshold. Cameras remain evaluation only.
+
 For masks later, give the other chat [the Blender mask contract](docs/blender_handoff.md), `data/frames/manifest.json`, and the agreed object inventory. Cryptomatte and render-mask generation remain in that workflow.
 
 After receiving named binary visible masks:
@@ -158,3 +162,5 @@ scene-recon doctor
 
 Source APIs were checked against the official [VGGT-Ω](https://github.com/facebookresearch/vggt-omega), [Depth Anything 3](https://github.com/ByteDance-Seed/Depth-Anything-3), and [SAM3](https://github.com/facebookresearch/sam3) repositories. Exact reviewed commits are recorded in the model documentation and installer.
 
+
+The [IMG_1711 entity-mask experiment](docs/entity_evaluation.md) now compares the VGGT-guided and original before-VQA scenes at 100 shared timestamps. [Open the paired videos](outputs/entity_comparison_1711/index.html) or [search their entity inventories](outputs/entity_comparison_1711/entity_manifests.html). Full-resolution Blender RGB/ID renders are complete; prepared per-scene SAM batches are ready for the A6000, with shared prompt text/anchors for common concepts. SAM instance association and overlap scoring follow real-video inference.

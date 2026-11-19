@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "status": "verified",
+  "method": "saved_blender_reference_transform",
+  "transform": {
+    "scale": 3.8405108650717037,
+    "rotation": [
+      [
+        0.4996436974215051,
+        0.38159823792368297,
+        -0.7776496386165866
+      ],
+      [
+        0.8660525898966075,
+        -0.20184088933213348,
+        0.45739825855264465
+      ],
+      [
+        0.017580874845866307,
+        -0.9020216406534567,
+        -0.43133267049053947
+      ]
+    ],
+    "translation": [
+      1.7083587959914712,
+      -0.7217753901251855,
+      1.5892355357246373
+    ],
+    "matrix": [
+      [
+        1.9188870486118892,
+        1.4655321788381215,
+        -2.986571886326085,
+        1.7083587959914712
+      ],
+      [
+        3.3260843812214094,
+        -0.775172128495794,
+        1.756642981636308,
+        -0.7217753901251855
+      ],
+      [
+        0.06751954086301537,
+        -3.4642239114594044,
+        -1.6565378074793098,
+        1.5892355357246373
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "inverse_matrix": [
+      [
+        0.13009823822284033,
+        0.22550452799732884,
+        0.004577743811574409,
+        -0.06676596407951287
+      ],
+      [
+        0.09936132231631074,
+        -0.05255573969802194,
+        -0.23487022230742097,
+        0.16558587509022818
+      ],
+      [
+        -0.20248598843687104,
+        0.11909828526005353,
+        -0.11231127463103435,
+        0.6103699994241405
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "equation": "point_blender = scale * rotation @ point_vggt + translation"
+  },
+  "source_manifest_sha256": "22532e3764f694f04a501c903b35b830e35a5d10f7d2ace544081bfc9e44cd23",
+  "source_alignment_file": "source_vggt_alignment.json",
+  "source_alignment_sha256": "0cc441ca9a7f5c85214d4632903b4b1aee15a8db2217d0d5406722aed9b00aed",
+  "source_blend_sha256": "1243b3a4a599ac5e65323559ab6820c01d169d93e402dcf2c3524dca8a7ce8c0",
+  "clean_scene_sha256": "7584e629d457d6fd1b06c7238b6cbc94dcf4cc453fb585b2b4cf9411adff1ad9",
+  "point_cloud_sha256": "148ca976a35688139b93df1bb368bfe36769a017f2a52247d1a1c43cff826388",
+  "verification_file": "reference_alignment_verification.json",
+  "scale_calibrated": false,
+  "scale_basis": {
+    "reference": "assumed finished island worktop height above floor",
+    "nominal_m": 0.9144,
+    "measured_vggt_units": 0.23809332459288013,
+    "qualification": "Common 36-inch kitchen worktop height, unverified for this installation. All output lengths inherit the fractional error of this assumption plus local reconstruction error."
+  },
+  "note": "Original raw-VGGT-to-Blender placement extracted from the supplied archive, verified against all native point records and object matrix_world; no refit. Numeric distances remain Blender units with assumed physical scale."
+}

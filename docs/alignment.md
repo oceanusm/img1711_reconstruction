@@ -46,6 +46,8 @@ Training residuals are conditional on the alignment fit, and robust outliers rem
 
 ## Static landmarks or a supplied transform
 
+For an automatic structural alternative on these two kitchen baselines, use [`align-surfaces`](surface_alignment.md). It detects source planes and matches them to the Blender floor, main countertops and perpendicular backsplashes without using camera correspondences for initialization, selection or fitting. All matched cameras are then evaluated under the surface-derived transform. The surface workflow includes explicit support, rank, residual and ambiguity diagnostics; its `automatic_candidate` status is a geometric hypothesis, not verified reconstruction accuracy. It preserves the camera-based results in separate output directories.
+
 For weak camera motion, or to make the camera comparison independent of the fitting data, use corresponding **static visible surface points**. Object origins and mesh bounding-box centers generally do not correspond to VGGT surface samples. Prefer distributed cabinet/counter corners or other well-resolved features, avoid moving containers/hands and reflective surfaces, and reserve additional landmarks for validation.
 
 The viewer's landmark download uses this format:

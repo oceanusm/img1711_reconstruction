@@ -123,6 +123,21 @@ def pack_cloud(cloud, transform):
             "matrix": matrix.T.reshape(-1).tolist(), "bounds": bounds}
 
 
+def construction_note(manifest_path, blender_index):
+    """Find registered construction context by scene hash, not output name."""
+    scene_hash = blender_index.get("source_blend_sha256")
+    if not scene_hash:
+        return ""
+    for parent in Path(manifest_path).resolve().parents:
+        registry = parent / "blender_scenes" / "baselines.json"
+        if registry.is_file():
+            for scene in json.loads(registry.read_text()).get("baselines", []):
+                if scene.get("sha256") == scene_hash:
+                    return scene.get("viewer_description", "")
+            break
+    return ""
+
+
 def build_payload(args):
     source_path = Path(args.manifest).resolve()
     manifest = load_manifest(source_path)
@@ -152,6 +167,7 @@ def build_payload(args):
         colors = np.clip(np.nan_to_num(colors, nan=.6), 0, 1)
     payload = {
         "title": blender.name, "mode": "Blender baseline only — model results pending",
+        "constructionNote": construction_note(source_path, bi),
         "vertices": vertices.round(6).tolist(), "triangles": triangles.tolist(),
         "objectIds": ids.tolist(), "objectNames": names, "faceColors": colors.round(3).tolist(),
         "totalTriangles": total_triangles, "blenderCameras": [], "vggtCameras": [],
@@ -202,6 +218,9 @@ def build_payload(args):
         payload.update(cloud=pack_cloud(cloud, transform),
                        totalCloudPoints=cloud["total_points"],
                        alignment=ai, mode="VGGT aligned into Blender world with one global similarity transform")
+        if ai.get("fit", {}).get("method") == "automatic_surfaces":
+            status = ai["fit"].get("validation_status", "unverified").replace("_", " ")
+            payload["mode"] = f"Automatic surface alignment · {status} · cameras evaluated after fitting"
         vc = _cameras(vggt / "cameras.npz", "intrinsics_canonical")
         _validate_camera_records(vc, vi, manifest)
         cloud_settings = vi.get("point_cloud", {})
@@ -261,9 +280,9 @@ HTML = r'''<!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Scene alignment laboratory</title>
 <style>
-:root{color-scheme:dark;font:14px system-ui,-apple-system,sans-serif;background:#10151e;color:#e8edf5}*{box-sizing:border-box}body{margin:0}header{padding:18px 24px;border-bottom:1px solid #293342;display:flex;justify-content:space-between;gap:16px}h1{font-size:19px;margin:2px 0}header p{margin:4px 0;color:#a9b5c8;font-size:12px}.tag{color:#7de0d4;font-size:12px}main{display:grid;grid-template-columns:minmax(0,1fr) 300px;height:calc(100vh - 93px)}.stage{position:relative;min-height:500px;background:radial-gradient(ellipse at 50% 35%,#243245,#0e1520 75%)}canvas{width:100%;height:100%;display:block;touch-action:none}.hint{position:absolute;bottom:15px;left:18px;max-width:80%;color:#aab9ce;font-size:11px;pointer-events:none}.status{position:absolute;top:16px;left:18px;background:#101722dd;border:1px solid #304258;border-radius:8px;padding:10px 12px;font:12px ui-monospace,monospace;white-space:pre-wrap}aside{overflow:auto;padding:18px;background:#151c27;border-left:1px solid #293342}h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 10px;color:#9bb1ca}h2:first-child{margin-top:0}label{display:block;margin:9px 0;color:#d2dce9;font-size:12px}input[type=checkbox]{accent-color:#62ccbf;margin-right:8px}input[type=range],select{width:100%}select,button{background:#202c3c;border:1px solid #3a4c63;color:#e8edf5;padding:7px;border-radius:5px;font:12px system-ui}button{cursor:pointer;margin:4px 4px 4px 0}button:hover{background:#314358}.note{font-size:11px;color:#9faec3;line-height:1.5}.images{display:flex;gap:6px}.images figure{width:50%;margin:0}.images img{width:100%;background:#0b1017;min-height:50px;object-fit:contain}.images figcaption{font-size:10px;color:#a4b4c9;margin-top:4px}.swatch{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.gold{background:#ffbd66}.purple{background:#b798ff}#pickInfo{font:11px ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}#error{display:none;color:#ffb6a8;background:#492725;padding:18px;position:absolute;inset:20px;z-index:3;height:max-content}@media(max-width:800px){main{display:block;height:auto}.stage{height:62vh}aside{border-left:0}.images img{max-height:220px}header{padding:12px}}
+:root{color-scheme:dark;font:14px system-ui,-apple-system,sans-serif;background:#10151e;color:#e8edf5}*{box-sizing:border-box}body{margin:0;display:flex;flex-direction:column;height:100vh}header{flex-shrink:0;padding:18px 24px;border-bottom:1px solid #293342;display:flex;justify-content:space-between;gap:16px}h1{font-size:19px;margin:2px 0}header p{margin:4px 0;color:#a9b5c8;font-size:12px}.tag{color:#7de0d4;font-size:12px}main{display:grid;grid-template-columns:minmax(0,1fr) 300px;flex:1;min-height:0}.stage{position:relative;min-height:500px;background:radial-gradient(ellipse at 50% 35%,#243245,#0e1520 75%)}canvas{width:100%;height:100%;display:block;touch-action:none}.hint{position:absolute;bottom:15px;left:18px;max-width:80%;color:#aab9ce;font-size:11px;pointer-events:none}.status{position:absolute;top:16px;left:18px;background:#101722dd;border:1px solid #304258;border-radius:8px;padding:10px 12px;font:12px ui-monospace,monospace;white-space:pre-wrap}aside{overflow:auto;padding:18px;background:#151c27;border-left:1px solid #293342}h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin:20px 0 10px;color:#9bb1ca}h2:first-child{margin-top:0}label{display:block;margin:9px 0;color:#d2dce9;font-size:12px}input[type=checkbox]{accent-color:#62ccbf;margin-right:8px}input[type=range],select{width:100%}select,button{background:#202c3c;border:1px solid #3a4c63;color:#e8edf5;padding:7px;border-radius:5px;font:12px system-ui}button{cursor:pointer;margin:4px 4px 4px 0}button:hover{background:#314358}.note{font-size:11px;color:#9faec3;line-height:1.5}.images{display:flex;gap:6px}.images figure{width:50%;margin:0}.images img{width:100%;background:#0b1017;min-height:50px;object-fit:contain}.images figcaption{font-size:10px;color:#a4b4c9;margin-top:4px}.swatch{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.gold{background:#ffbd66}.purple{background:#b798ff}#pickInfo{font:11px ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}#error{display:none;color:#ffb6a8;background:#492725;padding:18px;position:absolute;inset:20px;z-index:3;height:max-content}@media(max-width:800px){main{display:block;height:auto}.stage{height:62vh}aside{border-left:0}.images img{max-height:220px}header{padding:12px}}
 </style>
-<header><div><div class="tag">RECONSTRUCTION / GEOMETRY</div><h1 id="title">Scene alignment laboratory</h1><p id="mode"></p></div><div class="note">Offline · source frames preserved<br>Drag to orbit · wheel to zoom · shift-drag to pan</div></header>
+<header><div><div class="tag">RECONSTRUCTION / GEOMETRY</div><h1 id="title">Scene alignment laboratory</h1><p id="constructionNote" hidden></p><p id="mode"></p></div><div class="note">Offline · source frames preserved<br>Drag to orbit · wheel to zoom · shift-drag to pan</div></header>
 <main><section class="stage"><canvas id="view"></canvas><div id="error"></div><div class="status" id="status"></div><div class="hint" id="meshNote"></div></section><aside>
 <h2>Visible layers</h2><label><input id="wire" type="checkbox" checked>Blender wireframe</label><label><input id="solid" type="checkbox">Blender surfaces</label><label><input id="cloud" type="checkbox" checked>VGGT colored points</label><label><input id="cameras" type="checkbox" checked>Camera paths and selected frusta</label><label><input id="links" type="checkbox">Matched camera residual lines</label>
 <label>Point size <input id="pointSize" type="range" min="1" max="6" step=".5" value="2"></label><label>Surface opacity <input id="opacity" type="range" min=".1" max="1" step=".05" value=".3"></label>
@@ -281,7 +300,7 @@ function decodeTyped(encoded,count,Type){const bytes=decodeBytes(encoded,count*T
 const cloud=D.cloud,pointCount=cloud?cloud.count:0;
 let cloudPositions=new Float32Array(0),cloudColors=new Uint8Array(0),cloudFrames=new Int32Array(0),cloudMatrix=null;
 if(cloud){cloudPositions=decodeTyped(cloud.positionsF32,pointCount*3,Float32Array);delete cloud.positionsF32;cloudColors=decodeBytes(cloud.colorsU8,pointCount*3);delete cloud.colorsU8;cloudFrames=decodeTyped(cloud.frameIndicesI32,pointCount,Int32Array);delete cloud.frameIndicesI32;cloudMatrix=new Float32Array(cloud.matrix)}
-$('title').textContent=D.title+' · alignment laboratory';$('mode').textContent=D.mode;$('meshNote').textContent=D.geometryNote;
+$('title').textContent=D.title+' · alignment laboratory';$('constructionNote').textContent=D.constructionNote||'';$('constructionNote').hidden=!D.constructionNote;$('mode').textContent=D.mode;$('meshNote').textContent=D.geometryNote;
 $('frame').max=D.frames.length-1;$('cloud').disabled=!pointCount;$('pickMode').options[1].disabled=!pointCount;
 $('stats').textContent=`${D.triangles.length.toLocaleString()} / ${D.totalTriangles.toLocaleString()} triangles · ${D.blenderCameras.length} Blender cameras · ${D.vggtCameras.length} VGGT cameras`;
 if(D.vggtSummary){const s=D.vggtSummary,total=D.totalCloudPoints,percentage=total?100*pointCount/total:0,lines=[`Display: ${pointCount.toLocaleString()} / ${total.toLocaleString()} exported points (${percentage.toFixed(1)}%).`,`Inference: ${s.selectedViews.toLocaleString()} views${s.modelSizeWh?' at '+s.modelSizeWh.join(' × ')+' pixels per view':''}.`];if(s.confidencePercentile!==null)lines.push(`Cloud export: per-frame confidence percentile cutoff ${s.confidencePercentile}; confidence is not a probability.`);if(s.pointStride!==null||s.exportBudget!==null)lines.push(`Export sampling: ${[s.pointStride!==null?'pixel stride '+s.pointStride:null,s.exportBudget!==null?'point cap '+s.exportBudget.toLocaleString():null].filter(Boolean).join(', ')}.`);lines.push('Display sampling does not change saved depth or cameras.');$('cloudDetails').textContent=lines.join('\n')}

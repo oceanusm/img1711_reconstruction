@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -54,7 +55,7 @@ def load_sam_run(manifest_path: Path, sam_output: Path):
     segmentation result with no detection is still not verified object absence.
     """
     manifest_path, sam_output = Path(manifest_path).resolve(), Path(sam_output).resolve()
-    manifest = load_manifest(manifest_path)
+    manifest = load_manifest(manifest_path, allow_sparse=True)
     metadata = json.loads((sam_output / "metadata.json").read_text())
     if metadata.get("status") != "complete":
         raise ValueError("SAM run must have metadata status='complete'")
@@ -82,7 +83,7 @@ def load_sam_run(manifest_path: Path, sam_output: Path):
             if key in records:
                 raise ValueError(f"Duplicate SAM frame record: {key}")
             for field in ("pts_seconds", "time_seconds"):
-                if abs(float(record[field]) - float(frames[index][field])) > 1e-6:
+                if not math.isfinite(float(record[field])) or abs(float(record[field]) - float(frames[index][field])) > 1e-6:
                     raise ValueError(f"SAM timestamp differs from manifest for frame {index}")
             records[key] = record
             chunks[(concept, chunk_start)].add(index)
@@ -97,7 +98,8 @@ def load_sam_run(manifest_path: Path, sam_output: Path):
     if records.keys() != expected:
         raise ValueError("SAM frames.jsonl does not cover every concept and source frame exactly once")
     for (concept, start), indices in chunks.items():
-        if min(indices) != start or sorted(indices) != list(range(start, max(indices) + 1)):
+        expected_chunk = [i for i in frames if start <= i <= max(indices)]
+        if min(indices) != start or sorted(indices) != expected_chunk:
             raise ValueError(f"SAM chunk is not a contiguous interval: {concept}/{start}")
     return manifest, metadata, dict(tracks), dict(chunks)
 
@@ -174,8 +176,11 @@ def catalog(args):
     print(f"Cataloged {len(items)} candidate tracks: {output / 'index.html'}")
 
 
-def build_plan(mapping, frame_count, tracks, chunks):
+def build_plan(mapping, frame_count, tracks, chunks, frame_indices=None):
     """Validate identity assignment and require an explicit disposition per frame."""
+    frame_indices = list(range(frame_count)) if frame_indices is None else list(frame_indices)
+    if len(frame_indices) != frame_count or frame_indices != sorted(set(frame_indices)):
+        raise ValueError("Mapping frame IDs must be unique, ordered and match frame_count")
     objects = mapping.get("objects")
     if not isinstance(objects, list) or not objects:
         raise ValueError("Mapping must contain a nonempty objects list")
@@ -188,7 +193,7 @@ def build_plan(mapping, frame_count, tracks, chunks):
         policy = obj.get("missing_detections", "error")
         if policy not in {"error", "reviewed_absent"}:
             raise ValueError("missing_detections must be 'error' or 'reviewed_absent'")
-        active = [[] for _ in range(frame_count)]
+        active = {i: [] for i in frame_indices}
         for reference in obj.get("tracks", []):
             key = _track_key(reference)
             if key not in tracks:
@@ -201,7 +206,7 @@ def build_plan(mapping, frame_count, tracks, chunks):
             end = _integer(reference.get("end_frame", max(chunk)), "end_frame")
             if start > end or start not in chunk or end not in chunk:
                 raise ValueError(f"Track frame range must stay inside its source chunk: {key}")
-            for index in range(start, end + 1):
+            for index in (i for i in frame_indices if start <= i <= end):
                 if key in active[index]:
                     raise ValueError(f"Overlapping duplicate track selection for {name}, frame {index}: {key}")
                 active[index].append(key)
@@ -210,13 +215,13 @@ def build_plan(mapping, frame_count, tracks, chunks):
             if not isinstance(interval, list) or len(interval) != 2:
                 raise ValueError("absent_ranges entries must be inclusive [start_frame, end_frame] pairs")
             start, end = (_integer(value, "absence range endpoint") for value in interval)
-            if start > end or end >= frame_count:
+            if start > end or start not in active or end not in active:
                 raise ValueError("Absence range must lie within the source video")
-            absent.update(range(start, end + 1))
-        uncovered = [i for i in range(frame_count) if not active[i] and i not in absent]
+            absent.update(i for i in frame_indices if start <= i <= end)
+        uncovered = [i for i in frame_indices if not active[i] and i not in absent]
         if uncovered:
             raise ValueError(f"Object {name} has unreviewed/unmapped frames: {_intervals(uncovered)}")
-        for index in range(frame_count):
+        for index in frame_indices:
             if index in absent:
                 continue
             observed = [key for key in active[index] if index in tracks[key]]
@@ -234,10 +239,11 @@ def run(args):
     mapping_path = Path(args.mapping).resolve()
     manifest, source_metadata, tracks, chunks = load_sam_run(manifest_path, sam_output)
     mapping = json.loads(mapping_path.read_text())
-    plans = build_plan(mapping, len(manifest["frames"]), tracks, chunks)
+    plans = build_plan(mapping, len(manifest["frames"]), tracks, chunks,
+                       [frame['index'] for frame in manifest['frames']])
     size = (manifest["width"], manifest["height"])
     # Check all selected references before writing. Missing files cannot mean absence.
-    selected = {key for plan in plans for keys in plan["active"] for key in keys}
+    selected = {key for plan in plans for keys in plan["active"].values() for key in keys}
     for key in selected:
         for observation in tracks[key].values():
             if "mask" not in observation:
