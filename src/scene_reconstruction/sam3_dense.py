@@ -7,11 +7,14 @@ after temporal propagation, retaining every original mask for later grouping.
 from __future__ import annotations
 
 import hashlib
+from contextlib import contextmanager
 import json
 import math
 import os
 from pathlib import Path
+import signal
 import tempfile
+import threading
 import time
 
 import numpy as np
@@ -30,6 +33,31 @@ def _positive(value, name, *, allow_zero=False):
     if type(value) is not int or value < (0 if allow_zero else 1):
         raise ValueError(f"{name} must be {'nonnegative' if allow_zero else 'positive'}")
     return value
+
+
+def discovery_positions(times, fps):
+    """Choose source-time anchors with no gap greater than 1/fps.
+
+    Use the latest available selected frame inside each interval. Unlike rounding
+    regular time targets independently, this cannot create overlong gaps. Keep
+    both endpoints, and reject an input grid too sparse to meet the request.
+    """
+    if not math.isfinite(fps) or fps <= 0:
+        raise ValueError('discovery_fps must be finite and greater than zero')
+    times = np.asarray(times, dtype=float)
+    if times.ndim != 1 or not len(times) or not np.isfinite(times).all() or np.any(np.diff(times) <= 0):
+        raise ValueError('Discovery timestamps must be nonempty, finite and strictly increasing')
+    interval = 1.0 / fps
+    positions = [0]
+    while positions[-1] < len(times) - 1:
+        current = positions[-1]
+        following = int(np.searchsorted(times, times[current] + interval + 1e-9, side='right')) - 1
+        if following <= current:
+            raise ValueError(f'Selected frames are too sparse for discovery_fps={fps:g}: '
+                             f'gap {times[current+1]-times[current]:.6f}s exceeds {interval:.6f}s; '
+                             'provide a denser frame selection or lower --discovery-fps')
+        positions.append(following)
+    return positions
 
 
 def make_plan(args):
@@ -57,11 +85,19 @@ def make_plan(args):
     limit = _positive(args.frame_limit, 'frame_limit', allow_zero=True)
     if limit:
         selected = selected[:limit]
-    count = _positive(args.anchor_count, 'anchor_count')
     # Anchor choices depend only on source time, never on Blender or text labels.
     times = np.array([f['time_seconds'] for f in selected])
-    positions = sorted(set(int(np.argmin(abs(times - time))) for time in
-                           np.linspace(times[0], times[-1], min(count, len(selected)))))
+    if args.anchor_count is not None:
+        count = _positive(args.anchor_count, 'anchor_count')
+        positions = sorted(set(int(np.argmin(abs(times - time))) for time in
+                               np.linspace(times[0], times[-1], min(count, len(selected)))))
+        sampling = {'mode': 'fixed_count', 'requested_count': count}
+    else:
+        positions = discovery_positions(times, args.discovery_fps)
+        sampling = {'mode': 'maximum_time_gap', 'discovery_fps': args.discovery_fps,
+                    'max_allowed_gap_seconds': 1.0 / args.discovery_fps}
+    sampling.update(anchor_count=len(positions),
+                    max_actual_gap_seconds=float(np.max(np.diff(times[positions]))) if len(positions) > 1 else 0.0)
     parameters = {}
     for name in ('grid_side', 'point_batch_size', 'track_batch_size'):
         parameters[name] = _positive(getattr(args, name), name)
@@ -94,6 +130,7 @@ def make_plan(args):
                 'image_sha256': [f['image_sha256'] for f in frames],
                 'width': source['width'], 'height': source['height'],
                 'anchors': [frames[i]['index'] for i in positions],
+                'anchor_sampling': sampling,
                 'parameters': parameters,
                 'checkpoint': sha256(checkpoint) if checkpoint else 'facebook/sam3:sam3.pt'}
     return {**identity, 'fingerprint': _fingerprint(identity), 'frames': frames,
@@ -258,14 +295,77 @@ def _track_job(backend, job, plan, output, resource_path):
     return result
 
 
-def run(args, backend_factory=None):
-    started = time.perf_counter()
-    plan = make_plan(args)
-    if args.dry_run:
-        print(json.dumps({k: v for k, v in plan.items() if k not in ('frames', 'image_sha256', 'frame_ids')}, indent=2))
-        print(f'Will track {len(plan["frames"])} source frames; anchors {plan["anchors"]}; no Blender or text inputs.')
+@contextmanager
+def _output_lock(output):
+    """One coordinator owns an output, including all worker lifetimes."""
+    import fcntl
+    output.parent.mkdir(parents=True, exist_ok=True)
+    # Keep a stable sibling inode: unlinking a lock on release can race a waiter.
+    with (output.parent / f'.{output.name}.run.lock').open('a+') as handle:
+        try:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise RuntimeError(f'Another dense SAM coordinator or worker is using {output}') from error
+        try:
+            handle.seek(0)
+            handle.truncate()
+            handle.write(f'pid={os.getpid()}\n')
+            handle.flush()
+            yield handle.fileno()
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+@contextmanager
+def _termination_guard():
+    """Let a scheduler's SIGTERM take the same cleanup path as Ctrl-C."""
+    if threading.current_thread() is not threading.main_thread():
+        yield
         return
-    output = Path(args.output).resolve()
+    def interrupted(signum, frame):
+        raise KeyboardInterrupt(f'Terminated by signal {signum}')
+    previous = signal.signal(signal.SIGTERM, interrupted)
+    try:
+        yield
+    finally:
+        signal.signal(signal.SIGTERM, previous)
+
+
+def _cached_anchor(output, index, plan):
+    cached = _read_complete(output / 'discovery' / f'{index:06d}' / 'index.json', plan['fingerprint'])
+    if cached:
+        if cached['anchor_frame'] != index:
+            raise ValueError('Cached discovery anchor does not match its assigned frame')
+        for proposal in cached['proposals']:
+            if not (output / proposal['mask']).is_file():
+                raise FileNotFoundError(output / proposal['mask'])
+    return cached
+
+
+def _cached_tracking(output, job, plan):
+    cached = _read_complete(output / 'tracking_batches' / f'{job["name"]}.json', plan['fingerprint'])
+    if cached:
+        expected = [{**{k: p[k] for k in ('id', 'proposal_id', 'anchor_frame')},
+                     'index_file': f'tracks/{p["id"]}/index.json'} for p in job['seeds']]
+        if cached['tracks'] != expected:
+            raise ValueError('Cached tracking batch has different assigned track IDs or seeds')
+        for track in cached['tracks']:
+            index = _read_complete(output / track['index_file'], plan['fingerprint'])
+            if not index or any(index[k] != track[k] for k in ('id', 'proposal_id', 'anchor_frame')):
+                raise ValueError('Cached track is incomplete or has different identity')
+            if [f['index'] for f in index['frames']] != plan['frame_ids']:
+                raise ValueError('Cached track does not contain the exact requested frames')
+            for frame, source in zip(index['frames'], plan['frames']):
+                for field in ('time_seconds', 'pts_seconds'):
+                    if not math.isfinite(frame[field]) or abs(frame[field] - source[field]) > 1e-6:
+                        raise ValueError('Cached track timestamps differ from the source')
+                if not (output / frame['mask']).is_file():
+                    raise FileNotFoundError(output / frame['mask'])
+    return cached
+
+
+def _run_locked(args, plan, output, gpu_ids, backend_factory, started, lock_fd):
+    from .sam3_dense_parallel import run_parallel_stage
     previous_metadata = {}
     if output.exists() and any(output.iterdir()):
         if not args.resume:
@@ -284,7 +384,11 @@ def run(args, backend_factory=None):
         'frame_count': len(portable), 'source_manifest_sha256': plan['source_manifest_sha256'], 'frames': portable})
     metadata = {'schema_version': 1, 'status': 'running', 'fingerprint': plan['fingerprint'],
                 'scope': plan['scope'], 'parameters': plan['parameters'],
+                'anchor_sampling': plan['anchor_sampling'],
                 'frame_count': len(portable), 'width': plan['width'], 'height': plan['height']}
+    metadata['execution'] = ({'mode': 'parallel_workers', 'physical_gpus': gpu_ids} if gpu_ids else
+                             {'mode': 'single_process', 'visible_gpu_index': args.gpu_index})
+    metadata['worker_runs'] = previous_metadata.get('worker_runs', [])
     if 'runtime' in previous_metadata:
         metadata['runtime'] = previous_metadata['runtime']
     write_json(output / 'metadata.json', metadata)
@@ -302,53 +406,72 @@ def run(args, backend_factory=None):
             backend = factory(checkpoint=plan['checkpoint_path'], gpu_index=args.gpu_index)
         return backend
     try:
-        anchors = []
         frames = {f['index']: f for f in plan['frames']}
+        anchors_by_id, pending = {}, []
         for index in plan['anchors']:
-            cached = _read_complete(output / 'discovery' / f'{index:06d}' / 'index.json', plan['fingerprint'])
+            cached = _cached_anchor(output, index, plan)
             if cached:
-                for proposal in cached['proposals']:
-                    if not (output / proposal['mask']).is_file():
-                        raise FileNotFoundError(output / proposal['mask'])
-                anchors.append(cached)
+                anchors_by_id[index] = cached
             else:
                 if args.stage in ('track', 'catalog'):
                     raise ValueError('Discovery is incomplete; run --stage discover or all first')
+                pending.append(frames[index])
+        if pending and gpu_ids:
+            metadata['worker_runs'].extend(run_parallel_stage('discover', pending, plan, output, gpu_ids,
+                                                              backend_factory, coordinator_lock_fd=lock_fd))
+            for frame in pending:
+                cached = _cached_anchor(output, frame['index'], plan)
+                if cached is None:
+                    raise RuntimeError('Discovery worker finished without a complete assigned anchor')
+                anchors_by_id[frame['index']] = cached
+        else:
+            for frame in pending:
                 model = get_backend()
                 model.load_discovery()
-                anchors.append(_discover_anchor(model, frames[index], plan, output))
+                anchors_by_id[frame['index']] = _discover_anchor(model, frame, plan, output)
+        # Completion order never affects IDs, tracking batches or reconciliation.
+        anchors = [anchors_by_id[index] for index in plan['anchors']]
         metadata.update(discovery_anchors=len(anchors),
                         saved_proposals=sum(len(a['proposals']) for a in anchors),
                         budget_deferred_proposals=sum(len(a['budget_deferred_ids']) for a in anchors))
+        print(f'Discovery complete: {len(anchors)} anchors, '
+              f'{sum(len(a["tracking_proposal_ids"]) for a in anchors)} tracking seeds, '
+              f'{metadata["budget_deferred_proposals"]} budget-deferred', flush=True)
+        write_json(output / 'metadata.json', metadata)
         if args.stage == 'discover':
             metadata['status'] = 'discovery_complete'
         else:
             if backend:
                 backend.release_discovery()
             jobs = _tracking_jobs(anchors, plan['parameters']['track_batch_size'])
-            all_tracks = []
-            with tempfile.TemporaryDirectory(prefix='dense_sam_frames_') as temporary:
-                for position, frame in enumerate(plan['frames']):
-                    source = Path(frame['source_path'])
-                    (Path(temporary) / f'{position:06d}{source.suffix.lower()}').symlink_to(source)
-                for position, job in enumerate(jobs):
-                    cached = _read_complete(output / 'tracking_batches' / f'{job["name"]}.json', plan['fingerprint'])
-                    if cached:
-                        for track in cached['tracks']:
-                            track_index = json.loads((output / track['index_file']).read_text())
-                            if track_index.get('status') != 'complete' or len(track_index['frames']) != len(portable):
-                                raise ValueError('Cached track is incomplete')
-                            for frame in track_index['frames']:
-                                if not (output / frame['mask']).is_file():
-                                    raise FileNotFoundError(output / frame['mask'])
-                    else:
-                        if args.stage == 'catalog':
-                            raise ValueError('Tracking is incomplete; run --stage track or all first')
+            batches, pending = {}, []
+            for job in jobs:
+                cached = _cached_tracking(output, job, plan)
+                if cached:
+                    batches[job['name']] = cached
+                elif args.stage == 'catalog':
+                    raise ValueError('Tracking is incomplete; run --stage track or all first')
+                else:
+                    pending.append(job)
+            if pending and gpu_ids:
+                metadata['worker_runs'].extend(run_parallel_stage('track', pending, plan, output, gpu_ids,
+                                                                  backend_factory, coordinator_lock_fd=lock_fd))
+                for job in pending:
+                    cached = _cached_tracking(output, job, plan)
+                    if cached is None:
+                        raise RuntimeError('Tracking worker finished without a complete assigned batch')
+                    batches[job['name']] = cached
+            elif pending:
+                with tempfile.TemporaryDirectory(prefix='dense_sam_frames_') as temporary:
+                    for position, frame in enumerate(plan['frames']):
+                        source = Path(frame['source_path'])
+                        (Path(temporary) / f'{position:06d}{source.suffix.lower()}').symlink_to(source)
+                    for position, job in enumerate(pending):
                         print(f'Tracking batch {position+1}/{len(jobs)}: {job["name"]}, {len(job["seeds"])} proposals', flush=True)
                         model = get_backend()
                         model.load_tracking()
-                        cached = _track_job(model, job, plan, output, temporary)
-                    all_tracks.extend(cached['tracks'])
+                        batches[job['name']] = _track_job(model, job, plan, output, temporary)
+            all_tracks = [track for job in jobs for track in batches[job['name']]['tracks']]
             write_json(output / 'raw_tracks.json', {'schema_version': 1, 'status': 'complete',
                 'fingerprint': plan['fingerprint'], 'width': plan['width'], 'height': plan['height'],
                 'manifest': 'manifest.json', 'tracks': all_tracks})
@@ -377,3 +500,19 @@ def run(args, backend_factory=None):
     finally:
         if backend:
             backend.close()
+
+
+def run(args, backend_factory=None):
+    from .sam3_dense_parallel import parse_gpu_ids
+    started = time.perf_counter()
+    gpu_ids = parse_gpu_ids(getattr(args, 'gpus', None))
+    plan = make_plan(args)
+    if args.dry_run:
+        print(json.dumps({k: v for k, v in plan.items() if k not in ('frames', 'image_sha256', 'frame_ids')}, indent=2))
+        print(f'Will track {len(plan["frames"])} source frames; anchors {plan["anchors"]}; no Blender or text inputs.')
+        print(f'Execution: physical GPUs {gpu_ids}, isolated workers' if gpu_ids else
+              f'Execution: one process, logical CUDA device {args.gpu_index}')
+        return
+    output = Path(args.output).resolve()
+    with _termination_guard(), _output_lock(output) as lock_fd:
+        return _run_locked(args, plan, output, gpu_ids, backend_factory, started, lock_fd)

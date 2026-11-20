@@ -9,7 +9,7 @@ from PIL import Image
 
 from scene_reconstruction.cli import parser
 from scene_reconstruction.common import sha256, write_json
-from scene_reconstruction.sam3_dense import crop_boxes, grid_points, make_plan, run
+from scene_reconstruction.sam3_dense import crop_boxes, discovery_positions, grid_points, make_plan, run
 
 
 class FakeBackend:
@@ -74,6 +74,47 @@ class DensePilotTests(unittest.TestCase):
         self.assertEqual(make_plan(self.args)['fingerprint'], plan['fingerprint'])
         Image.new('RGB', (8, 12), 'white').save(self.manifest.parent/'000004.png')
         self.assertNotEqual(make_plan(self.args)['fingerprint'], plan['fingerprint'])
+
+    def test_default_cadence_has_no_half_second_gaps_and_keeps_tracking_frames(self):
+        self.args.anchor_count = None
+        plan = make_plan(self.args)
+        self.assertEqual(plan['frame_ids'], [0, 4, 9])
+        self.assertEqual(plan['anchors'], [0, 4, 9])
+        self.assertEqual(plan['anchor_sampling']['mode'], 'maximum_time_gap')
+        self.assertEqual(plan['anchor_sampling']['discovery_fps'], 2)
+        self.assertAlmostEqual(plan['anchor_sampling']['max_actual_gap_seconds'], .5)
+        original = plan['fingerprint']
+        self.args.discovery_fps = 1
+        plan = make_plan(self.args)
+        self.assertEqual(plan['anchors'], [0, 9])
+        self.assertNotEqual(plan['fingerprint'], original)
+
+    def test_time_schedule_does_not_round_into_an_overlong_gap(self):
+        times = np.arange(101) * .233
+        positions = discovery_positions(times, 2)
+        self.assertEqual(positions, list(range(0, 101, 2)))
+        self.assertLessEqual(np.diff(times[positions]).max(), .5)
+        self.assertEqual(discovery_positions([0, .2, .4, .6, .8, 1], 2), [0, 2, 4, 5])
+        # A one-frame clip still supplies its endpoint.
+        self.assertEqual(discovery_positions([4.5], 2), [0])
+
+    def test_rate_requires_valid_cadence_and_sufficient_selected_frames(self):
+        for rate in (0, -1, float('nan'), float('inf')):
+            with self.subTest(rate=rate), self.assertRaisesRegex(ValueError, 'discovery_fps'):
+                discovery_positions([0, .1], rate)
+        with self.assertRaisesRegex(ValueError, 'too sparse'):
+            discovery_positions([0, .25, 1], 2)
+
+    def test_cli_defaults_do_not_limit_temporal_discovery_or_tracking_seeds(self):
+        defaults = parser().parse_args(['sam-dense'])
+        self.assertEqual(defaults.discovery_fps, 2)
+        self.assertIsNone(defaults.anchor_count)
+        self.assertEqual(defaults.max_per_anchor, 0)
+        self.assertEqual(defaults.track_batch_size, 8)
+        self.assertEqual(defaults.output, Path('outputs/sam_dense_1711_2fps'))
+        smoke = parser().parse_args(['sam-dense', '--anchor-count', '1', '--max-per-anchor', '2'])
+        self.assertEqual(smoke.anchor_count, 1)
+        self.assertEqual(smoke.max_per_anchor, 2)
 
     def test_discovery_retains_duplicates_and_budget_deferred_parts_on_disk(self):
         self.args.stage = 'discover'
