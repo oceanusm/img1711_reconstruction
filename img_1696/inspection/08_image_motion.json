@@ -1,0 +1,68 @@
+{
+  "total_adjacent_frame_pairs": 991,
+  "tested_adjacent_frame_pairs": 983,
+  "source_pixel_motion_magnitude_per_cell": {
+    "median": 15.411,
+    "p90": 34.454,
+    "n": 14219
+  },
+  "source_render_motion_discrepancy_per_cell_px": {
+    "median": 2.337,
+    "p90": 8.912,
+    "n": 14219
+  },
+  "median_cell_discrepancy_per_frame_pair_px": {
+    "median": 2.362,
+    "p90": 8.135,
+    "n": 983
+  },
+  "common_cells_per_tested_frame_pair": {
+    "median": 15.0,
+    "p90": 18.0,
+    "n": 983
+  },
+  "coarsely_localized_highest_discrepancies": [
+    {
+      "source_frame": 398,
+      "median_motion_difference_px": 48.518
+    },
+    {
+      "source_frame": 408,
+      "median_motion_difference_px": 44.128
+    },
+    {
+      "source_frame": 406,
+      "median_motion_difference_px": 31.777
+    },
+    {
+      "source_frame": 407,
+      "median_motion_difference_px": 31.092
+    },
+    {
+      "source_frame": 846,
+      "median_motion_difference_px": 22.532
+    },
+    {
+      "source_frame": 847,
+      "median_motion_difference_px": 21.718
+    },
+    {
+      "source_frame": 428,
+      "median_motion_difference_px": 19.966
+    },
+    {
+      "source_frame": 429,
+      "median_motion_difference_px": 19.358
+    },
+    {
+      "source_frame": 435,
+      "median_motion_difference_px": 18.695
+    },
+    {
+      "source_frame": 436,
+      "median_motion_difference_px": 18.645
+    }
+  ],
+  "method": "Decode both streams in display orientation. Track corners at 270 x 480 between adjacent frames in each stream independently with bidirectional Lucas-Kanade. Compare median displacement vectors in corresponding cells of a 4 x 6 grid with at least three valid tracks per image per cell and at least four common cells per frame pair. Distances use the full display pixel grid.",
+  "scope": "Measures local apparent image motion, jointly affected by camera path, geometry, texture and within-cell feature composition. It does not measure a static 3D or point-correspondence error."
+}

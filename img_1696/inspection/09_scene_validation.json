@@ -1,0 +1,264 @@
+{
+  "blender": "4.2.23 LTS",
+  "frame_count": 992,
+  "geometry_objects": 482,
+  "static_transforms_checked": 478144,
+  "metric_unit_length": 1.0,
+  "bounds_checks": 872,
+  "max_bbox_coordinate_disagreement_m": 1.5258789076710855e-06,
+  "max_camera_matrix_element_disagreement": 4.999695102370083e-10,
+  "max_intrinsics_disagreement_px": 4.995117706130259e-07,
+  "packed_textures": 14,
+  "reference_collection_present": false,
+  "inspection_vertices": 5000000,
+  "reference_data_check": {
+    "global_matrix_max_abs_difference": 2.8813681107742184e-07,
+    "raw_xyz_max_abs_difference": 0.0,
+    "raw_srgb_max_abs_difference": 2.9685450542160652e-08,
+    "source_vertices_checked": 113,
+    "visible_inspection_proxy_vertices": 100000
+  },
+  "inspection_render_excluded": true,
+  "dining_edges": {
+    "method": "Manually marked tabletop corners, reconstructed camera and tabletop evaluated in Blender. Coordinates in displayed 1080 \u00d7 1920 pixels.",
+    "existing_constraints": "The corner observations helped fit the tabletop and are not independent accuracy checks. Two of 16 possible corners were obscured. Rounded corners and motion blur affect the picks.",
+    "count": 14,
+    "median_pixel_error": 9.590949575615962,
+    "p90_pixel_error": 16.966419217496068,
+    "max_pixel_error": 20.985309520060078,
+    "correspondences": [
+      {
+        "source_frame": 0,
+        "corner": 0,
+        "observed_px": [
+          138.0,
+          1041.0
+        ],
+        "predicted_px": [
+          149.935,
+          1047.689
+        ],
+        "euclidean_error_px": 13.681497537546003
+      },
+      {
+        "source_frame": 0,
+        "corner": 1,
+        "observed_px": [
+          684.0,
+          1155.0
+        ],
+        "predicted_px": [
+          687.007,
+          1168.436
+        ],
+        "euclidean_error_px": 13.768350963882353
+      },
+      {
+        "source_frame": 0,
+        "corner": 2,
+        "observed_px": [
+          1056.0,
+          869.0
+        ],
+        "predicted_px": [
+          1058.643,
+          869.635
+        ],
+        "euclidean_error_px": 2.717830191786134
+      },
+      {
+        "source_frame": 0,
+        "corner": 3,
+        "observed_px": [
+          690.0,
+          827.0
+        ],
+        "predicted_px": [
+          682.456,
+          828.387
+        ],
+        "euclidean_error_px": 7.670185852889356
+      },
+      {
+        "source_frame": 66,
+        "corner": 0,
+        "observed_px": [
+          37.0,
+          1084.0
+        ],
+        "predicted_px": [
+          48.267,
+          1089.534
+        ],
+        "euclidean_error_px": 12.552590880530826
+      },
+      {
+        "source_frame": 66,
+        "corner": 1,
+        "observed_px": [
+          624,
+          1220
+        ],
+        "predicted_px": [
+          618.13,
+          1240.147
+        ],
+        "euclidean_error_px": 20.985309520060078
+      },
+      {
+        "source_frame": 66,
+        "corner": 2,
+        "observed_px": [
+          1058.0,
+          885.0
+        ],
+        "predicted_px": [
+          1059.702,
+          887.633
+        ],
+        "euclidean_error_px": 3.134968604291879
+      },
+      {
+        "source_frame": 66,
+        "corner": 3,
+        "observed_px": [
+          680.0,
+          837.0
+        ],
+        "predicted_px": [
+          661.963,
+          840.303
+        ],
+        "euclidean_error_px": 18.337019897616223
+      },
+      {
+        "source_frame": 530,
+        "corner": 1,
+        "observed_px": [
+          375.0,
+          939.0
+        ],
+        "predicted_px": [
+          370.13,
+          937.719
+        ],
+        "euclidean_error_px": 5.0359461417626505
+      },
+      {
+        "source_frame": 530,
+        "corner": 2,
+        "observed_px": [
+          593.0,
+          1060.0
+        ],
+        "predicted_px": [
+          604.697,
+          1059.62
+        ],
+        "euclidean_error_px": 11.703643161073872
+      },
+      {
+        "source_frame": 530,
+        "corner": 3,
+        "observed_px": [
+          945.0,
+          1034.0
+        ],
+        "predicted_px": [
+          948.605,
+          1036.221
+        ],
+        "euclidean_error_px": 4.234458656931981
+      },
+      {
+        "source_frame": 539,
+        "corner": 1,
+        "observed_px": [
+          84.0,
+          913.0
+        ],
+        "predicted_px": [
+          95.259,
+          910.599
+        ],
+        "euclidean_error_px": 11.511713298342567
+      },
+      {
+        "source_frame": 539,
+        "corner": 2,
+        "observed_px": [
+          340.0,
+          1025.0
+        ],
+        "predicted_px": [
+          346.15,
+          1023.815
+        ],
+        "euclidean_error_px": 6.262696604792517
+      },
+      {
+        "source_frame": 539,
+        "corner": 3,
+        "observed_px": [
+          673.0,
+          990.0
+        ],
+        "predicted_px": [
+          676.524,
+          988.552
+        ],
+        "euclidean_error_px": 3.809582263814184
+      }
+    ]
+  },
+  "selected_contacts": {
+    "method": "Compare the minimum world z of the named object and the maximum world z of its visibly flat support at frame 1. This test is restricted to these eight pairs.",
+    "unit": "metre",
+    "object_base_minus_support_top": {
+      "Beverage | opened citrus can / Coffee table | rounded oak top": 0.001,
+      "Laptop | aluminum base / Coffee table | rounded oak top": 0.001,
+      "Controller | powder blue / Coffee table | rounded oak top": 0.0015,
+      "Catan base game box / Catan Explorers and Pirates box": 0.0,
+      "Catan Explorers and Pirates box / Pale oak oval sofa console top": 0.0,
+      "White supplement bottle / Pale oak oval sofa console top": 0.0,
+      "Table lamp | ceramic base / Black end table | turned body": 0.002,
+      "Kitchen \u00b7 cobalt bottle / Kitchen \u00b7 peninsula quartz slab": 0.0
+    }
+  },
+  "encoded_video": {
+    "frame_count": 992,
+    "source_time_base": "1/600",
+    "source_avg_fps": "99200/3307",
+    "final_avg_fps": "99200/3307",
+    "duration_ticks": 19841,
+    "pts_match": true,
+    "compressed_frames_copied": true,
+    "stored_dimensions": [
+      1920,
+      1080
+    ],
+    "display_rotation_degrees": -90,
+    "decoded_frames": 992,
+    "image_source": "Blender authored geometry"
+  },
+  "native_frames": {
+    "frame_count": 992,
+    "distinct_jpeg_digests": 992,
+    "upright_size": [
+      1080,
+      1920
+    ],
+    "eight_bit_mean_luma_range": [
+      96.859375,
+      205.1034698486328
+    ],
+    "within_frame_luminance_sd_range": [
+      23.78304100036621,
+      71.71562957763672
+    ],
+    "minimum_mean_adjacent_change": 0.29895833134651184,
+    "maximum_mean_adjacent_change": 14.955208778381348,
+    "darkest_blender_frame": 468,
+    "brightest_blender_frame": 574
+  }
+}

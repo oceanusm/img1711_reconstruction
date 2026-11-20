@@ -1,0 +1,3528 @@
+{
+  "source_video": "/Users/liumartin/Desktop/scene_reconstruction/src/img_1696.mov",
+  "video_sha256": "078681b5795fc3141e95cd53e9385c2263286a48e4b8e520f03f5e1a2a8c3b10",
+  "reference_paths": {
+    "index.json": "/Users/liumartin/Desktop/scene_reconstruction/src/1696_vggt/index.json",
+    "cameras.npz": "/Users/liumartin/Desktop/scene_reconstruction/src/1696_vggt/cameras.npz",
+    "point_cloud.ply": "/Users/liumartin/Desktop/scene_reconstruction/src/1696_vggt/point_cloud.ply"
+  },
+  "reference_sha256": {
+    "index.json": "7a259ac964c6458cfb7567f91406af4a88188152a494a8badaef2d7cfcbf78f6",
+    "cameras.npz": "7d525528afbfe1f7431d8fa6eef36094939a0837fda4a0cc7644678ee137101d",
+    "point_cloud.ply": "0a58c1df0dbc9a029bfff6b51aa643c67a15e0d744a54e00154be32c78582b98"
+  },
+  "source_coordinate_conventions": {
+    "world": "Common predicted VGGT-\u03a9 world; no axis realignment applied.",
+    "camera": "OpenCV: +X right, +Y down, +Z forward.",
+    "extrinsics": "world_to_camera maps world homogeneous column vectors to camera coordinates.",
+    "intrinsics": "Pixel coordinates; intrinsics_canonical applies to the original oriented image.",
+    "blender": "camera_to_world_blender_camera_basis flips local Y/Z only; world alignment remains necessary.",
+    "depth": "Optical-axis camera Z depth, not Euclidean ray distance.",
+    "scale": "Arbitrary learned scale shared by this joint inference; not meters. Align by a similarity transform.",
+    "confidence": "Uncalibrated upstream confidence score, not a probability or error bound."
+  },
+  "preprocessing": {
+    "mode": "balanced",
+    "image_resolution": 512,
+    "canonical_size_wh": [
+      1080,
+      1920
+    ],
+    "crop_xyxy": [
+      0,
+      0,
+      1080,
+      1920
+    ],
+    "model_size_wh": [
+      384,
+      688
+    ],
+    "canonical_to_model_pixel_affine": [
+      [
+        0.35555555555555557,
+        0.0,
+        -0.3222222222222222
+      ],
+      [
+        0.0,
+        0.35833333333333334,
+        -0.3208333333333333
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "model_to_canonical_pixel_affine": [
+      [
+        2.8125,
+        0.0,
+        0.9062499999999999
+      ],
+      [
+        0.0,
+        2.7906976744186047,
+        0.8953488372093023
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "pixel_coordinates": "Integer coordinates are pixel centers; PIL half-pixel resize convention.",
+    "interpolation": "PIL bicubic",
+    "padding": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "selection": {
+    "stride": 1,
+    "max_frames": 450,
+    "preset": "quality",
+    "strategy": "stride candidates plus final frame, evenly capped over full duration",
+    "input_frame_count": 992,
+    "selected_frame_count": 450
+  },
+  "source_point_cloud": {
+    "vertices": 5000000,
+    "point_stride": 1,
+    "max_points": 5000000,
+    "confidence_percentile_per_frame": 50.0,
+    "fused": false,
+    "note": "Depth-unprojected colored points; duplicates and dynamic objects are retained."
+  },
+  "ply_vertex_properties": [
+    [
+      "x",
+      "float32"
+    ],
+    [
+      "y",
+      "float32"
+    ],
+    [
+      "z",
+      "float32"
+    ],
+    [
+      "red",
+      "uint8"
+    ],
+    [
+      "green",
+      "uint8"
+    ],
+    [
+      "blue",
+      "uint8"
+    ],
+    [
+      "confidence",
+      "float32"
+    ],
+    [
+      "frame_index",
+      "int32"
+    ]
+  ],
+  "transform_direction": "world_m_homogeneous_column = matrix @ VGGT_raw_homogeneous_column",
+  "matrix": [
+    [
+      4.6133483012359635,
+      0.7959988600877126,
+      -2.813363387254281,
+      2.443378749641138
+    ],
+    [
+      2.923383649806737,
+      -1.3448693057378243,
+      4.4132487884830915,
+      -0.0014139350907365175
+    ],
+    [
+      -0.04955572667672751,
+      -5.233480930293327,
+      -1.5619961154657898,
+      1.5356740180582509
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "rotation": [
+    [
+      0.8446521581606364,
+      0.14573843359851357,
+      -0.5150951763381507
+    ],
+    [
+      0.5352386483108685,
+      -0.2462304355452889,
+      0.8080161891729221
+    ],
+    [
+      -0.009073095884718371,
+      -0.9581914639483222,
+      -0.2859839109943735
+    ]
+  ],
+  "translation": [
+    2.443378749641138,
+    -0.0014139350907365175,
+    1.5356740180582509
+  ],
+  "scale": 5.461832136062091,
+  "world_coordinate_conventions": {
+    "up": "+Z",
+    "across_room": "+X away from artwork wall",
+    "along_room": "+Y toward end windows",
+    "units": "metre",
+    "origin": "Intersection of the leveled artwork-wall datum and the floor, in the transverse plane through the first VGGT camera center."
+  },
+  "floor_plane_raw": {
+    "down_unit_normal": [
+      0.009073095884718371,
+      0.9581914639483222,
+      0.2859839109943735
+    ],
+    "dot_normal_point": 0.28116463117181256
+  },
+  "long_wall_raw": {
+    "inward_unit_normal": [
+      0.8446713142413587,
+      0.14801232656261343,
+      -0.5144149318238129
+    ],
+    "dot_normal_point": -0.4471868905301392
+  },
+  "fitting": "Global major horizontal and artwork-wall planes initialized by RANSAC, refined by successively trimmed least squares using every 31st PLY vertex. Axes are orthonormal and right-handed.",
+  "metric_scale_calibrated": false,
+  "metric_scale_anchor": {
+    "physical_reference": "Dining table upper surface, assumed to be 0.75 m above the finished floor.",
+    "reason": "No survey, tape measure, known model dimensions, or independently calibrated metric reference was supplied.",
+    "source_frame_0_clicks_xy_on_432_by_768_portrait": [
+      [
+        85,
+        422
+      ],
+      [
+        250,
+        447
+      ],
+      [
+        330,
+        390
+      ],
+      [
+        360,
+        353
+      ],
+      [
+        178,
+        390
+      ]
+    ],
+    "method": "Median 3D position among eight nearest reprojected source-frame-0 points for each click. Use median floor clearance across clicks.",
+    "floor_to_top_raw_units": [
+      0.13889951218308305,
+      0.13731655995944617,
+      0.1372605564617323,
+      0.13689116400228324,
+      0.13803696915662314
+    ],
+    "illustrative_sensitivity": "A table actually 0.72\u20130.78 m high changes all reported lengths by \u22124% to +4%. This is a sensitivity example, not a measured confidence interval."
+  },
+  "npz_arrays": {
+    "frame_indices": {
+      "shape": [
+        450
+      ],
+      "dtype": "int64"
+    },
+    "time_seconds": {
+      "shape": [
+        450
+      ],
+      "dtype": "float64"
+    },
+    "pts_seconds": {
+      "shape": [
+        450
+      ],
+      "dtype": "float64"
+    },
+    "world_to_camera": {
+      "shape": [
+        450,
+        4,
+        4
+      ],
+      "dtype": "float32"
+    },
+    "camera_to_world": {
+      "shape": [
+        450,
+        4,
+        4
+      ],
+      "dtype": "float32"
+    },
+    "camera_to_world_blender_camera_basis": {
+      "shape": [
+        450,
+        4,
+        4
+      ],
+      "dtype": "float64"
+    },
+    "intrinsics_model": {
+      "shape": [
+        450,
+        3,
+        3
+      ],
+      "dtype": "float32"
+    },
+    "intrinsics_canonical": {
+      "shape": [
+        450,
+        3,
+        3
+      ],
+      "dtype": "float64"
+    },
+    "canonical_to_model_pixel_affine": {
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "float64"
+    },
+    "pose_enc": {
+      "shape": [
+        450,
+        9
+      ],
+      "dtype": "float32"
+    }
+  },
+  "reference_frame_mapping": [
+    {
+      "index": 0,
+      "camera_array_index": 0,
+      "time_seconds": 0.0,
+      "pts_seconds": 0.0
+    },
+    {
+      "index": 2,
+      "camera_array_index": 1,
+      "time_seconds": 0.066667,
+      "pts_seconds": 0.066667
+    },
+    {
+      "index": 4,
+      "camera_array_index": 2,
+      "time_seconds": 0.133333,
+      "pts_seconds": 0.133333
+    },
+    {
+      "index": 7,
+      "camera_array_index": 3,
+      "time_seconds": 0.233333,
+      "pts_seconds": 0.233333
+    },
+    {
+      "index": 9,
+      "camera_array_index": 4,
+      "time_seconds": 0.3,
+      "pts_seconds": 0.3
+    },
+    {
+      "index": 11,
+      "camera_array_index": 5,
+      "time_seconds": 0.366667,
+      "pts_seconds": 0.366667
+    },
+    {
+      "index": 13,
+      "camera_array_index": 6,
+      "time_seconds": 0.433333,
+      "pts_seconds": 0.433333
+    },
+    {
+      "index": 15,
+      "camera_array_index": 7,
+      "time_seconds": 0.5,
+      "pts_seconds": 0.5
+    },
+    {
+      "index": 18,
+      "camera_array_index": 8,
+      "time_seconds": 0.6,
+      "pts_seconds": 0.6
+    },
+    {
+      "index": 20,
+      "camera_array_index": 9,
+      "time_seconds": 0.666667,
+      "pts_seconds": 0.666667
+    },
+    {
+      "index": 22,
+      "camera_array_index": 10,
+      "time_seconds": 0.733333,
+      "pts_seconds": 0.733333
+    },
+    {
+      "index": 24,
+      "camera_array_index": 11,
+      "time_seconds": 0.8,
+      "pts_seconds": 0.8
+    },
+    {
+      "index": 26,
+      "camera_array_index": 12,
+      "time_seconds": 0.866667,
+      "pts_seconds": 0.866667
+    },
+    {
+      "index": 29,
+      "camera_array_index": 13,
+      "time_seconds": 0.966667,
+      "pts_seconds": 0.966667
+    },
+    {
+      "index": 31,
+      "camera_array_index": 14,
+      "time_seconds": 1.033333,
+      "pts_seconds": 1.033333
+    },
+    {
+      "index": 33,
+      "camera_array_index": 15,
+      "time_seconds": 1.1,
+      "pts_seconds": 1.1
+    },
+    {
+      "index": 35,
+      "camera_array_index": 16,
+      "time_seconds": 1.166667,
+      "pts_seconds": 1.166667
+    },
+    {
+      "index": 38,
+      "camera_array_index": 17,
+      "time_seconds": 1.266667,
+      "pts_seconds": 1.266667
+    },
+    {
+      "index": 40,
+      "camera_array_index": 18,
+      "time_seconds": 1.333333,
+      "pts_seconds": 1.333333
+    },
+    {
+      "index": 42,
+      "camera_array_index": 19,
+      "time_seconds": 1.4,
+      "pts_seconds": 1.4
+    },
+    {
+      "index": 44,
+      "camera_array_index": 20,
+      "time_seconds": 1.466667,
+      "pts_seconds": 1.466667
+    },
+    {
+      "index": 46,
+      "camera_array_index": 21,
+      "time_seconds": 1.533333,
+      "pts_seconds": 1.533333
+    },
+    {
+      "index": 49,
+      "camera_array_index": 22,
+      "time_seconds": 1.633333,
+      "pts_seconds": 1.633333
+    },
+    {
+      "index": 51,
+      "camera_array_index": 23,
+      "time_seconds": 1.7,
+      "pts_seconds": 1.7
+    },
+    {
+      "index": 53,
+      "camera_array_index": 24,
+      "time_seconds": 1.766667,
+      "pts_seconds": 1.766667
+    },
+    {
+      "index": 55,
+      "camera_array_index": 25,
+      "time_seconds": 1.833333,
+      "pts_seconds": 1.833333
+    },
+    {
+      "index": 57,
+      "camera_array_index": 26,
+      "time_seconds": 1.9,
+      "pts_seconds": 1.9
+    },
+    {
+      "index": 60,
+      "camera_array_index": 27,
+      "time_seconds": 2.0,
+      "pts_seconds": 2.0
+    },
+    {
+      "index": 62,
+      "camera_array_index": 28,
+      "time_seconds": 2.066667,
+      "pts_seconds": 2.066667
+    },
+    {
+      "index": 64,
+      "camera_array_index": 29,
+      "time_seconds": 2.133333,
+      "pts_seconds": 2.133333
+    },
+    {
+      "index": 66,
+      "camera_array_index": 30,
+      "time_seconds": 2.2,
+      "pts_seconds": 2.2
+    },
+    {
+      "index": 68,
+      "camera_array_index": 31,
+      "time_seconds": 2.266667,
+      "pts_seconds": 2.266667
+    },
+    {
+      "index": 71,
+      "camera_array_index": 32,
+      "time_seconds": 2.366667,
+      "pts_seconds": 2.366667
+    },
+    {
+      "index": 73,
+      "camera_array_index": 33,
+      "time_seconds": 2.433333,
+      "pts_seconds": 2.433333
+    },
+    {
+      "index": 75,
+      "camera_array_index": 34,
+      "time_seconds": 2.5,
+      "pts_seconds": 2.5
+    },
+    {
+      "index": 77,
+      "camera_array_index": 35,
+      "time_seconds": 2.566667,
+      "pts_seconds": 2.566667
+    },
+    {
+      "index": 79,
+      "camera_array_index": 36,
+      "time_seconds": 2.633333,
+      "pts_seconds": 2.633333
+    },
+    {
+      "index": 82,
+      "camera_array_index": 37,
+      "time_seconds": 2.733333,
+      "pts_seconds": 2.733333
+    },
+    {
+      "index": 84,
+      "camera_array_index": 38,
+      "time_seconds": 2.8,
+      "pts_seconds": 2.8
+    },
+    {
+      "index": 86,
+      "camera_array_index": 39,
+      "time_seconds": 2.866667,
+      "pts_seconds": 2.866667
+    },
+    {
+      "index": 88,
+      "camera_array_index": 40,
+      "time_seconds": 2.933333,
+      "pts_seconds": 2.933333
+    },
+    {
+      "index": 90,
+      "camera_array_index": 41,
+      "time_seconds": 3.0,
+      "pts_seconds": 3.0
+    },
+    {
+      "index": 93,
+      "camera_array_index": 42,
+      "time_seconds": 3.1,
+      "pts_seconds": 3.1
+    },
+    {
+      "index": 95,
+      "camera_array_index": 43,
+      "time_seconds": 3.166667,
+      "pts_seconds": 3.166667
+    },
+    {
+      "index": 97,
+      "camera_array_index": 44,
+      "time_seconds": 3.233333,
+      "pts_seconds": 3.233333
+    },
+    {
+      "index": 99,
+      "camera_array_index": 45,
+      "time_seconds": 3.3,
+      "pts_seconds": 3.3
+    },
+    {
+      "index": 102,
+      "camera_array_index": 46,
+      "time_seconds": 3.4,
+      "pts_seconds": 3.4
+    },
+    {
+      "index": 104,
+      "camera_array_index": 47,
+      "time_seconds": 3.466667,
+      "pts_seconds": 3.466667
+    },
+    {
+      "index": 106,
+      "camera_array_index": 48,
+      "time_seconds": 3.533333,
+      "pts_seconds": 3.533333
+    },
+    {
+      "index": 108,
+      "camera_array_index": 49,
+      "time_seconds": 3.6,
+      "pts_seconds": 3.6
+    },
+    {
+      "index": 110,
+      "camera_array_index": 50,
+      "time_seconds": 3.666667,
+      "pts_seconds": 3.666667
+    },
+    {
+      "index": 113,
+      "camera_array_index": 51,
+      "time_seconds": 3.766667,
+      "pts_seconds": 3.766667
+    },
+    {
+      "index": 115,
+      "camera_array_index": 52,
+      "time_seconds": 3.833333,
+      "pts_seconds": 3.833333
+    },
+    {
+      "index": 117,
+      "camera_array_index": 53,
+      "time_seconds": 3.9,
+      "pts_seconds": 3.9
+    },
+    {
+      "index": 119,
+      "camera_array_index": 54,
+      "time_seconds": 3.966667,
+      "pts_seconds": 3.966667
+    },
+    {
+      "index": 121,
+      "camera_array_index": 55,
+      "time_seconds": 4.033333,
+      "pts_seconds": 4.033333
+    },
+    {
+      "index": 124,
+      "camera_array_index": 56,
+      "time_seconds": 4.133333,
+      "pts_seconds": 4.133333
+    },
+    {
+      "index": 126,
+      "camera_array_index": 57,
+      "time_seconds": 4.2,
+      "pts_seconds": 4.2
+    },
+    {
+      "index": 128,
+      "camera_array_index": 58,
+      "time_seconds": 4.266667,
+      "pts_seconds": 4.266667
+    },
+    {
+      "index": 130,
+      "camera_array_index": 59,
+      "time_seconds": 4.333333,
+      "pts_seconds": 4.333333
+    },
+    {
+      "index": 132,
+      "camera_array_index": 60,
+      "time_seconds": 4.4,
+      "pts_seconds": 4.4
+    },
+    {
+      "index": 135,
+      "camera_array_index": 61,
+      "time_seconds": 4.5,
+      "pts_seconds": 4.5
+    },
+    {
+      "index": 137,
+      "camera_array_index": 62,
+      "time_seconds": 4.566667,
+      "pts_seconds": 4.566667
+    },
+    {
+      "index": 139,
+      "camera_array_index": 63,
+      "time_seconds": 4.633333,
+      "pts_seconds": 4.633333
+    },
+    {
+      "index": 141,
+      "camera_array_index": 64,
+      "time_seconds": 4.7,
+      "pts_seconds": 4.7
+    },
+    {
+      "index": 143,
+      "camera_array_index": 65,
+      "time_seconds": 4.766667,
+      "pts_seconds": 4.766667
+    },
+    {
+      "index": 146,
+      "camera_array_index": 66,
+      "time_seconds": 4.866667,
+      "pts_seconds": 4.866667
+    },
+    {
+      "index": 148,
+      "camera_array_index": 67,
+      "time_seconds": 4.933333,
+      "pts_seconds": 4.933333
+    },
+    {
+      "index": 150,
+      "camera_array_index": 68,
+      "time_seconds": 5.0,
+      "pts_seconds": 5.0
+    },
+    {
+      "index": 152,
+      "camera_array_index": 69,
+      "time_seconds": 5.066667,
+      "pts_seconds": 5.066667
+    },
+    {
+      "index": 154,
+      "camera_array_index": 70,
+      "time_seconds": 5.133333,
+      "pts_seconds": 5.133333
+    },
+    {
+      "index": 157,
+      "camera_array_index": 71,
+      "time_seconds": 5.233333,
+      "pts_seconds": 5.233333
+    },
+    {
+      "index": 159,
+      "camera_array_index": 72,
+      "time_seconds": 5.3,
+      "pts_seconds": 5.3
+    },
+    {
+      "index": 161,
+      "camera_array_index": 73,
+      "time_seconds": 5.366667,
+      "pts_seconds": 5.366667
+    },
+    {
+      "index": 163,
+      "camera_array_index": 74,
+      "time_seconds": 5.433333,
+      "pts_seconds": 5.433333
+    },
+    {
+      "index": 166,
+      "camera_array_index": 75,
+      "time_seconds": 5.533333,
+      "pts_seconds": 5.533333
+    },
+    {
+      "index": 168,
+      "camera_array_index": 76,
+      "time_seconds": 5.6,
+      "pts_seconds": 5.6
+    },
+    {
+      "index": 170,
+      "camera_array_index": 77,
+      "time_seconds": 5.666667,
+      "pts_seconds": 5.666667
+    },
+    {
+      "index": 172,
+      "camera_array_index": 78,
+      "time_seconds": 5.733333,
+      "pts_seconds": 5.733333
+    },
+    {
+      "index": 174,
+      "camera_array_index": 79,
+      "time_seconds": 5.8,
+      "pts_seconds": 5.8
+    },
+    {
+      "index": 177,
+      "camera_array_index": 80,
+      "time_seconds": 5.9,
+      "pts_seconds": 5.9
+    },
+    {
+      "index": 179,
+      "camera_array_index": 81,
+      "time_seconds": 5.966667,
+      "pts_seconds": 5.966667
+    },
+    {
+      "index": 181,
+      "camera_array_index": 82,
+      "time_seconds": 6.033333,
+      "pts_seconds": 6.033333
+    },
+    {
+      "index": 183,
+      "camera_array_index": 83,
+      "time_seconds": 6.1,
+      "pts_seconds": 6.1
+    },
+    {
+      "index": 185,
+      "camera_array_index": 84,
+      "time_seconds": 6.166667,
+      "pts_seconds": 6.166667
+    },
+    {
+      "index": 188,
+      "camera_array_index": 85,
+      "time_seconds": 6.266667,
+      "pts_seconds": 6.266667
+    },
+    {
+      "index": 190,
+      "camera_array_index": 86,
+      "time_seconds": 6.333333,
+      "pts_seconds": 6.333333
+    },
+    {
+      "index": 192,
+      "camera_array_index": 87,
+      "time_seconds": 6.4,
+      "pts_seconds": 6.4
+    },
+    {
+      "index": 194,
+      "camera_array_index": 88,
+      "time_seconds": 6.466667,
+      "pts_seconds": 6.466667
+    },
+    {
+      "index": 196,
+      "camera_array_index": 89,
+      "time_seconds": 6.533333,
+      "pts_seconds": 6.533333
+    },
+    {
+      "index": 199,
+      "camera_array_index": 90,
+      "time_seconds": 6.633333,
+      "pts_seconds": 6.633333
+    },
+    {
+      "index": 201,
+      "camera_array_index": 91,
+      "time_seconds": 6.7,
+      "pts_seconds": 6.7
+    },
+    {
+      "index": 203,
+      "camera_array_index": 92,
+      "time_seconds": 6.766667,
+      "pts_seconds": 6.766667
+    },
+    {
+      "index": 205,
+      "camera_array_index": 93,
+      "time_seconds": 6.833333,
+      "pts_seconds": 6.833333
+    },
+    {
+      "index": 207,
+      "camera_array_index": 94,
+      "time_seconds": 6.9,
+      "pts_seconds": 6.9
+    },
+    {
+      "index": 210,
+      "camera_array_index": 95,
+      "time_seconds": 7.0,
+      "pts_seconds": 7.0
+    },
+    {
+      "index": 212,
+      "camera_array_index": 96,
+      "time_seconds": 7.066667,
+      "pts_seconds": 7.066667
+    },
+    {
+      "index": 214,
+      "camera_array_index": 97,
+      "time_seconds": 7.133333,
+      "pts_seconds": 7.133333
+    },
+    {
+      "index": 216,
+      "camera_array_index": 98,
+      "time_seconds": 7.2,
+      "pts_seconds": 7.2
+    },
+    {
+      "index": 219,
+      "camera_array_index": 99,
+      "time_seconds": 7.3,
+      "pts_seconds": 7.3
+    },
+    {
+      "index": 221,
+      "camera_array_index": 100,
+      "time_seconds": 7.366667,
+      "pts_seconds": 7.366667
+    },
+    {
+      "index": 223,
+      "camera_array_index": 101,
+      "time_seconds": 7.433333,
+      "pts_seconds": 7.433333
+    },
+    {
+      "index": 225,
+      "camera_array_index": 102,
+      "time_seconds": 7.5,
+      "pts_seconds": 7.5
+    },
+    {
+      "index": 227,
+      "camera_array_index": 103,
+      "time_seconds": 7.566667,
+      "pts_seconds": 7.566667
+    },
+    {
+      "index": 230,
+      "camera_array_index": 104,
+      "time_seconds": 7.666667,
+      "pts_seconds": 7.666667
+    },
+    {
+      "index": 232,
+      "camera_array_index": 105,
+      "time_seconds": 7.733333,
+      "pts_seconds": 7.733333
+    },
+    {
+      "index": 234,
+      "camera_array_index": 106,
+      "time_seconds": 7.8,
+      "pts_seconds": 7.8
+    },
+    {
+      "index": 236,
+      "camera_array_index": 107,
+      "time_seconds": 7.866667,
+      "pts_seconds": 7.866667
+    },
+    {
+      "index": 238,
+      "camera_array_index": 108,
+      "time_seconds": 7.933333,
+      "pts_seconds": 7.933333
+    },
+    {
+      "index": 241,
+      "camera_array_index": 109,
+      "time_seconds": 8.033333,
+      "pts_seconds": 8.033333
+    },
+    {
+      "index": 243,
+      "camera_array_index": 110,
+      "time_seconds": 8.1,
+      "pts_seconds": 8.1
+    },
+    {
+      "index": 245,
+      "camera_array_index": 111,
+      "time_seconds": 8.166667,
+      "pts_seconds": 8.166667
+    },
+    {
+      "index": 247,
+      "camera_array_index": 112,
+      "time_seconds": 8.233333,
+      "pts_seconds": 8.233333
+    },
+    {
+      "index": 249,
+      "camera_array_index": 113,
+      "time_seconds": 8.3,
+      "pts_seconds": 8.3
+    },
+    {
+      "index": 252,
+      "camera_array_index": 114,
+      "time_seconds": 8.4,
+      "pts_seconds": 8.4
+    },
+    {
+      "index": 254,
+      "camera_array_index": 115,
+      "time_seconds": 8.466667,
+      "pts_seconds": 8.466667
+    },
+    {
+      "index": 256,
+      "camera_array_index": 116,
+      "time_seconds": 8.533333,
+      "pts_seconds": 8.533333
+    },
+    {
+      "index": 258,
+      "camera_array_index": 117,
+      "time_seconds": 8.6,
+      "pts_seconds": 8.6
+    },
+    {
+      "index": 260,
+      "camera_array_index": 118,
+      "time_seconds": 8.666667,
+      "pts_seconds": 8.666667
+    },
+    {
+      "index": 263,
+      "camera_array_index": 119,
+      "time_seconds": 8.768333,
+      "pts_seconds": 8.768333
+    },
+    {
+      "index": 265,
+      "camera_array_index": 120,
+      "time_seconds": 8.833333,
+      "pts_seconds": 8.833333
+    },
+    {
+      "index": 267,
+      "camera_array_index": 121,
+      "time_seconds": 8.901667,
+      "pts_seconds": 8.901667
+    },
+    {
+      "index": 269,
+      "camera_array_index": 122,
+      "time_seconds": 8.968333,
+      "pts_seconds": 8.968333
+    },
+    {
+      "index": 271,
+      "camera_array_index": 123,
+      "time_seconds": 9.035,
+      "pts_seconds": 9.035
+    },
+    {
+      "index": 274,
+      "camera_array_index": 124,
+      "time_seconds": 9.135,
+      "pts_seconds": 9.135
+    },
+    {
+      "index": 276,
+      "camera_array_index": 125,
+      "time_seconds": 9.201667,
+      "pts_seconds": 9.201667
+    },
+    {
+      "index": 278,
+      "camera_array_index": 126,
+      "time_seconds": 9.268333,
+      "pts_seconds": 9.268333
+    },
+    {
+      "index": 280,
+      "camera_array_index": 127,
+      "time_seconds": 9.335,
+      "pts_seconds": 9.335
+    },
+    {
+      "index": 283,
+      "camera_array_index": 128,
+      "time_seconds": 9.435,
+      "pts_seconds": 9.435
+    },
+    {
+      "index": 285,
+      "camera_array_index": 129,
+      "time_seconds": 9.501667,
+      "pts_seconds": 9.501667
+    },
+    {
+      "index": 287,
+      "camera_array_index": 130,
+      "time_seconds": 9.568333,
+      "pts_seconds": 9.568333
+    },
+    {
+      "index": 289,
+      "camera_array_index": 131,
+      "time_seconds": 9.635,
+      "pts_seconds": 9.635
+    },
+    {
+      "index": 291,
+      "camera_array_index": 132,
+      "time_seconds": 9.701667,
+      "pts_seconds": 9.701667
+    },
+    {
+      "index": 294,
+      "camera_array_index": 133,
+      "time_seconds": 9.801667,
+      "pts_seconds": 9.801667
+    },
+    {
+      "index": 296,
+      "camera_array_index": 134,
+      "time_seconds": 9.868333,
+      "pts_seconds": 9.868333
+    },
+    {
+      "index": 298,
+      "camera_array_index": 135,
+      "time_seconds": 9.935,
+      "pts_seconds": 9.935
+    },
+    {
+      "index": 300,
+      "camera_array_index": 136,
+      "time_seconds": 10.001667,
+      "pts_seconds": 10.001667
+    },
+    {
+      "index": 302,
+      "camera_array_index": 137,
+      "time_seconds": 10.068333,
+      "pts_seconds": 10.068333
+    },
+    {
+      "index": 305,
+      "camera_array_index": 138,
+      "time_seconds": 10.168333,
+      "pts_seconds": 10.168333
+    },
+    {
+      "index": 307,
+      "camera_array_index": 139,
+      "time_seconds": 10.235,
+      "pts_seconds": 10.235
+    },
+    {
+      "index": 309,
+      "camera_array_index": 140,
+      "time_seconds": 10.301667,
+      "pts_seconds": 10.301667
+    },
+    {
+      "index": 311,
+      "camera_array_index": 141,
+      "time_seconds": 10.368333,
+      "pts_seconds": 10.368333
+    },
+    {
+      "index": 313,
+      "camera_array_index": 142,
+      "time_seconds": 10.435,
+      "pts_seconds": 10.435
+    },
+    {
+      "index": 316,
+      "camera_array_index": 143,
+      "time_seconds": 10.535,
+      "pts_seconds": 10.535
+    },
+    {
+      "index": 318,
+      "camera_array_index": 144,
+      "time_seconds": 10.601667,
+      "pts_seconds": 10.601667
+    },
+    {
+      "index": 320,
+      "camera_array_index": 145,
+      "time_seconds": 10.668333,
+      "pts_seconds": 10.668333
+    },
+    {
+      "index": 322,
+      "camera_array_index": 146,
+      "time_seconds": 10.735,
+      "pts_seconds": 10.735
+    },
+    {
+      "index": 324,
+      "camera_array_index": 147,
+      "time_seconds": 10.801667,
+      "pts_seconds": 10.801667
+    },
+    {
+      "index": 327,
+      "camera_array_index": 148,
+      "time_seconds": 10.901667,
+      "pts_seconds": 10.901667
+    },
+    {
+      "index": 329,
+      "camera_array_index": 149,
+      "time_seconds": 10.968333,
+      "pts_seconds": 10.968333
+    },
+    {
+      "index": 331,
+      "camera_array_index": 150,
+      "time_seconds": 11.035,
+      "pts_seconds": 11.035
+    },
+    {
+      "index": 333,
+      "camera_array_index": 151,
+      "time_seconds": 11.101667,
+      "pts_seconds": 11.101667
+    },
+    {
+      "index": 335,
+      "camera_array_index": 152,
+      "time_seconds": 11.168333,
+      "pts_seconds": 11.168333
+    },
+    {
+      "index": 338,
+      "camera_array_index": 153,
+      "time_seconds": 11.268333,
+      "pts_seconds": 11.268333
+    },
+    {
+      "index": 340,
+      "camera_array_index": 154,
+      "time_seconds": 11.335,
+      "pts_seconds": 11.335
+    },
+    {
+      "index": 342,
+      "camera_array_index": 155,
+      "time_seconds": 11.401667,
+      "pts_seconds": 11.401667
+    },
+    {
+      "index": 344,
+      "camera_array_index": 156,
+      "time_seconds": 11.468333,
+      "pts_seconds": 11.468333
+    },
+    {
+      "index": 347,
+      "camera_array_index": 157,
+      "time_seconds": 11.568333,
+      "pts_seconds": 11.568333
+    },
+    {
+      "index": 349,
+      "camera_array_index": 158,
+      "time_seconds": 11.635,
+      "pts_seconds": 11.635
+    },
+    {
+      "index": 351,
+      "camera_array_index": 159,
+      "time_seconds": 11.701667,
+      "pts_seconds": 11.701667
+    },
+    {
+      "index": 353,
+      "camera_array_index": 160,
+      "time_seconds": 11.768333,
+      "pts_seconds": 11.768333
+    },
+    {
+      "index": 355,
+      "camera_array_index": 161,
+      "time_seconds": 11.835,
+      "pts_seconds": 11.835
+    },
+    {
+      "index": 358,
+      "camera_array_index": 162,
+      "time_seconds": 11.935,
+      "pts_seconds": 11.935
+    },
+    {
+      "index": 360,
+      "camera_array_index": 163,
+      "time_seconds": 12.001667,
+      "pts_seconds": 12.001667
+    },
+    {
+      "index": 362,
+      "camera_array_index": 164,
+      "time_seconds": 12.068333,
+      "pts_seconds": 12.068333
+    },
+    {
+      "index": 364,
+      "camera_array_index": 165,
+      "time_seconds": 12.135,
+      "pts_seconds": 12.135
+    },
+    {
+      "index": 366,
+      "camera_array_index": 166,
+      "time_seconds": 12.201667,
+      "pts_seconds": 12.201667
+    },
+    {
+      "index": 369,
+      "camera_array_index": 167,
+      "time_seconds": 12.301667,
+      "pts_seconds": 12.301667
+    },
+    {
+      "index": 371,
+      "camera_array_index": 168,
+      "time_seconds": 12.368333,
+      "pts_seconds": 12.368333
+    },
+    {
+      "index": 373,
+      "camera_array_index": 169,
+      "time_seconds": 12.435,
+      "pts_seconds": 12.435
+    },
+    {
+      "index": 375,
+      "camera_array_index": 170,
+      "time_seconds": 12.501667,
+      "pts_seconds": 12.501667
+    },
+    {
+      "index": 377,
+      "camera_array_index": 171,
+      "time_seconds": 12.568333,
+      "pts_seconds": 12.568333
+    },
+    {
+      "index": 380,
+      "camera_array_index": 172,
+      "time_seconds": 12.668333,
+      "pts_seconds": 12.668333
+    },
+    {
+      "index": 382,
+      "camera_array_index": 173,
+      "time_seconds": 12.735,
+      "pts_seconds": 12.735
+    },
+    {
+      "index": 384,
+      "camera_array_index": 174,
+      "time_seconds": 12.801667,
+      "pts_seconds": 12.801667
+    },
+    {
+      "index": 386,
+      "camera_array_index": 175,
+      "time_seconds": 12.868333,
+      "pts_seconds": 12.868333
+    },
+    {
+      "index": 388,
+      "camera_array_index": 176,
+      "time_seconds": 12.935,
+      "pts_seconds": 12.935
+    },
+    {
+      "index": 391,
+      "camera_array_index": 177,
+      "time_seconds": 13.035,
+      "pts_seconds": 13.035
+    },
+    {
+      "index": 393,
+      "camera_array_index": 178,
+      "time_seconds": 13.101667,
+      "pts_seconds": 13.101667
+    },
+    {
+      "index": 395,
+      "camera_array_index": 179,
+      "time_seconds": 13.168333,
+      "pts_seconds": 13.168333
+    },
+    {
+      "index": 397,
+      "camera_array_index": 180,
+      "time_seconds": 13.235,
+      "pts_seconds": 13.235
+    },
+    {
+      "index": 399,
+      "camera_array_index": 181,
+      "time_seconds": 13.301667,
+      "pts_seconds": 13.301667
+    },
+    {
+      "index": 402,
+      "camera_array_index": 182,
+      "time_seconds": 13.401667,
+      "pts_seconds": 13.401667
+    },
+    {
+      "index": 404,
+      "camera_array_index": 183,
+      "time_seconds": 13.468333,
+      "pts_seconds": 13.468333
+    },
+    {
+      "index": 406,
+      "camera_array_index": 184,
+      "time_seconds": 13.535,
+      "pts_seconds": 13.535
+    },
+    {
+      "index": 408,
+      "camera_array_index": 185,
+      "time_seconds": 13.601667,
+      "pts_seconds": 13.601667
+    },
+    {
+      "index": 411,
+      "camera_array_index": 186,
+      "time_seconds": 13.701667,
+      "pts_seconds": 13.701667
+    },
+    {
+      "index": 413,
+      "camera_array_index": 187,
+      "time_seconds": 13.768333,
+      "pts_seconds": 13.768333
+    },
+    {
+      "index": 415,
+      "camera_array_index": 188,
+      "time_seconds": 13.835,
+      "pts_seconds": 13.835
+    },
+    {
+      "index": 417,
+      "camera_array_index": 189,
+      "time_seconds": 13.901667,
+      "pts_seconds": 13.901667
+    },
+    {
+      "index": 419,
+      "camera_array_index": 190,
+      "time_seconds": 13.968333,
+      "pts_seconds": 13.968333
+    },
+    {
+      "index": 422,
+      "camera_array_index": 191,
+      "time_seconds": 14.068333,
+      "pts_seconds": 14.068333
+    },
+    {
+      "index": 424,
+      "camera_array_index": 192,
+      "time_seconds": 14.135,
+      "pts_seconds": 14.135
+    },
+    {
+      "index": 426,
+      "camera_array_index": 193,
+      "time_seconds": 14.201667,
+      "pts_seconds": 14.201667
+    },
+    {
+      "index": 428,
+      "camera_array_index": 194,
+      "time_seconds": 14.268333,
+      "pts_seconds": 14.268333
+    },
+    {
+      "index": 430,
+      "camera_array_index": 195,
+      "time_seconds": 14.335,
+      "pts_seconds": 14.335
+    },
+    {
+      "index": 433,
+      "camera_array_index": 196,
+      "time_seconds": 14.435,
+      "pts_seconds": 14.435
+    },
+    {
+      "index": 435,
+      "camera_array_index": 197,
+      "time_seconds": 14.501667,
+      "pts_seconds": 14.501667
+    },
+    {
+      "index": 437,
+      "camera_array_index": 198,
+      "time_seconds": 14.568333,
+      "pts_seconds": 14.568333
+    },
+    {
+      "index": 439,
+      "camera_array_index": 199,
+      "time_seconds": 14.635,
+      "pts_seconds": 14.635
+    },
+    {
+      "index": 441,
+      "camera_array_index": 200,
+      "time_seconds": 14.701667,
+      "pts_seconds": 14.701667
+    },
+    {
+      "index": 444,
+      "camera_array_index": 201,
+      "time_seconds": 14.801667,
+      "pts_seconds": 14.801667
+    },
+    {
+      "index": 446,
+      "camera_array_index": 202,
+      "time_seconds": 14.868333,
+      "pts_seconds": 14.868333
+    },
+    {
+      "index": 448,
+      "camera_array_index": 203,
+      "time_seconds": 14.935,
+      "pts_seconds": 14.935
+    },
+    {
+      "index": 450,
+      "camera_array_index": 204,
+      "time_seconds": 15.001667,
+      "pts_seconds": 15.001667
+    },
+    {
+      "index": 452,
+      "camera_array_index": 205,
+      "time_seconds": 15.068333,
+      "pts_seconds": 15.068333
+    },
+    {
+      "index": 455,
+      "camera_array_index": 206,
+      "time_seconds": 15.168333,
+      "pts_seconds": 15.168333
+    },
+    {
+      "index": 457,
+      "camera_array_index": 207,
+      "time_seconds": 15.235,
+      "pts_seconds": 15.235
+    },
+    {
+      "index": 459,
+      "camera_array_index": 208,
+      "time_seconds": 15.301667,
+      "pts_seconds": 15.301667
+    },
+    {
+      "index": 461,
+      "camera_array_index": 209,
+      "time_seconds": 15.368333,
+      "pts_seconds": 15.368333
+    },
+    {
+      "index": 463,
+      "camera_array_index": 210,
+      "time_seconds": 15.435,
+      "pts_seconds": 15.435
+    },
+    {
+      "index": 466,
+      "camera_array_index": 211,
+      "time_seconds": 15.535,
+      "pts_seconds": 15.535
+    },
+    {
+      "index": 468,
+      "camera_array_index": 212,
+      "time_seconds": 15.601667,
+      "pts_seconds": 15.601667
+    },
+    {
+      "index": 470,
+      "camera_array_index": 213,
+      "time_seconds": 15.668333,
+      "pts_seconds": 15.668333
+    },
+    {
+      "index": 472,
+      "camera_array_index": 214,
+      "time_seconds": 15.735,
+      "pts_seconds": 15.735
+    },
+    {
+      "index": 475,
+      "camera_array_index": 215,
+      "time_seconds": 15.835,
+      "pts_seconds": 15.835
+    },
+    {
+      "index": 477,
+      "camera_array_index": 216,
+      "time_seconds": 15.901667,
+      "pts_seconds": 15.901667
+    },
+    {
+      "index": 479,
+      "camera_array_index": 217,
+      "time_seconds": 15.968333,
+      "pts_seconds": 15.968333
+    },
+    {
+      "index": 481,
+      "camera_array_index": 218,
+      "time_seconds": 16.035,
+      "pts_seconds": 16.035
+    },
+    {
+      "index": 483,
+      "camera_array_index": 219,
+      "time_seconds": 16.101667,
+      "pts_seconds": 16.101667
+    },
+    {
+      "index": 486,
+      "camera_array_index": 220,
+      "time_seconds": 16.201667,
+      "pts_seconds": 16.201667
+    },
+    {
+      "index": 488,
+      "camera_array_index": 221,
+      "time_seconds": 16.268333,
+      "pts_seconds": 16.268333
+    },
+    {
+      "index": 490,
+      "camera_array_index": 222,
+      "time_seconds": 16.335,
+      "pts_seconds": 16.335
+    },
+    {
+      "index": 492,
+      "camera_array_index": 223,
+      "time_seconds": 16.401667,
+      "pts_seconds": 16.401667
+    },
+    {
+      "index": 494,
+      "camera_array_index": 224,
+      "time_seconds": 16.468333,
+      "pts_seconds": 16.468333
+    },
+    {
+      "index": 497,
+      "camera_array_index": 225,
+      "time_seconds": 16.568333,
+      "pts_seconds": 16.568333
+    },
+    {
+      "index": 499,
+      "camera_array_index": 226,
+      "time_seconds": 16.635,
+      "pts_seconds": 16.635
+    },
+    {
+      "index": 501,
+      "camera_array_index": 227,
+      "time_seconds": 16.701667,
+      "pts_seconds": 16.701667
+    },
+    {
+      "index": 503,
+      "camera_array_index": 228,
+      "time_seconds": 16.768333,
+      "pts_seconds": 16.768333
+    },
+    {
+      "index": 505,
+      "camera_array_index": 229,
+      "time_seconds": 16.835,
+      "pts_seconds": 16.835
+    },
+    {
+      "index": 508,
+      "camera_array_index": 230,
+      "time_seconds": 16.935,
+      "pts_seconds": 16.935
+    },
+    {
+      "index": 510,
+      "camera_array_index": 231,
+      "time_seconds": 17.001667,
+      "pts_seconds": 17.001667
+    },
+    {
+      "index": 512,
+      "camera_array_index": 232,
+      "time_seconds": 17.068333,
+      "pts_seconds": 17.068333
+    },
+    {
+      "index": 514,
+      "camera_array_index": 233,
+      "time_seconds": 17.135,
+      "pts_seconds": 17.135
+    },
+    {
+      "index": 516,
+      "camera_array_index": 234,
+      "time_seconds": 17.201667,
+      "pts_seconds": 17.201667
+    },
+    {
+      "index": 519,
+      "camera_array_index": 235,
+      "time_seconds": 17.301667,
+      "pts_seconds": 17.301667
+    },
+    {
+      "index": 521,
+      "camera_array_index": 236,
+      "time_seconds": 17.368333,
+      "pts_seconds": 17.368333
+    },
+    {
+      "index": 523,
+      "camera_array_index": 237,
+      "time_seconds": 17.435,
+      "pts_seconds": 17.435
+    },
+    {
+      "index": 525,
+      "camera_array_index": 238,
+      "time_seconds": 17.501667,
+      "pts_seconds": 17.501667
+    },
+    {
+      "index": 528,
+      "camera_array_index": 239,
+      "time_seconds": 17.601667,
+      "pts_seconds": 17.601667
+    },
+    {
+      "index": 530,
+      "camera_array_index": 240,
+      "time_seconds": 17.668333,
+      "pts_seconds": 17.668333
+    },
+    {
+      "index": 532,
+      "camera_array_index": 241,
+      "time_seconds": 17.735,
+      "pts_seconds": 17.735
+    },
+    {
+      "index": 534,
+      "camera_array_index": 242,
+      "time_seconds": 17.801667,
+      "pts_seconds": 17.801667
+    },
+    {
+      "index": 536,
+      "camera_array_index": 243,
+      "time_seconds": 17.868333,
+      "pts_seconds": 17.868333
+    },
+    {
+      "index": 539,
+      "camera_array_index": 244,
+      "time_seconds": 17.968333,
+      "pts_seconds": 17.968333
+    },
+    {
+      "index": 541,
+      "camera_array_index": 245,
+      "time_seconds": 18.035,
+      "pts_seconds": 18.035
+    },
+    {
+      "index": 543,
+      "camera_array_index": 246,
+      "time_seconds": 18.101667,
+      "pts_seconds": 18.101667
+    },
+    {
+      "index": 545,
+      "camera_array_index": 247,
+      "time_seconds": 18.168333,
+      "pts_seconds": 18.168333
+    },
+    {
+      "index": 547,
+      "camera_array_index": 248,
+      "time_seconds": 18.235,
+      "pts_seconds": 18.235
+    },
+    {
+      "index": 550,
+      "camera_array_index": 249,
+      "time_seconds": 18.335,
+      "pts_seconds": 18.335
+    },
+    {
+      "index": 552,
+      "camera_array_index": 250,
+      "time_seconds": 18.401667,
+      "pts_seconds": 18.401667
+    },
+    {
+      "index": 554,
+      "camera_array_index": 251,
+      "time_seconds": 18.468333,
+      "pts_seconds": 18.468333
+    },
+    {
+      "index": 556,
+      "camera_array_index": 252,
+      "time_seconds": 18.535,
+      "pts_seconds": 18.535
+    },
+    {
+      "index": 558,
+      "camera_array_index": 253,
+      "time_seconds": 18.601667,
+      "pts_seconds": 18.601667
+    },
+    {
+      "index": 561,
+      "camera_array_index": 254,
+      "time_seconds": 18.701667,
+      "pts_seconds": 18.701667
+    },
+    {
+      "index": 563,
+      "camera_array_index": 255,
+      "time_seconds": 18.768333,
+      "pts_seconds": 18.768333
+    },
+    {
+      "index": 565,
+      "camera_array_index": 256,
+      "time_seconds": 18.835,
+      "pts_seconds": 18.835
+    },
+    {
+      "index": 567,
+      "camera_array_index": 257,
+      "time_seconds": 18.901667,
+      "pts_seconds": 18.901667
+    },
+    {
+      "index": 569,
+      "camera_array_index": 258,
+      "time_seconds": 18.968333,
+      "pts_seconds": 18.968333
+    },
+    {
+      "index": 572,
+      "camera_array_index": 259,
+      "time_seconds": 19.068333,
+      "pts_seconds": 19.068333
+    },
+    {
+      "index": 574,
+      "camera_array_index": 260,
+      "time_seconds": 19.135,
+      "pts_seconds": 19.135
+    },
+    {
+      "index": 576,
+      "camera_array_index": 261,
+      "time_seconds": 19.201667,
+      "pts_seconds": 19.201667
+    },
+    {
+      "index": 578,
+      "camera_array_index": 262,
+      "time_seconds": 19.268333,
+      "pts_seconds": 19.268333
+    },
+    {
+      "index": 580,
+      "camera_array_index": 263,
+      "time_seconds": 19.335,
+      "pts_seconds": 19.335
+    },
+    {
+      "index": 583,
+      "camera_array_index": 264,
+      "time_seconds": 19.435,
+      "pts_seconds": 19.435
+    },
+    {
+      "index": 585,
+      "camera_array_index": 265,
+      "time_seconds": 19.501667,
+      "pts_seconds": 19.501667
+    },
+    {
+      "index": 587,
+      "camera_array_index": 266,
+      "time_seconds": 19.568333,
+      "pts_seconds": 19.568333
+    },
+    {
+      "index": 589,
+      "camera_array_index": 267,
+      "time_seconds": 19.635,
+      "pts_seconds": 19.635
+    },
+    {
+      "index": 592,
+      "camera_array_index": 268,
+      "time_seconds": 19.735,
+      "pts_seconds": 19.735
+    },
+    {
+      "index": 594,
+      "camera_array_index": 269,
+      "time_seconds": 19.801667,
+      "pts_seconds": 19.801667
+    },
+    {
+      "index": 596,
+      "camera_array_index": 270,
+      "time_seconds": 19.868333,
+      "pts_seconds": 19.868333
+    },
+    {
+      "index": 598,
+      "camera_array_index": 271,
+      "time_seconds": 19.935,
+      "pts_seconds": 19.935
+    },
+    {
+      "index": 600,
+      "camera_array_index": 272,
+      "time_seconds": 20.001667,
+      "pts_seconds": 20.001667
+    },
+    {
+      "index": 603,
+      "camera_array_index": 273,
+      "time_seconds": 20.101667,
+      "pts_seconds": 20.101667
+    },
+    {
+      "index": 605,
+      "camera_array_index": 274,
+      "time_seconds": 20.168333,
+      "pts_seconds": 20.168333
+    },
+    {
+      "index": 607,
+      "camera_array_index": 275,
+      "time_seconds": 20.235,
+      "pts_seconds": 20.235
+    },
+    {
+      "index": 609,
+      "camera_array_index": 276,
+      "time_seconds": 20.301667,
+      "pts_seconds": 20.301667
+    },
+    {
+      "index": 611,
+      "camera_array_index": 277,
+      "time_seconds": 20.368333,
+      "pts_seconds": 20.368333
+    },
+    {
+      "index": 614,
+      "camera_array_index": 278,
+      "time_seconds": 20.468333,
+      "pts_seconds": 20.468333
+    },
+    {
+      "index": 616,
+      "camera_array_index": 279,
+      "time_seconds": 20.535,
+      "pts_seconds": 20.535
+    },
+    {
+      "index": 618,
+      "camera_array_index": 280,
+      "time_seconds": 20.601667,
+      "pts_seconds": 20.601667
+    },
+    {
+      "index": 620,
+      "camera_array_index": 281,
+      "time_seconds": 20.668333,
+      "pts_seconds": 20.668333
+    },
+    {
+      "index": 622,
+      "camera_array_index": 282,
+      "time_seconds": 20.735,
+      "pts_seconds": 20.735
+    },
+    {
+      "index": 625,
+      "camera_array_index": 283,
+      "time_seconds": 20.835,
+      "pts_seconds": 20.835
+    },
+    {
+      "index": 627,
+      "camera_array_index": 284,
+      "time_seconds": 20.901667,
+      "pts_seconds": 20.901667
+    },
+    {
+      "index": 629,
+      "camera_array_index": 285,
+      "time_seconds": 20.968333,
+      "pts_seconds": 20.968333
+    },
+    {
+      "index": 631,
+      "camera_array_index": 286,
+      "time_seconds": 21.035,
+      "pts_seconds": 21.035
+    },
+    {
+      "index": 633,
+      "camera_array_index": 287,
+      "time_seconds": 21.101667,
+      "pts_seconds": 21.101667
+    },
+    {
+      "index": 636,
+      "camera_array_index": 288,
+      "time_seconds": 21.201667,
+      "pts_seconds": 21.201667
+    },
+    {
+      "index": 638,
+      "camera_array_index": 289,
+      "time_seconds": 21.268333,
+      "pts_seconds": 21.268333
+    },
+    {
+      "index": 640,
+      "camera_array_index": 290,
+      "time_seconds": 21.335,
+      "pts_seconds": 21.335
+    },
+    {
+      "index": 642,
+      "camera_array_index": 291,
+      "time_seconds": 21.401667,
+      "pts_seconds": 21.401667
+    },
+    {
+      "index": 644,
+      "camera_array_index": 292,
+      "time_seconds": 21.468333,
+      "pts_seconds": 21.468333
+    },
+    {
+      "index": 647,
+      "camera_array_index": 293,
+      "time_seconds": 21.568333,
+      "pts_seconds": 21.568333
+    },
+    {
+      "index": 649,
+      "camera_array_index": 294,
+      "time_seconds": 21.635,
+      "pts_seconds": 21.635
+    },
+    {
+      "index": 651,
+      "camera_array_index": 295,
+      "time_seconds": 21.701667,
+      "pts_seconds": 21.701667
+    },
+    {
+      "index": 653,
+      "camera_array_index": 296,
+      "time_seconds": 21.768333,
+      "pts_seconds": 21.768333
+    },
+    {
+      "index": 656,
+      "camera_array_index": 297,
+      "time_seconds": 21.868333,
+      "pts_seconds": 21.868333
+    },
+    {
+      "index": 658,
+      "camera_array_index": 298,
+      "time_seconds": 21.935,
+      "pts_seconds": 21.935
+    },
+    {
+      "index": 660,
+      "camera_array_index": 299,
+      "time_seconds": 22.001667,
+      "pts_seconds": 22.001667
+    },
+    {
+      "index": 662,
+      "camera_array_index": 300,
+      "time_seconds": 22.068333,
+      "pts_seconds": 22.068333
+    },
+    {
+      "index": 664,
+      "camera_array_index": 301,
+      "time_seconds": 22.135,
+      "pts_seconds": 22.135
+    },
+    {
+      "index": 667,
+      "camera_array_index": 302,
+      "time_seconds": 22.235,
+      "pts_seconds": 22.235
+    },
+    {
+      "index": 669,
+      "camera_array_index": 303,
+      "time_seconds": 22.301667,
+      "pts_seconds": 22.301667
+    },
+    {
+      "index": 671,
+      "camera_array_index": 304,
+      "time_seconds": 22.368333,
+      "pts_seconds": 22.368333
+    },
+    {
+      "index": 673,
+      "camera_array_index": 305,
+      "time_seconds": 22.435,
+      "pts_seconds": 22.435
+    },
+    {
+      "index": 675,
+      "camera_array_index": 306,
+      "time_seconds": 22.501667,
+      "pts_seconds": 22.501667
+    },
+    {
+      "index": 678,
+      "camera_array_index": 307,
+      "time_seconds": 22.601667,
+      "pts_seconds": 22.601667
+    },
+    {
+      "index": 680,
+      "camera_array_index": 308,
+      "time_seconds": 22.668333,
+      "pts_seconds": 22.668333
+    },
+    {
+      "index": 682,
+      "camera_array_index": 309,
+      "time_seconds": 22.735,
+      "pts_seconds": 22.735
+    },
+    {
+      "index": 684,
+      "camera_array_index": 310,
+      "time_seconds": 22.801667,
+      "pts_seconds": 22.801667
+    },
+    {
+      "index": 686,
+      "camera_array_index": 311,
+      "time_seconds": 22.868333,
+      "pts_seconds": 22.868333
+    },
+    {
+      "index": 689,
+      "camera_array_index": 312,
+      "time_seconds": 22.968333,
+      "pts_seconds": 22.968333
+    },
+    {
+      "index": 691,
+      "camera_array_index": 313,
+      "time_seconds": 23.035,
+      "pts_seconds": 23.035
+    },
+    {
+      "index": 693,
+      "camera_array_index": 314,
+      "time_seconds": 23.101667,
+      "pts_seconds": 23.101667
+    },
+    {
+      "index": 695,
+      "camera_array_index": 315,
+      "time_seconds": 23.168333,
+      "pts_seconds": 23.168333
+    },
+    {
+      "index": 697,
+      "camera_array_index": 316,
+      "time_seconds": 23.235,
+      "pts_seconds": 23.235
+    },
+    {
+      "index": 700,
+      "camera_array_index": 317,
+      "time_seconds": 23.335,
+      "pts_seconds": 23.335
+    },
+    {
+      "index": 702,
+      "camera_array_index": 318,
+      "time_seconds": 23.401667,
+      "pts_seconds": 23.401667
+    },
+    {
+      "index": 704,
+      "camera_array_index": 319,
+      "time_seconds": 23.468333,
+      "pts_seconds": 23.468333
+    },
+    {
+      "index": 706,
+      "camera_array_index": 320,
+      "time_seconds": 23.535,
+      "pts_seconds": 23.535
+    },
+    {
+      "index": 708,
+      "camera_array_index": 321,
+      "time_seconds": 23.601667,
+      "pts_seconds": 23.601667
+    },
+    {
+      "index": 711,
+      "camera_array_index": 322,
+      "time_seconds": 23.701667,
+      "pts_seconds": 23.701667
+    },
+    {
+      "index": 713,
+      "camera_array_index": 323,
+      "time_seconds": 23.768333,
+      "pts_seconds": 23.768333
+    },
+    {
+      "index": 715,
+      "camera_array_index": 324,
+      "time_seconds": 23.835,
+      "pts_seconds": 23.835
+    },
+    {
+      "index": 717,
+      "camera_array_index": 325,
+      "time_seconds": 23.901667,
+      "pts_seconds": 23.901667
+    },
+    {
+      "index": 720,
+      "camera_array_index": 326,
+      "time_seconds": 24.001667,
+      "pts_seconds": 24.001667
+    },
+    {
+      "index": 722,
+      "camera_array_index": 327,
+      "time_seconds": 24.068333,
+      "pts_seconds": 24.068333
+    },
+    {
+      "index": 724,
+      "camera_array_index": 328,
+      "time_seconds": 24.135,
+      "pts_seconds": 24.135
+    },
+    {
+      "index": 726,
+      "camera_array_index": 329,
+      "time_seconds": 24.201667,
+      "pts_seconds": 24.201667
+    },
+    {
+      "index": 728,
+      "camera_array_index": 330,
+      "time_seconds": 24.268333,
+      "pts_seconds": 24.268333
+    },
+    {
+      "index": 731,
+      "camera_array_index": 331,
+      "time_seconds": 24.368333,
+      "pts_seconds": 24.368333
+    },
+    {
+      "index": 733,
+      "camera_array_index": 332,
+      "time_seconds": 24.435,
+      "pts_seconds": 24.435
+    },
+    {
+      "index": 735,
+      "camera_array_index": 333,
+      "time_seconds": 24.501667,
+      "pts_seconds": 24.501667
+    },
+    {
+      "index": 737,
+      "camera_array_index": 334,
+      "time_seconds": 24.568333,
+      "pts_seconds": 24.568333
+    },
+    {
+      "index": 739,
+      "camera_array_index": 335,
+      "time_seconds": 24.635,
+      "pts_seconds": 24.635
+    },
+    {
+      "index": 742,
+      "camera_array_index": 336,
+      "time_seconds": 24.735,
+      "pts_seconds": 24.735
+    },
+    {
+      "index": 744,
+      "camera_array_index": 337,
+      "time_seconds": 24.801667,
+      "pts_seconds": 24.801667
+    },
+    {
+      "index": 746,
+      "camera_array_index": 338,
+      "time_seconds": 24.868333,
+      "pts_seconds": 24.868333
+    },
+    {
+      "index": 748,
+      "camera_array_index": 339,
+      "time_seconds": 24.935,
+      "pts_seconds": 24.935
+    },
+    {
+      "index": 750,
+      "camera_array_index": 340,
+      "time_seconds": 25.001667,
+      "pts_seconds": 25.001667
+    },
+    {
+      "index": 753,
+      "camera_array_index": 341,
+      "time_seconds": 25.101667,
+      "pts_seconds": 25.101667
+    },
+    {
+      "index": 755,
+      "camera_array_index": 342,
+      "time_seconds": 25.168333,
+      "pts_seconds": 25.168333
+    },
+    {
+      "index": 757,
+      "camera_array_index": 343,
+      "time_seconds": 25.235,
+      "pts_seconds": 25.235
+    },
+    {
+      "index": 759,
+      "camera_array_index": 344,
+      "time_seconds": 25.301667,
+      "pts_seconds": 25.301667
+    },
+    {
+      "index": 761,
+      "camera_array_index": 345,
+      "time_seconds": 25.368333,
+      "pts_seconds": 25.368333
+    },
+    {
+      "index": 764,
+      "camera_array_index": 346,
+      "time_seconds": 25.468333,
+      "pts_seconds": 25.468333
+    },
+    {
+      "index": 766,
+      "camera_array_index": 347,
+      "time_seconds": 25.535,
+      "pts_seconds": 25.535
+    },
+    {
+      "index": 768,
+      "camera_array_index": 348,
+      "time_seconds": 25.601667,
+      "pts_seconds": 25.601667
+    },
+    {
+      "index": 770,
+      "camera_array_index": 349,
+      "time_seconds": 25.668333,
+      "pts_seconds": 25.668333
+    },
+    {
+      "index": 772,
+      "camera_array_index": 350,
+      "time_seconds": 25.735,
+      "pts_seconds": 25.735
+    },
+    {
+      "index": 775,
+      "camera_array_index": 351,
+      "time_seconds": 25.835,
+      "pts_seconds": 25.835
+    },
+    {
+      "index": 777,
+      "camera_array_index": 352,
+      "time_seconds": 25.901667,
+      "pts_seconds": 25.901667
+    },
+    {
+      "index": 779,
+      "camera_array_index": 353,
+      "time_seconds": 25.968333,
+      "pts_seconds": 25.968333
+    },
+    {
+      "index": 781,
+      "camera_array_index": 354,
+      "time_seconds": 26.035,
+      "pts_seconds": 26.035
+    },
+    {
+      "index": 784,
+      "camera_array_index": 355,
+      "time_seconds": 26.135,
+      "pts_seconds": 26.135
+    },
+    {
+      "index": 786,
+      "camera_array_index": 356,
+      "time_seconds": 26.201667,
+      "pts_seconds": 26.201667
+    },
+    {
+      "index": 788,
+      "camera_array_index": 357,
+      "time_seconds": 26.268333,
+      "pts_seconds": 26.268333
+    },
+    {
+      "index": 790,
+      "camera_array_index": 358,
+      "time_seconds": 26.335,
+      "pts_seconds": 26.335
+    },
+    {
+      "index": 792,
+      "camera_array_index": 359,
+      "time_seconds": 26.401667,
+      "pts_seconds": 26.401667
+    },
+    {
+      "index": 795,
+      "camera_array_index": 360,
+      "time_seconds": 26.503333,
+      "pts_seconds": 26.503333
+    },
+    {
+      "index": 797,
+      "camera_array_index": 361,
+      "time_seconds": 26.57,
+      "pts_seconds": 26.57
+    },
+    {
+      "index": 799,
+      "camera_array_index": 362,
+      "time_seconds": 26.636667,
+      "pts_seconds": 26.636667
+    },
+    {
+      "index": 801,
+      "camera_array_index": 363,
+      "time_seconds": 26.703333,
+      "pts_seconds": 26.703333
+    },
+    {
+      "index": 803,
+      "camera_array_index": 364,
+      "time_seconds": 26.77,
+      "pts_seconds": 26.77
+    },
+    {
+      "index": 806,
+      "camera_array_index": 365,
+      "time_seconds": 26.87,
+      "pts_seconds": 26.87
+    },
+    {
+      "index": 808,
+      "camera_array_index": 366,
+      "time_seconds": 26.936667,
+      "pts_seconds": 26.936667
+    },
+    {
+      "index": 810,
+      "camera_array_index": 367,
+      "time_seconds": 27.003333,
+      "pts_seconds": 27.003333
+    },
+    {
+      "index": 812,
+      "camera_array_index": 368,
+      "time_seconds": 27.07,
+      "pts_seconds": 27.07
+    },
+    {
+      "index": 814,
+      "camera_array_index": 369,
+      "time_seconds": 27.136667,
+      "pts_seconds": 27.136667
+    },
+    {
+      "index": 817,
+      "camera_array_index": 370,
+      "time_seconds": 27.236667,
+      "pts_seconds": 27.236667
+    },
+    {
+      "index": 819,
+      "camera_array_index": 371,
+      "time_seconds": 27.303333,
+      "pts_seconds": 27.303333
+    },
+    {
+      "index": 821,
+      "camera_array_index": 372,
+      "time_seconds": 27.37,
+      "pts_seconds": 27.37
+    },
+    {
+      "index": 823,
+      "camera_array_index": 373,
+      "time_seconds": 27.436667,
+      "pts_seconds": 27.436667
+    },
+    {
+      "index": 825,
+      "camera_array_index": 374,
+      "time_seconds": 27.503333,
+      "pts_seconds": 27.503333
+    },
+    {
+      "index": 828,
+      "camera_array_index": 375,
+      "time_seconds": 27.603333,
+      "pts_seconds": 27.603333
+    },
+    {
+      "index": 830,
+      "camera_array_index": 376,
+      "time_seconds": 27.67,
+      "pts_seconds": 27.67
+    },
+    {
+      "index": 832,
+      "camera_array_index": 377,
+      "time_seconds": 27.736667,
+      "pts_seconds": 27.736667
+    },
+    {
+      "index": 834,
+      "camera_array_index": 378,
+      "time_seconds": 27.803333,
+      "pts_seconds": 27.803333
+    },
+    {
+      "index": 837,
+      "camera_array_index": 379,
+      "time_seconds": 27.903333,
+      "pts_seconds": 27.903333
+    },
+    {
+      "index": 839,
+      "camera_array_index": 380,
+      "time_seconds": 27.97,
+      "pts_seconds": 27.97
+    },
+    {
+      "index": 841,
+      "camera_array_index": 381,
+      "time_seconds": 28.036667,
+      "pts_seconds": 28.036667
+    },
+    {
+      "index": 843,
+      "camera_array_index": 382,
+      "time_seconds": 28.103333,
+      "pts_seconds": 28.103333
+    },
+    {
+      "index": 845,
+      "camera_array_index": 383,
+      "time_seconds": 28.17,
+      "pts_seconds": 28.17
+    },
+    {
+      "index": 848,
+      "camera_array_index": 384,
+      "time_seconds": 28.27,
+      "pts_seconds": 28.27
+    },
+    {
+      "index": 850,
+      "camera_array_index": 385,
+      "time_seconds": 28.336667,
+      "pts_seconds": 28.336667
+    },
+    {
+      "index": 852,
+      "camera_array_index": 386,
+      "time_seconds": 28.403333,
+      "pts_seconds": 28.403333
+    },
+    {
+      "index": 854,
+      "camera_array_index": 387,
+      "time_seconds": 28.47,
+      "pts_seconds": 28.47
+    },
+    {
+      "index": 856,
+      "camera_array_index": 388,
+      "time_seconds": 28.536667,
+      "pts_seconds": 28.536667
+    },
+    {
+      "index": 859,
+      "camera_array_index": 389,
+      "time_seconds": 28.636667,
+      "pts_seconds": 28.636667
+    },
+    {
+      "index": 861,
+      "camera_array_index": 390,
+      "time_seconds": 28.703333,
+      "pts_seconds": 28.703333
+    },
+    {
+      "index": 863,
+      "camera_array_index": 391,
+      "time_seconds": 28.77,
+      "pts_seconds": 28.77
+    },
+    {
+      "index": 865,
+      "camera_array_index": 392,
+      "time_seconds": 28.836667,
+      "pts_seconds": 28.836667
+    },
+    {
+      "index": 867,
+      "camera_array_index": 393,
+      "time_seconds": 28.903333,
+      "pts_seconds": 28.903333
+    },
+    {
+      "index": 870,
+      "camera_array_index": 394,
+      "time_seconds": 29.003333,
+      "pts_seconds": 29.003333
+    },
+    {
+      "index": 872,
+      "camera_array_index": 395,
+      "time_seconds": 29.07,
+      "pts_seconds": 29.07
+    },
+    {
+      "index": 874,
+      "camera_array_index": 396,
+      "time_seconds": 29.136667,
+      "pts_seconds": 29.136667
+    },
+    {
+      "index": 876,
+      "camera_array_index": 397,
+      "time_seconds": 29.203333,
+      "pts_seconds": 29.203333
+    },
+    {
+      "index": 878,
+      "camera_array_index": 398,
+      "time_seconds": 29.27,
+      "pts_seconds": 29.27
+    },
+    {
+      "index": 881,
+      "camera_array_index": 399,
+      "time_seconds": 29.37,
+      "pts_seconds": 29.37
+    },
+    {
+      "index": 883,
+      "camera_array_index": 400,
+      "time_seconds": 29.436667,
+      "pts_seconds": 29.436667
+    },
+    {
+      "index": 885,
+      "camera_array_index": 401,
+      "time_seconds": 29.503333,
+      "pts_seconds": 29.503333
+    },
+    {
+      "index": 887,
+      "camera_array_index": 402,
+      "time_seconds": 29.57,
+      "pts_seconds": 29.57
+    },
+    {
+      "index": 889,
+      "camera_array_index": 403,
+      "time_seconds": 29.636667,
+      "pts_seconds": 29.636667
+    },
+    {
+      "index": 892,
+      "camera_array_index": 404,
+      "time_seconds": 29.736667,
+      "pts_seconds": 29.736667
+    },
+    {
+      "index": 894,
+      "camera_array_index": 405,
+      "time_seconds": 29.803333,
+      "pts_seconds": 29.803333
+    },
+    {
+      "index": 896,
+      "camera_array_index": 406,
+      "time_seconds": 29.87,
+      "pts_seconds": 29.87
+    },
+    {
+      "index": 898,
+      "camera_array_index": 407,
+      "time_seconds": 29.936667,
+      "pts_seconds": 29.936667
+    },
+    {
+      "index": 901,
+      "camera_array_index": 408,
+      "time_seconds": 30.036667,
+      "pts_seconds": 30.036667
+    },
+    {
+      "index": 903,
+      "camera_array_index": 409,
+      "time_seconds": 30.103333,
+      "pts_seconds": 30.103333
+    },
+    {
+      "index": 905,
+      "camera_array_index": 410,
+      "time_seconds": 30.17,
+      "pts_seconds": 30.17
+    },
+    {
+      "index": 907,
+      "camera_array_index": 411,
+      "time_seconds": 30.236667,
+      "pts_seconds": 30.236667
+    },
+    {
+      "index": 909,
+      "camera_array_index": 412,
+      "time_seconds": 30.303333,
+      "pts_seconds": 30.303333
+    },
+    {
+      "index": 912,
+      "camera_array_index": 413,
+      "time_seconds": 30.403333,
+      "pts_seconds": 30.403333
+    },
+    {
+      "index": 914,
+      "camera_array_index": 414,
+      "time_seconds": 30.47,
+      "pts_seconds": 30.47
+    },
+    {
+      "index": 916,
+      "camera_array_index": 415,
+      "time_seconds": 30.536667,
+      "pts_seconds": 30.536667
+    },
+    {
+      "index": 918,
+      "camera_array_index": 416,
+      "time_seconds": 30.603333,
+      "pts_seconds": 30.603333
+    },
+    {
+      "index": 920,
+      "camera_array_index": 417,
+      "time_seconds": 30.67,
+      "pts_seconds": 30.67
+    },
+    {
+      "index": 923,
+      "camera_array_index": 418,
+      "time_seconds": 30.77,
+      "pts_seconds": 30.77
+    },
+    {
+      "index": 925,
+      "camera_array_index": 419,
+      "time_seconds": 30.836667,
+      "pts_seconds": 30.836667
+    },
+    {
+      "index": 927,
+      "camera_array_index": 420,
+      "time_seconds": 30.903333,
+      "pts_seconds": 30.903333
+    },
+    {
+      "index": 929,
+      "camera_array_index": 421,
+      "time_seconds": 30.97,
+      "pts_seconds": 30.97
+    },
+    {
+      "index": 931,
+      "camera_array_index": 422,
+      "time_seconds": 31.036667,
+      "pts_seconds": 31.036667
+    },
+    {
+      "index": 934,
+      "camera_array_index": 423,
+      "time_seconds": 31.136667,
+      "pts_seconds": 31.136667
+    },
+    {
+      "index": 936,
+      "camera_array_index": 424,
+      "time_seconds": 31.203333,
+      "pts_seconds": 31.203333
+    },
+    {
+      "index": 938,
+      "camera_array_index": 425,
+      "time_seconds": 31.27,
+      "pts_seconds": 31.27
+    },
+    {
+      "index": 940,
+      "camera_array_index": 426,
+      "time_seconds": 31.336667,
+      "pts_seconds": 31.336667
+    },
+    {
+      "index": 942,
+      "camera_array_index": 427,
+      "time_seconds": 31.403333,
+      "pts_seconds": 31.403333
+    },
+    {
+      "index": 945,
+      "camera_array_index": 428,
+      "time_seconds": 31.503333,
+      "pts_seconds": 31.503333
+    },
+    {
+      "index": 947,
+      "camera_array_index": 429,
+      "time_seconds": 31.57,
+      "pts_seconds": 31.57
+    },
+    {
+      "index": 949,
+      "camera_array_index": 430,
+      "time_seconds": 31.636667,
+      "pts_seconds": 31.636667
+    },
+    {
+      "index": 951,
+      "camera_array_index": 431,
+      "time_seconds": 31.703333,
+      "pts_seconds": 31.703333
+    },
+    {
+      "index": 953,
+      "camera_array_index": 432,
+      "time_seconds": 31.77,
+      "pts_seconds": 31.77
+    },
+    {
+      "index": 956,
+      "camera_array_index": 433,
+      "time_seconds": 31.87,
+      "pts_seconds": 31.87
+    },
+    {
+      "index": 958,
+      "camera_array_index": 434,
+      "time_seconds": 31.936667,
+      "pts_seconds": 31.936667
+    },
+    {
+      "index": 960,
+      "camera_array_index": 435,
+      "time_seconds": 32.003333,
+      "pts_seconds": 32.003333
+    },
+    {
+      "index": 962,
+      "camera_array_index": 436,
+      "time_seconds": 32.07,
+      "pts_seconds": 32.07
+    },
+    {
+      "index": 965,
+      "camera_array_index": 437,
+      "time_seconds": 32.17,
+      "pts_seconds": 32.17
+    },
+    {
+      "index": 967,
+      "camera_array_index": 438,
+      "time_seconds": 32.236667,
+      "pts_seconds": 32.236667
+    },
+    {
+      "index": 969,
+      "camera_array_index": 439,
+      "time_seconds": 32.303333,
+      "pts_seconds": 32.303333
+    },
+    {
+      "index": 971,
+      "camera_array_index": 440,
+      "time_seconds": 32.37,
+      "pts_seconds": 32.37
+    },
+    {
+      "index": 973,
+      "camera_array_index": 441,
+      "time_seconds": 32.436667,
+      "pts_seconds": 32.436667
+    },
+    {
+      "index": 976,
+      "camera_array_index": 442,
+      "time_seconds": 32.536667,
+      "pts_seconds": 32.536667
+    },
+    {
+      "index": 978,
+      "camera_array_index": 443,
+      "time_seconds": 32.603333,
+      "pts_seconds": 32.603333
+    },
+    {
+      "index": 980,
+      "camera_array_index": 444,
+      "time_seconds": 32.67,
+      "pts_seconds": 32.67
+    },
+    {
+      "index": 982,
+      "camera_array_index": 445,
+      "time_seconds": 32.736667,
+      "pts_seconds": 32.736667
+    },
+    {
+      "index": 984,
+      "camera_array_index": 446,
+      "time_seconds": 32.803333,
+      "pts_seconds": 32.803333
+    },
+    {
+      "index": 987,
+      "camera_array_index": 447,
+      "time_seconds": 32.903333,
+      "pts_seconds": 32.903333
+    },
+    {
+      "index": 989,
+      "camera_array_index": 448,
+      "time_seconds": 32.97,
+      "pts_seconds": 32.97
+    },
+    {
+      "index": 991,
+      "camera_array_index": 449,
+      "time_seconds": 33.036667,
+      "pts_seconds": 33.036667
+    }
+  ],
+  "coverage": [
+    "Dense support on the visible floor strips, dining top, art wall, canvas faces, window-wall pier, television, coffee-table areas and sofa upholstery facing the lens.",
+    "Large unsampled regions run through the open center of the room, opaque window shades and glazing, much of the ceiling, and the space behind the sectional.",
+    "Undersides, hidden furniture supports, floor concealed by furnishings, and thin cords/rails generally have poor direct observations.",
+    "Chrome, glass, TV content, and the lit fireplace are liable to inconsistent depths. The hearth opening is largely missing from the VGGT interior returns.",
+    "Individual depth pixels from different camera locations can duplicate static surfaces with centimeter offsets. Corners, small objects and grazing surfaces are less well constrained. No local warping was applied."
+  ],
+  "reference_storage": "All native coordinates, byte RGB values, per-point confidence and source frame IDs are retained in a separate hidden-render collection. Its mesh object transform stores the similarity. A deterministic inspection sample displays alongside authored geometry.",
+  "algorithm": "vggt_omega",
+  "source_revision": "48b23c8ce72c9a8fcf987f0d7f43d8e4870759f6",
+  "secondary_scale_check": {
+    "feature": "Outer corners of the duplex wall plate near the black side table",
+    "method": "Intersect independent ray picks from VGGT frames 344 and 347 with the wall-plate plane at Y=8.095 m in the estimated metric scene.",
+    "observations": [
+      {
+        "frame": 344,
+        "canonical_uv_clockwise_from_top_left": [
+          [
+            545.6666666666666,
+            741.6666666666666
+          ],
+          [
+            601.0,
+            739.6666666666666
+          ],
+          [
+            601.3333333333334,
+            818.0
+          ],
+          [
+            546.6666666666666,
+            819.6666666666666
+          ]
+        ],
+        "widths_m": [
+          0.07145976967094046,
+          0.07262853098189084
+        ],
+        "heights_m": [
+          0.11264545737683544,
+          0.11191136738721523
+        ],
+        "center_m": [
+          3.057196911144114,
+          8.095,
+          0.4396157263309842
+        ]
+      },
+      {
+        "frame": 347,
+        "canonical_uv_clockwise_from_top_left": [
+          [
+            445.0,
+            764.0
+          ],
+          [
+            502.0,
+            760.3333333333334
+          ],
+          [
+            503.3333333333333,
+            839.0
+          ],
+          [
+            448.6666666666667,
+            842.3333333333334
+          ]
+        ],
+        "widths_m": [
+          0.07304233059567518,
+          0.0720409172040863
+        ],
+        "heights_m": [
+          0.11268796072121226,
+          0.11200114068328161
+        ],
+        "center_m": [
+          3.042100830004419,
+          8.095,
+          0.4271960629733153
+        ]
+      }
+    ],
+    "comparison": "A commercial standard-size North American duplex wallplate (Leviton 88003) is 0.06985 m wide and 0.11430 m high. The installed model is unidentified. Agreement within a few percent is a plausibility check; this measurement did not set the scale.",
+    "comparison_specification_url": "https://www.mainelectricsupply.com/customer/docs/skudocs/idw-document-573c0facf2c1fea263ae33fb312f02aa493636fe62b2d856989b139f7ac20e7e.pdf"
+  },
+  "authored_surface_validation": {
+    "metric": "Unsigned Euclidean distance in meters from each sampled reference point to the nearest evaluated authored triangle, at Blender frame 1.",
+    "sampling": "Deterministic every 83rd original vertex. Region selectors use world-space boxes and a color predicate for the display. The all-sampled statistic includes occluders, duplicate observations and outliers. Nearest surfaces can belong to adjacent objects.",
+    "evaluation_frame_blender": 1,
+    "authored_evaluated_objects": 482,
+    "authored_triangles": 470911,
+    "regions": {
+      "all_sampled_vertices": {
+        "number_of_reference_samples": 60241,
+        "source_views": 450,
+        "median_m": 0.00788,
+        "p75_m": 0.01755,
+        "p90_m": 0.03374,
+        "p95_m": 0.04464,
+        "fraction_within_0_05_m": 0.9644
+      },
+      "exposed_floor_walkway": {
+        "number_of_reference_samples": 497,
+        "source_views": 60,
+        "median_m": 0.01044,
+        "p75_m": 0.01362,
+        "p90_m": 0.01576,
+        "p95_m": 0.01703,
+        "fraction_within_0_05_m": 1.0
+      },
+      "plain_artwork_wall_between_pictures": {
+        "number_of_reference_samples": 1116,
+        "source_views": 103,
+        "median_m": 0.01023,
+        "p75_m": 0.01689,
+        "p90_m": 0.0274,
+        "p95_m": 0.03553,
+        "fraction_within_0_05_m": 0.9937
+      },
+      "central_window_wall_pier_including_picture": {
+        "number_of_reference_samples": 2285,
+        "source_views": 106,
+        "median_m": 0.00731,
+        "p75_m": 0.01599,
+        "p90_m": 0.032,
+        "p95_m": 0.03818,
+        "fraction_within_0_05_m": 0.9996
+      },
+      "oak_dining_top_and_runner": {
+        "number_of_reference_samples": 1218,
+        "source_views": 86,
+        "median_m": 0.00172,
+        "p75_m": 0.00349,
+        "p90_m": 0.00555,
+        "p95_m": 0.00731,
+        "fraction_within_0_05_m": 0.9992
+      },
+      "coffee_table_top_and_contents": {
+        "number_of_reference_samples": 1203,
+        "source_views": 66,
+        "median_m": 0.00483,
+        "p75_m": 0.00984,
+        "p90_m": 0.01334,
+        "p95_m": 0.01429,
+        "fraction_within_0_05_m": 0.9992
+      },
+      "media_display_purple_pixels": {
+        "number_of_reference_samples": 1386,
+        "source_views": 38,
+        "median_m": 0.01366,
+        "p75_m": 0.02211,
+        "p90_m": 0.03519,
+        "p95_m": 0.063,
+        "fraction_within_0_05_m": 0.9286
+      },
+      "media_wall_above_hearth": {
+        "number_of_reference_samples": 676,
+        "source_views": 52,
+        "median_m": 0.00642,
+        "p75_m": 0.022,
+        "p90_m": 0.05513,
+        "p95_m": 0.06668,
+        "fraction_within_0_05_m": 0.8891
+      },
+      "sofa_chaise_seating": {
+        "number_of_reference_samples": 1705,
+        "source_views": 130,
+        "median_m": 0.01709,
+        "p75_m": 0.03613,
+        "p90_m": 0.05011,
+        "p95_m": 0.0564,
+        "fraction_within_0_05_m": 0.8985
+      }
+    },
+    "largest_populated_cell_discrepancies": {
+      "cell_edge_m": 0.3,
+      "criterion": "Largest median nearest-mesh distance among populated 30 cm cells with at least 30 samples from seven source frames.",
+      "cells": [
+        {
+          "cell_min_m": [
+            0.6,
+            5.7,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.69,
+            5.903,
+            0.868
+          ],
+          "number_of_reference_samples": 43,
+          "source_views": 19,
+          "median_m": 0.0521,
+          "p75_m": 0.05937,
+          "p90_m": 0.06488,
+          "p95_m": 0.06903,
+          "fraction_within_0_05_m": 0.3953
+        },
+        {
+          "cell_min_m": [
+            1.2,
+            1.5,
+            0.3
+          ],
+          "sample_centroid_m": [
+            1.452,
+            1.598,
+            0.46
+          ],
+          "number_of_reference_samples": 41,
+          "source_views": 25,
+          "median_m": 0.0519,
+          "p75_m": 0.06395,
+          "p90_m": 0.07252,
+          "p95_m": 0.07805,
+          "fraction_within_0_05_m": 0.4878
+        },
+        {
+          "cell_min_m": [
+            0.9,
+            5.4,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.945,
+            5.455,
+            0.699
+          ],
+          "number_of_reference_samples": 177,
+          "source_views": 35,
+          "median_m": 0.05153,
+          "p75_m": 0.06062,
+          "p90_m": 0.06546,
+          "p95_m": 0.06837,
+          "fraction_within_0_05_m": 0.4689
+        },
+        {
+          "cell_min_m": [
+            3.9,
+            7.5,
+            0.6
+          ],
+          "sample_centroid_m": [
+            4.074,
+            7.596,
+            0.664
+          ],
+          "number_of_reference_samples": 64,
+          "source_views": 14,
+          "median_m": 0.04506,
+          "p75_m": 0.05284,
+          "p90_m": 0.06233,
+          "p95_m": 0.06698,
+          "fraction_within_0_05_m": 0.6406
+        },
+        {
+          "cell_min_m": [
+            0.6,
+            6.6,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.692,
+            6.757,
+            0.862
+          ],
+          "number_of_reference_samples": 169,
+          "source_views": 27,
+          "median_m": 0.04386,
+          "p75_m": 0.05048,
+          "p90_m": 0.05591,
+          "p95_m": 0.05933,
+          "fraction_within_0_05_m": 0.7456
+        },
+        {
+          "cell_min_m": [
+            0.9,
+            5.1,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.97,
+            5.259,
+            0.721
+          ],
+          "number_of_reference_samples": 500,
+          "source_views": 63,
+          "median_m": 0.04385,
+          "p75_m": 0.05234,
+          "p90_m": 0.06004,
+          "p95_m": 0.06448,
+          "fraction_within_0_05_m": 0.67
+        },
+        {
+          "cell_min_m": [
+            -0.3,
+            7.5,
+            0.6
+          ],
+          "sample_centroid_m": [
+            -0.065,
+            7.606,
+            0.749
+          ],
+          "number_of_reference_samples": 59,
+          "source_views": 17,
+          "median_m": 0.04337,
+          "p75_m": 0.05538,
+          "p90_m": 0.05918,
+          "p95_m": 0.06193,
+          "fraction_within_0_05_m": 0.5593
+        },
+        {
+          "cell_min_m": [
+            -0.3,
+            7.5,
+            0.9
+          ],
+          "sample_centroid_m": [
+            -0.065,
+            7.608,
+            1.047
+          ],
+          "number_of_reference_samples": 75,
+          "source_views": 22,
+          "median_m": 0.04304,
+          "p75_m": 0.05454,
+          "p90_m": 0.05712,
+          "p95_m": 0.05874,
+          "fraction_within_0_05_m": 0.64
+        },
+        {
+          "cell_min_m": [
+            0.9,
+            4.5,
+            0.6
+          ],
+          "sample_centroid_m": [
+            1.025,
+            4.625,
+            0.636
+          ],
+          "number_of_reference_samples": 36,
+          "source_views": 25,
+          "median_m": 0.04252,
+          "p75_m": 0.05085,
+          "p90_m": 0.05336,
+          "p95_m": 0.05659,
+          "fraction_within_0_05_m": 0.7222
+        },
+        {
+          "cell_min_m": [
+            0.6,
+            7.5,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.777,
+            7.691,
+            0.791
+          ],
+          "number_of_reference_samples": 156,
+          "source_views": 20,
+          "median_m": 0.042,
+          "p75_m": 0.06831,
+          "p90_m": 0.08491,
+          "p95_m": 0.09025,
+          "fraction_within_0_05_m": 0.5769
+        },
+        {
+          "cell_min_m": [
+            0.6,
+            6.3,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.7,
+            6.438,
+            0.866
+          ],
+          "number_of_reference_samples": 64,
+          "source_views": 27,
+          "median_m": 0.04033,
+          "p75_m": 0.04621,
+          "p90_m": 0.05314,
+          "p95_m": 0.05417,
+          "fraction_within_0_05_m": 0.8594
+        },
+        {
+          "cell_min_m": [
+            0.9,
+            4.8,
+            0.6
+          ],
+          "sample_centroid_m": [
+            0.914,
+            4.981,
+            0.628
+          ],
+          "number_of_reference_samples": 45,
+          "source_views": 31,
+          "median_m": 0.03874,
+          "p75_m": 0.04872,
+          "p90_m": 0.05337,
+          "p95_m": 0.05457,
+          "fraction_within_0_05_m": 0.7556
+        }
+      ]
+    }
+  },
+  "revision_checks": {
+    "description": "Comparison of the same PLY-sample cells and same nearest-triangle metric before and after focused geometry revisions. Frames, camera registration and the global transform remained fixed.",
+    "tracked_cells": [
+      {
+        "feature": "Kitchen peninsula leading edge",
+        "cell_min_m": [
+          1.5,
+          0.3,
+          0.9
+        ],
+        "cell_size_m": 0.3,
+        "samples": 30,
+        "before_median_m": 0.25573,
+        "after_median_m": 0.00237,
+        "before_p90_m": 0.33563,
+        "after_p90_m": 0.00626
+      },
+      {
+        "feature": "Chaise outer front edge",
+        "cell_min_m": [
+          1.8,
+          4.2,
+          0.3
+        ],
+        "cell_size_m": 0.3,
+        "samples": 164,
+        "before_median_m": 0.1189,
+        "after_median_m": 0.00965,
+        "before_p90_m": 0.13578,
+        "after_p90_m": 0.02595
+      },
+      {
+        "feature": "Chaise inner front edge",
+        "cell_min_m": [
+          1.5,
+          4.2,
+          0.3
+        ],
+        "cell_size_m": 0.3,
+        "samples": 194,
+        "before_median_m": 0.10326,
+        "after_median_m": 0.00861,
+        "before_p90_m": 0.13276,
+        "after_p90_m": 0.02324
+      },
+      {
+        "feature": "Sectional window cushion",
+        "cell_min_m": [
+          1.5,
+          7.5,
+          0.6
+        ],
+        "cell_size_m": 0.3,
+        "samples": 401,
+        "before_median_m": 0.05821,
+        "after_median_m": 0.00756,
+        "before_p90_m": 0.08205,
+        "after_p90_m": 0.02621
+      },
+      {
+        "feature": "Lamp shade upper area",
+        "cell_min_m": [
+          3.0,
+          7.5,
+          0.9
+        ],
+        "cell_size_m": 0.3,
+        "samples": 50,
+        "before_median_m": 0.0547,
+        "after_median_m": 0.00571,
+        "before_p90_m": 0.07305,
+        "after_p90_m": 0.01407
+      },
+      {
+        "feature": "Lamp shade lower area",
+        "cell_min_m": [
+          3.0,
+          7.5,
+          0.6
+        ],
+        "cell_size_m": 0.3,
+        "samples": 85,
+        "before_median_m": 0.05021,
+        "after_median_m": 0.00517,
+        "before_p90_m": 0.0664,
+        "after_p90_m": 0.01789
+      }
+    ]
+  },
+  "inspection_images": {
+    "method": "Orthographic depth-buffered projections of Blender-evaluated triangular surfaces, at source frame 0. The clay-style material colors prioritize geometry and omit surface textures. Every 17th PLY point, transformed with the published matrix, supplies the cyan comparison layer; receding points more than 0.10 m behind the visible model are suppressed. The discrepancy panel uses the separate every-83rd-point BVH evaluation.",
+    "01_plan.png": "XY room plan below 1.70 m height.",
+    "02_artwork_wall.png": "YZ elevation of X=-0.13 to +0.80 m, isolating the artwork wall and nearby furniture.",
+    "03_media_wall.png": "YZ elevation through the media display and fireplace.",
+    "04_windows.png": "XZ elevation of the window wall and nearby seating, with partial returns on shades and glazing.",
+    "05_cutaway.png": "Oblique orthographic interior cutaway viewed from above the dining/media side.",
+    "06_surface_discrepancy.png": "Plan colored by reference-to-authored triangle distance within the lower room slice."
+  }
+}

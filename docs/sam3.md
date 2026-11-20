@@ -35,9 +35,12 @@ hf auth login
 
 Meta documents Python 3.12+, PyTorch 2.7+, and CUDA 12.6+. These pins meet those
 requirements and match this project's other environments. Meta's current README
-example uses PyTorch 2.10 with CUDA 12.8 wheels; the older pinned environment here
-has not yet been exercised on the target GPU. The GPU host needs a compatible
-NVIDIA driver. The supplemental packages above cover imports used by the video code
+example uses PyTorch 2.10 with CUDA 12.8 wheels. The pinned PyTorch 2.7.1+cu126
+environment has now completed both IMG_1711 batches on the user's A6000 host
+(reported NVIDIA driver 550.54.14, system CUDA 12.4). `cu126` selects the runtime
+bundled with PyTorch, not a system toolkit or driver upgrade. This is evidence
+for these runs, not a guarantee for every CUDA 12.4 host or optional kernel path.
+The supplemental packages above cover imports used by the video code
 that are not all declared in the base package dependencies. See the
 [official installation instructions](https://github.com/facebookresearch/sam3#installation).
 
@@ -53,7 +56,9 @@ The RTX A6000 is an Ampere GPU with compute capability 8.6 according to
 CUDA device, the predictor's BF16 inference, and `compile=False`. It uses the
 original SAM3 builder's default PyTorch attention path; FlashAttention 3 and the
 SAM 3.1 multiplex model are unnecessary. GPU memory use still depends on the
-number of detected instances. The code has not been benchmarked on your A6000.
+number of detected instances. Completed local metadata records 66 and 67
+continuous 100-frame concept sessions for the two IMG_1711 inventories; these
+runs do not provide measured peak VRAM or timing benchmarks.
 
 ## Prompts and chunk boundaries
 

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IMG_1696 · Video comparison</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="sync-controller.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main id="app">
+  <header>
+    <div><p class="eyebrow">REAL 2 SIM <span>/</span> LIVING &amp; DINING</p><h1 id="title">IMG_1696 · Video comparison</h1><p class="subtitle" id="subtitle">33.07 seconds <span>·</span> 992 source frames</p></div>
+    <div class="sync-badge"><i></i>Shared timeline</div>
+  </header>
+  <div class="viewbar">
+    <nav class="segmented" aria-label="Comparison view">
+      <button data-mode="all" aria-pressed="true">All four</button>
+      <button data-mode="pair" aria-pressed="false">Side by side</button>
+      <button data-mode="overlay" aria-pressed="false">Overlay</button>
+      <button data-mode="wipe" aria-pressed="false">Wipe</button>
+    </nav>
+    <label class="render-picker">Compare with <select id="render"><option value="vggt_smooth" selected>VGGT-guided · smoothed camera</option><option value="vggt">VGGT-guided reconstruction</option><option value="standard">Original reconstruction (without VGGT)</option></select></label>
+  </div>
+  <section id="stage" class="stage mode-all" aria-label="Video comparison">
+    <figure data-video="original">
+      <figcaption><span><i class="marker original"></i>Ground truth video</span><small>IMG_1696</small></figcaption>
+      <div class="viewport"><video id="original" src="media/original.mp4" poster="media/original.jpg" preload="auto" muted playsinline aria-label="Ground truth video IMG_1696 recording"></video><p class="video-error" hidden></p></div>
+    </figure>
+    <figure data-video="standard">
+      <figcaption><span><i class="marker standard"></i>Original reconstruction (without VGGT)</span><small>Blender</small></figcaption>
+      <div class="viewport"><video id="standard" src="media/standard.mp4" poster="media/standard.jpg" preload="auto" muted playsinline aria-label="Original reconstruction (without VGGT) render"></video><p class="video-error" hidden></p></div>
+    </figure>
+    <figure data-video="vggt">
+      <figcaption><span><i class="marker vggt"></i>VGGT-guided reconstruction</span><small>Blender render</small></figcaption>
+      <div class="viewport"><video id="vggt" src="media/vggt.mp4" poster="media/vggt.jpg" preload="auto" muted playsinline aria-label="VGGT-guided Blender reconstruction render"></video><p class="video-error" hidden></p></div>
+    </figure>
+    <figure data-video="vggt_smooth">
+      <figcaption><span><i class="marker vggt-smooth"></i>VGGT-guided · smoothed camera</span><small>Blender render</small></figcaption>
+      <div class="viewport"><video id="vggt_smooth" src="media/vggt-smooth.mp4" poster="media/vggt-smooth.jpg" preload="auto" muted playsinline aria-label="VGGT-guided Blender reconstruction with smoothed camera motion"></video><p class="video-error" hidden></p></div>
+    </figure>
+    <div id="overlayLabels" hidden><span>Ground truth video</span><span id="overlayName">VGGT-guided · smoothed camera</span></div>
+    <div id="wipeLine" hidden aria-hidden="true"><span>↔</span></div>
+  </section>
+  <div class="blend-controls" id="blendControls" hidden><label id="blendLabel" for="blend">Render opacity</label><input type="range" id="blend" min="0" max="100" value="50"><output id="blendValue">50%</output></div>
+  <section class="transport" aria-label="Synchronized playback controls">
+    <div class="timeline-row"><output id="current">00:00.000</output><input id="timeline" type="range" min="0" max="33.068333" step="0.001" value="0" aria-label="Shared timeline" disabled><output id="duration">00:33.068</output></div>
+    <div class="controls">
+      <div class="group"><button id="play" class="primary" disabled>Loading…</button><button id="restart" title="Restart" aria-label="Restart all videos" disabled>↺</button><button id="prev" title="Previous source frame (comma)" aria-label="Previous source frame" disabled>│◀</button><button id="next" title="Next source frame (period)" aria-label="Next source frame" disabled>▶│</button></div>
+      <output id="status" role="status" aria-live="polite">Loading videos…</output>
+      <div class="group"><select id="speed" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1× speed</option><option value="1.5">1.5×</option><option value="2">2×</option></select><button id="audio" aria-pressed="false">Audio off</button><button id="fullscreen" aria-label="Fullscreen comparison" title="Fullscreen">⛶</button></div>
+    </div>
+    <div class="frame-row"><span id="frame">Frame 001 / 992</span><span id="drift">Paused</span><span class="shortcuts">Space play / pause <span>·</span> ← → seek <span>·</span> , . step frames</span></div>
+  </section>
+  <footer><p>The original reconstruction was built without VGGT points. For the VGGT-guided reconstruction, the model was instructed to fit the Blender scene roughly to the VGGT point cloud. The smoothed-camera version follows up on that same reconstruction, with a request to smooth the camera motion slightly.</p><p>All views show the full, uncropped frame on the source timeline. The iPhone HDR recording is tone-mapped to SDR for browser playback.</p></footer>
+</main>
+</body>
+</html>

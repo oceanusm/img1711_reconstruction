@@ -83,7 +83,7 @@ VGGT_OUTPUT=outputs/vggt_quality bash scripts/run_geometry.sh vggt
 
 Your intended granularity is **distinct whole items plus surfaces**, with lids/handles/labels normally belonging to their parent item. Read [segmentation strategy and modes](docs/segmentation_strategy.md) before editing [the target inventory](configs/objects.json).
 
-SAM3 finds instances of a prompted concept; it does not guarantee that every scene item is discovered automatically. This project's current SAM CLI uses **text prompts**, stores every accepted instance, and also writes category unions. Visual-example and interactive point prompting are upstream SAM3 capabilities; this repository does not yet provide an interactive annotation UI.
+SAM3 finds instances of a prompted concept; it does not guarantee that every scene item is discovered automatically. This project's `sam` command uses **text prompts**, stores every accepted instance, and also writes category unions. The separate [dense-grid pilot](docs/sam_dense.md) uses independent point prompts and video tracking to discover candidates without text or Blender inputs. This repository does not yet provide an interactive annotation UI.
 
 The broad inventory is a first pass. Review missed items, duplicates across concepts, surface boundaries, and over-segmented parts. A mask for `bottles` is a category union; use individual instance tracks when comparing a single Blender bottle. Chunk-local IDs must be explicitly associated before treating them as one object across the whole clip. See [instance assembly](docs/instances.md).
 
@@ -147,6 +147,7 @@ Optional `--ignore-masks outputs/sam/masks/hand` excludes hand pixels from both 
 - [VGGT-Ω adapter and conventions](docs/vggt_omega.md)
 - [Depth Anything 3 windows, scales, and arrays](docs/depth_anything3.md)
 - [SAM3 prompts, tracking, and mask export](docs/sam3.md)
+- [Dense point-grid SAM discovery and video-track pilot](docs/sam_dense.md)
 - [Blender frame/mask contract](docs/blender_handoff.md)
 - [Blender camera/mesh/depth export](docs/blender_export.md)
 - [VGGT alignment and validation](docs/alignment.md)
@@ -163,4 +164,4 @@ scene-recon doctor
 Source APIs were checked against the official [VGGT-Ω](https://github.com/facebookresearch/vggt-omega), [Depth Anything 3](https://github.com/ByteDance-Seed/Depth-Anything-3), and [SAM3](https://github.com/facebookresearch/sam3) repositories. Exact reviewed commits are recorded in the model documentation and installer.
 
 
-The [IMG_1711 entity-mask experiment](docs/entity_evaluation.md) now compares the VGGT-guided and original before-VQA scenes at 100 shared timestamps. [Open the paired videos](outputs/entity_comparison_1711/index.html) or [search their entity inventories](outputs/entity_comparison_1711/entity_manifests.html). Full-resolution Blender RGB/ID renders are complete; prepared per-scene SAM batches are ready for the A6000, with shared prompt text/anchors for common concepts. SAM instance association and overlap scoring follow real-video inference.
+The [IMG_1711 entity-mask experiment](docs/entity_evaluation.md) compares the VGGT-guided and original before-VQA scenes at 100 shared timestamps. Full-resolution Blender RGB/ID renders and both SAM batches are complete. [Inspect synchronized SAM/Blender category masks and overlap diagnostics](outputs/entity_comparison_1711/sam_review/index.html), [open the paired render videos](outputs/entity_comparison_1711/index.html), or [search the entity inventories](outputs/entity_comparison_1711/entity_manifests.html). All 62 shared SAM categories produced identical reference masks across the two runs. Category scores remain diagnostic: sampled review found false-positive categories and missed detections, and individual physical-object scoring requires checked instance associations.

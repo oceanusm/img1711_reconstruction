@@ -2,7 +2,11 @@
 
 This experiment compares the VGGT-guided kitchen reconstruction with the original before-VQA reconstruction using their authored cameras and visible object silhouettes at the same **100 source timestamps**. It evaluates objects represented by each scene; it does not by itself measure whether every real object was reconstructed.
 
-Open the [paired video comparison](../outputs/entity_comparison_1711/index.html). Both scenes now have **100 completed full-resolution RGB/ID renders**. The per-scene previews show original video, authored Blender RGB, and Blender entity tint with original timing. SAM inference is still the remote stage; no real-video SAM masks or IoU results are claimed yet.
+Open the [paired video comparison](../outputs/entity_comparison_1711/index.html). Both scenes have **100 completed full-resolution RGB/ID renders and completed SAM runs**. The [SAM comparison viewer](../outputs/entity_comparison_1711/sam_review/index.html) adds synchronized real-video masks, Blender category masks, and overlap diagnostics. Its scores compare category unions, not reviewed individual physical objects.
+
+The imported runs contain 272 candidate tracks for the original scene and 273 for the guided scene. All 62 common concepts have identical text/anchor settings and byte-identical union masks across all 100 frames. Transfer auditing verified all 25,966 referenced PNG headers and sampled 2,160 decoded masks for binary encoding and recorded areas. See the [audit reports](../outputs/entity_comparison_1711/sam_audit/shared_concepts.json) and the per-scene candidate catalogs: [original](../outputs/entity_comparison_1711/before_vqa/sam_catalog/index.html), [guided](../outputs/entity_comparison_1711/vggt_guided/sam_catalog/index.html).
+
+Each run has 23 categories with no detections. Empty model predictions are not verified physical absence. Visual inspection also found that the `microwave` prompt includes the countertop toaster oven, and `knife_block` includes a utensil crock. Raw union scores therefore remain diagnostic; they are not a final ranking of reconstruction quality. Candidate identities and sampled visual evidence are in the [identity review](../outputs/entity_comparison_1711/identity_review/index.html).
 
 The [entity inventory](../outputs/entity_comparison_1711/entity_manifests.html) is a searchable, offline view of the exact proposed grouping. The machine-readable manifests are [before VQA](../configs/entities_1711_before_vqa.json) and [VGGT guided](../configs/entities_1711_vggt_guided.json).
 
@@ -117,6 +121,33 @@ CUDA_VISIBLE_DEVICES=7 bash scripts/run_entity_sam.sh \
 ```
 
 Append `--dry-run` to validate transferred inputs and print the invocation without starting inference. The default is one continuous 100-selected-frame tracking session **per concept**, saving instance masks. “Once per scene” means one scene-specific batch, not that SAM processes every text category in a single model call. There are 66 and 67 concepts in the proposed inventories; cost depends on concept count and detected instances as well as frame count. `SAM_CHUNK_SIZE` can bound sequence length, but resets tracking identities at chunk boundaries. Sparse input is lighter but its larger temporal jumps can weaken tracking.
+
+## Inspect imported SAM results
+
+After pulling both `sam/` directories, generate the paired category diagnostic locally:
+
+```bash
+PYTHONPATH=src python3 -m scene_reconstruction review-entity-sam \
+  --root . --preview-height 480 \
+  --output outputs/entity_comparison_1711/sam_review
+```
+
+The command validates source manifests, timestamps and render provenance, then merges Blender entities by their `concept`. It compares each resulting visible category union with the corresponding SAM union at the original 1080×1920 resolution. Only browser previews are reduced. It records per-frame intersection, union, IoU and Dice, and checks whether the shared SAM references agree across runs. Both-empty masks have undefined IoU rather than receiving a perfect score. A zero SAM mask is flagged as unresolved detection/absence, not automatically accepted as correct absence.
+
+The viewer synchronizes concept and source time across both scenes. Magenta shows SAM, cyan shows Blender, and white shows overlap. The authored Blender cameras and object positions remain unchanged. These diagnostics can reveal pose, silhouette and timing differences, but different per-scene inventories and SAM category errors preclude treating their aggregate scores as a final guided-versus-unguided benchmark.
+
+For the individual-instance review, generate each candidate catalog if needed:
+
+```bash
+for scene in before_vqa vggt_guided; do
+  PYTHONPATH=src python3 -m scene_reconstruction catalog-instances \
+    --manifest "outputs/entity_comparison_1711/$scene/sam_inputs/manifest.json" \
+    --sam-output "outputs/entity_comparison_1711/$scene/sam" \
+    --output "outputs/entity_comparison_1711/$scene/sam_catalog"
+done
+```
+
+These output directories must be new or empty; the imported experiment already has both catalogs. Use a new output path when regenerating.
 
 ## Associate instances before scoring
 
